@@ -17,7 +17,9 @@ import java.awt.event.KeyEvent;
 import java.util.Properties;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -25,6 +27,8 @@ import javax.swing.Timer;
 import net.miginfocom.swing.MigLayout;
 
 public class FormMain extends JPanel implements FocusablePanel {
+
+    private final UserService SERVICE = new UserService();
 
     private final Login Frame;
 
@@ -118,15 +122,15 @@ public class FormMain extends JPanel implements FocusablePanel {
         String username = txtUsername.getText();
         String password = new String(txtPassword.getPassword());
 
-        User UserApplication = UserService.verifyLogin(username, password);
-        System.out.println("USER: " + UserApplication);
+        User UserApplication = SERVICE.auth(username, password);
+
         if (UserApplication != null) {
             txtUsername.setEditable(false);
             txtPassword.setEditable(false);
             cbRememberMe.setEnabled(false);
             btnLogin.setEnabled(false);
             btnForget.setEnabled(false);
-            //notification(Type.SUCCESS, "Iniciando Sesion...");
+            JOptionPane.showMessageDialog(Frame, "Iniciando Sessón...", "Sistema de Ventas", JOptionPane.INFORMATION_MESSAGE);
 
             if (cbRememberMe.isSelected()) {
                 CredentialManager.saveCredentials(username);
@@ -145,7 +149,7 @@ public class FormMain extends JPanel implements FocusablePanel {
             timer.start();
 
         } else {
-            //notification(Type.ERROR, "Usuario o contraseña incorrectos. Por favor, revise y vuelve a intentarlo.");
+            JOptionPane.showMessageDialog(Frame, "Usuario o contraseña incorrectos. Por favor, revise y vuelve a intentarlo.", "Sistema de Ventas", JOptionPane.ERROR_MESSAGE);
         }
     }
 

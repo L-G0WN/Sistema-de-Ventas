@@ -14,12 +14,15 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 import net.miginfocom.swing.MigLayout;
 
 public class FormVerify extends JPanel implements FocusablePanel {
+
+    private final UserService SERVICE = new UserService();
 
     private final Login Frame;
     private final String username;
@@ -79,12 +82,12 @@ public class FormVerify extends JPanel implements FocusablePanel {
         String question = cbQuestions.getSelectedItem().toString();
         String answer = txtAnswer.getText();
 
-        if (UserService.verifyQuestion(username, question, answer)) {
+        if (SERVICE.question(username, question, answer)) {
             txtAnswer.setEditable(false);
             cbQuestions.setEnabled(false);
             btnVerify.setEnabled(false);
             Cancel.setEnabled(false);
-            //notification(Type.SUCCESS, "Enhorabuena! Los datos que has introducido son correctos.");
+            JOptionPane.showMessageDialog(Frame, "Enhorabuena! Los datos que has introducido son correctos.", "Sistema de Ventas", JOptionPane.INFORMATION_MESSAGE);
 
             Timer timer = new Timer(3000, ex -> {
                 FlatAnimatedLafChange.showSnapshot();
@@ -97,7 +100,8 @@ public class FormVerify extends JPanel implements FocusablePanel {
             timer.start();
 
         } else {
-            //notification(Type.ERROR, "Pregunta o Respuesta son incorrectos. Por favor, revise y vuelve a intentarlo.");
+            JOptionPane.showMessageDialog(Frame, "Pregunta o Respuesta son incorrectos. Por favor, revise y vuelve a intentarlo.", "Sistema de Ventas", JOptionPane.ERROR_MESSAGE);
+
         }
     }
 

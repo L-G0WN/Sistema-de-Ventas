@@ -11,6 +11,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.Timer;
@@ -18,10 +19,14 @@ import net.miginfocom.swing.MigLayout;
 
 public class FormRecovery extends JPanel implements FocusablePanel {
 
+    private final UserService SERVICE = new UserService();
+
+    private final Login Frame;
     private final String username;
     private final ButtonCancel Cancel;
 
     public FormRecovery(Login Frame, String username) {
+        this.Frame = Frame;
         this.username = username;
         Cancel = new ButtonCancel(Frame);
         initComponents();
@@ -92,12 +97,12 @@ public class FormRecovery extends JPanel implements FocusablePanel {
 
         if (newPassword.equals(confirmPassword)) {
             if ((passwordStrength == 2) || (passwordStrength == 3)) {
-                if (UserService.changePassword(username, newPassword)) {
+                if (SERVICE.changePassword(username, newPassword)) {
                     txtNewPassword.setEditable(false);
                     txtConfirmPassword.setEditable(false);
                     btnChangePassword.setEnabled(false);
                     Cancel.setEnabled(false);
-                    //notification(Type.SUCCESS, "La contraseña se ha cambiado exitosamente.");
+                    JOptionPane.showMessageDialog(Frame, "La contraseña se ha cambiado exitosamente.", "Sistema de Ventas", JOptionPane.INFORMATION_MESSAGE);
 
                     Timer timer = new Timer(3000, ex -> {
                         Cancel.ActionPerfomedCancel();
@@ -106,13 +111,13 @@ public class FormRecovery extends JPanel implements FocusablePanel {
                     timer.setRepeats(false);
                     timer.start();
                 } else {
-                    //notification(Type.ERROR, "Ha ocurrido un fallo al intentar cambiar la contraseña.");
+                    JOptionPane.showMessageDialog(Frame, "Ha ocurrido un error al intentar cambiar la contraseña.", "Sistema de Ventas", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                //notification(Type.ERROR, "La contraseña es muy debil...");
+                JOptionPane.showMessageDialog(Frame, "La contraseña es muy debil...", "Sistema de Ventas", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            //notification(Type.ERROR, "Las contraseñas no coinciden. Por favor revise y vuelve a intentarlo.");
+            JOptionPane.showMessageDialog(Frame, "Las contraseñas no coinciden. Por favor revise y vuelve a intentarlo.", "Sistema de Ventas", JOptionPane.ERROR_MESSAGE);
         }
     }
 
