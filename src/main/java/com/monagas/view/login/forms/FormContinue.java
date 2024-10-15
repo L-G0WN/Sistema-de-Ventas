@@ -39,7 +39,7 @@ public class FormContinue extends JPanel implements FocusablePanel {
         txtUserContinue.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER && btnContinue.isEnabled()) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     ActionPerformedContinue();
                 }
             }
@@ -66,9 +66,9 @@ public class FormContinue extends JPanel implements FocusablePanel {
     }
 
     private void ActionPerformedContinue() {
-        String userContinue = txtUserContinue.getText();
+        String username = txtUserContinue.getText();
 
-        if (UserService.userExists(userContinue)) {
+        if (UserService.userExists(username)) {
             txtUserContinue.setEditable(false);
             btnContinue.setEnabled(false);
             Cancel.setEnabled(false);
@@ -76,7 +76,7 @@ public class FormContinue extends JPanel implements FocusablePanel {
 
             Timer timer = new Timer(3000, ex -> {
                 FlatAnimatedLafChange.showSnapshot();
-                Frame.switchPanel(new FormVerify(Frame, userContinue));
+                Frame.switchPanel(new FormVerify(Frame, username));
                 FlatLaf.updateUI();
                 FlatAnimatedLafChange.hideSnapshotWithAnimation();
             });

@@ -22,12 +22,12 @@ import net.miginfocom.swing.MigLayout;
 public class FormVerify extends JPanel implements FocusablePanel {
 
     private final Login Frame;
-    private final String userContinue;
+    private final String username;
     private final ButtonCancel Cancel;
 
-    public FormVerify(Login Frame, String userContinue) {
+    public FormVerify(Login Frame, String username) {
         this.Frame = Frame;
-        this.userContinue = userContinue;
+        this.username = username;
         Cancel = new ButtonCancel(Frame);
         initComponents();
     }
@@ -47,7 +47,7 @@ public class FormVerify extends JPanel implements FocusablePanel {
         txtAnswer.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER && btnVerify.isEnabled()) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     ActionPerformedVerify();
                 }
             }
@@ -76,10 +76,10 @@ public class FormVerify extends JPanel implements FocusablePanel {
     }
 
     private void ActionPerformedVerify() {
-        String cbQuestion = cbQuestions.getSelectedItem().toString();
-        String answerVerify = txtAnswer.getText();
+        String question = cbQuestions.getSelectedItem().toString();
+        String answer = txtAnswer.getText();
 
-        if (UserService.verifyQuestion(userContinue, cbQuestion, answerVerify)) {
+        if (UserService.verifyQuestion(username, question, answer)) {
             txtAnswer.setEditable(false);
             cbQuestions.setEnabled(false);
             btnVerify.setEnabled(false);
@@ -88,7 +88,7 @@ public class FormVerify extends JPanel implements FocusablePanel {
 
             Timer timer = new Timer(3000, ex -> {
                 FlatAnimatedLafChange.showSnapshot();
-                Frame.switchPanel(new FormRecovery(Frame, userContinue));
+                Frame.switchPanel(new FormRecovery(Frame, username));
                 FlatLaf.updateUI();
                 FlatAnimatedLafChange.hideSnapshotWithAnimation();
             });

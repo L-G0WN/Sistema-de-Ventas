@@ -3,20 +3,20 @@ package com.monagas.view.login.models;
 public class User {
     
     private String username;
-    private String name;
+    private String firstname;
     private String lastname;
     private int account_type;
     
-    public User(String username, String name, String lastname, int account_type) {
+    public User(String username, String firstname, String lastname, int account_type) {
         this.username = username;
-        this.name = name;
+        this.firstname = firstname;
         this.lastname = lastname;
         this.account_type = account_type;
     }
     
-    public User(String username, String name, String lastname) {
+    public User(String username, String firstname, String lastname) {
         this.username = username;
-        this.name = name;
+        this.firstname = firstname;
         this.lastname = lastname;
     }
 
@@ -28,12 +28,12 @@ public class User {
         this.username = username;
     }
 
-    public String getName() {
-        return name;
+    public String setFirstname() {
+        return firstname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
     public String getLastname() {

@@ -6,10 +6,11 @@ import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.monagas.view.login.Login;
 import com.monagas.view.login.components.CredentialManager;
 import com.monagas.view.login.components.FocusablePanel;
+import com.monagas.view.login.forms.labels.LabelLogin;
 import com.monagas.view.login.models.Session;
 import com.monagas.view.login.models.User;
 import com.monagas.view.login.services.UserService;
-import com.monagas.view.login.forms.labels.LabelLogin;
+import com.monagas.view.sales.Sales;
 import java.awt.Cursor;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -43,7 +44,7 @@ public class FormMain extends JPanel implements FocusablePanel {
         txtUsername.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER && btnLogin.isEnabled()) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     ActionPerformedLogin();
                 }
             }
@@ -56,7 +57,7 @@ public class FormMain extends JPanel implements FocusablePanel {
         txtPassword.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER && btnLogin.isEnabled()) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     ActionPerformedLogin();
                 }
             }
@@ -118,7 +119,7 @@ public class FormMain extends JPanel implements FocusablePanel {
         String password = new String(txtPassword.getPassword());
 
         User UserApplication = UserService.verifyLogin(username, password);
-
+        System.out.println("USER: " + UserApplication);
         if (UserApplication != null) {
             txtUsername.setEditable(false);
             txtPassword.setEditable(false);
@@ -137,7 +138,7 @@ public class FormMain extends JPanel implements FocusablePanel {
 
             Timer timer = new Timer(3000, ex -> {
                 Frame.dispose();
-                //new Students().setVisible(true);
+                new Sales().setVisible(true);
             });
 
             timer.setRepeats(false);

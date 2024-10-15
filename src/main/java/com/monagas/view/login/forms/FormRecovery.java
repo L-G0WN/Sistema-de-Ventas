@@ -18,11 +18,11 @@ import net.miginfocom.swing.MigLayout;
 
 public class FormRecovery extends JPanel implements FocusablePanel {
 
-    private final String userContinue;
+    private final String username;
     private final ButtonCancel Cancel;
 
-    public FormRecovery(Login Frame, String userContinue) {
-        this.userContinue = userContinue;
+    public FormRecovery(Login Frame, String username) {
+        this.username = username;
         Cancel = new ButtonCancel(Frame);
         initComponents();
     }
@@ -40,7 +40,7 @@ public class FormRecovery extends JPanel implements FocusablePanel {
         txtNewPassword.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER && btnChangePassword.isEnabled()) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     ActionPerformedChangePassword();
                 }
             }
@@ -53,7 +53,7 @@ public class FormRecovery extends JPanel implements FocusablePanel {
         txtConfirmPassword.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER && btnChangePassword.isEnabled()) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     ActionPerformedChangePassword();
                 }
             }
@@ -92,7 +92,7 @@ public class FormRecovery extends JPanel implements FocusablePanel {
 
         if (newPassword.equals(confirmPassword)) {
             if ((passwordStrength == 2) || (passwordStrength == 3)) {
-                if (UserService.changePassword(userContinue, newPassword)) {
+                if (UserService.changePassword(username, newPassword)) {
                     txtNewPassword.setEditable(false);
                     txtConfirmPassword.setEditable(false);
                     btnChangePassword.setEnabled(false);

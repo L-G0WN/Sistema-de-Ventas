@@ -52,7 +52,7 @@
     </properties>
     
     <build>
-        <finalName>Control de Estudio</finalName>
+        <finalName>Sistema de Ventas</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
