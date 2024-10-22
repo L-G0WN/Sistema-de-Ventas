@@ -5,6 +5,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.monagas.controllers.DataInitializer;
 import com.monagas.view.login.Login;
+import com.monagas.view.sales.Sales;
 import java.awt.Font;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -26,7 +27,7 @@ public class Run {
         }
 
         java.awt.EventQueue.invokeLater(() -> {
-            new Login().setVisible(true);
+            new Sales().setVisible(true);
         });
     }
 }
