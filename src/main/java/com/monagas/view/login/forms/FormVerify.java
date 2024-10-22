@@ -3,10 +3,10 @@ package com.monagas.view.login.forms;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
+import com.monagas.controllers.login.LoginController;
 import com.monagas.view.login.Login;
 import com.monagas.view.login.components.FocusablePanel;
 import com.monagas.view.login.forms.button.ButtonCancel;
-import com.monagas.view.login.services.UserService;
 import com.monagas.view.login.forms.labels.LabelRecovery;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -22,7 +22,7 @@ import net.miginfocom.swing.MigLayout;
 
 public class FormVerify extends JPanel implements FocusablePanel {
 
-    private final UserService SERVICE = new UserService();
+    private final LoginController controller = new LoginController();
 
     private final Login Frame;
     private final String username;
@@ -82,7 +82,7 @@ public class FormVerify extends JPanel implements FocusablePanel {
         String question = cbQuestions.getSelectedItem().toString();
         String answer = txtAnswer.getText();
 
-        if (SERVICE.question(username, question, answer)) {
+        if (controller.verify(username, question, answer)) {
             txtAnswer.setEditable(false);
             cbQuestions.setEnabled(false);
             btnVerify.setEnabled(false);

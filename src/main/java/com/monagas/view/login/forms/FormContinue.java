@@ -3,10 +3,10 @@ package com.monagas.view.login.forms;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
+import com.monagas.controllers.login.LoginController;
 import com.monagas.view.login.Login;
 import com.monagas.view.login.components.FocusablePanel;
 import com.monagas.view.login.forms.button.ButtonCancel;
-import com.monagas.view.login.services.UserService;
 import com.monagas.view.login.forms.labels.LabelRecovery;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -20,7 +20,7 @@ import net.miginfocom.swing.MigLayout;
 
 public class FormContinue extends JPanel implements FocusablePanel {
 
-    private final UserService SERVICE = new UserService();
+    private final LoginController controller = new LoginController();
 
     private final Login Frame;
     private final ButtonCancel Cancel;
@@ -71,12 +71,12 @@ public class FormContinue extends JPanel implements FocusablePanel {
     private void ActionPerformedContinue() {
         String username = txtUserContinue.getText();
 
-        if (SERVICE.exist(username)) {
+        if (controller.findUserByUsername(username)) {
             txtUserContinue.setEditable(false);
             btnContinue.setEnabled(false);
             Cancel.setEnabled(false);
             JOptionPane.showMessageDialog(Frame, "Se ha encontrado un usuario. Por favor, revise su información\ny responda a la siguiente pregunta secreta.", "Sistema de Ventas", JOptionPane.INFORMATION_MESSAGE);
-            
+
             Timer timer = new Timer(3000, ex -> {
                 FlatAnimatedLafChange.showSnapshot();
                 Frame.switchPanel(new FormVerify(Frame, username));

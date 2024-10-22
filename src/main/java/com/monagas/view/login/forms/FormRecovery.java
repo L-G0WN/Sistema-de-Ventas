@@ -1,11 +1,11 @@
 package com.monagas.view.login.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.monagas.controllers.login.LoginController;
 import com.monagas.view.login.Login;
 import com.monagas.view.login.components.FocusablePanel;
 import com.monagas.view.login.forms.button.ButtonCancel;
 import com.monagas.view.login.components.PasswordStrengthStatus;
-import com.monagas.view.login.services.UserService;
 import com.monagas.view.login.forms.labels.LabelRecovery;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -19,7 +19,7 @@ import net.miginfocom.swing.MigLayout;
 
 public class FormRecovery extends JPanel implements FocusablePanel {
 
-    private final UserService SERVICE = new UserService();
+    private final LoginController controller = new LoginController();
 
     private final Login Frame;
     private final String username;
@@ -38,11 +38,11 @@ public class FormRecovery extends JPanel implements FocusablePanel {
         putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:@background;");
 
-        txtNewPassword = new JPasswordField();
-        txtNewPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Introduce tu nueva contraseña");
-        txtNewPassword.putClientProperty(FlatClientProperties.STYLE, ""
+        txtPassword = new JPasswordField();
+        txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Introduce tu nueva contraseña");
+        txtPassword.putClientProperty(FlatClientProperties.STYLE, ""
                 + "showRevealButton:true");
-        txtNewPassword.addKeyListener(new KeyAdapter() {
+        txtPassword.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -65,7 +65,7 @@ public class FormRecovery extends JPanel implements FocusablePanel {
         });
 
         passwordStrengthStatus = new PasswordStrengthStatus();
-        passwordStrengthStatus.initPasswordField(txtNewPassword);
+        passwordStrengthStatus.initPasswordField(txtPassword);
 
         btnChangePassword = new JButton("Cambiar Contraseña");
         btnChangePassword.putClientProperty(FlatClientProperties.STYLE, ""
@@ -82,7 +82,7 @@ public class FormRecovery extends JPanel implements FocusablePanel {
         add(LabelRecovery.restoreLabel(), "gapy 5");
         add(LabelRecovery.descriptionLabel(), "gapbottom 10");
         add(new JLabel("Nueva Contraseña"), "gapy 5");
-        add(txtNewPassword);
+        add(txtPassword);
         add(passwordStrengthStatus, "gapy 0");
         add(new JLabel("Confirmar Contraseña"), "gapy 8");
         add(txtConfirmPassword);
@@ -91,14 +91,14 @@ public class FormRecovery extends JPanel implements FocusablePanel {
     }
 
     private void ActionPerformedChangePassword() {
-        String newPassword = new String(txtNewPassword.getPassword());
+        String password = new String(txtPassword.getPassword());
         String confirmPassword = new String(txtConfirmPassword.getPassword());
         int passwordStrength = passwordStrengthStatus.getPasswordStrengthType();
 
-        if (newPassword.equals(confirmPassword)) {
+        if (password.equals(confirmPassword)) {
             if ((passwordStrength == 2) || (passwordStrength == 3)) {
-                if (SERVICE.changePassword(username, newPassword)) {
-                    txtNewPassword.setEditable(false);
+                if (controller.changePassword(username, password)) {
+                    txtPassword.setEditable(false);
                     txtConfirmPassword.setEditable(false);
                     btnChangePassword.setEnabled(false);
                     Cancel.setEnabled(false);
@@ -123,10 +123,10 @@ public class FormRecovery extends JPanel implements FocusablePanel {
 
     @Override
     public void focusTextField() {
-        txtNewPassword.requestFocusInWindow();
+        txtPassword.requestFocusInWindow();
     }
 
-    private JPasswordField txtNewPassword;
+    private JPasswordField txtPassword;
     private JPasswordField txtConfirmPassword;
     private JButton btnChangePassword;
     private PasswordStrengthStatus passwordStrengthStatus;
