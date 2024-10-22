@@ -1,11 +1,22 @@
 package com.monagas.view.sales;
 
+import com.monagas.view.sales.forms.Categories;
+import com.monagas.view.sales.forms.Clients;
+import com.monagas.view.sales.forms.Products;
+import com.monagas.view.sales.forms.Sellings;
+import com.monagas.view.sales.forms.Suppliers;
 import javax.swing.JFrame;
 
 public class Sales extends JFrame {
 
     public Sales() {
         initComponents();
+        
+        tpWindows.addTab("Clientes (F1)", new Clients());
+        tpWindows.addTab("Categorias (F2)", new Categories());
+        tpWindows.addTab("Productos (F3)", new Products());
+        tpWindows.addTab("Proveedores (F4)", new Suppliers());
+        tpWindows.addTab("Ventas (F5)", new Sellings());
     }
 
     @SuppressWarnings("unchecked")
@@ -23,16 +34,11 @@ public class Sales extends JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tpWindows, javax.swing.GroupLayout.DEFAULT_SIZE, 1012, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(tpWindows, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(tpWindows, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(tpWindows, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
         );
 
         pack();

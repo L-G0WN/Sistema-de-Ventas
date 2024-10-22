@@ -1,8 +1,8 @@
 package com.monagas.view.sales.forms;
 
-public class Categories extends javax.swing.JPanel {
+public class Sellings extends javax.swing.JPanel {
 
-    public Categories() {
+    public Sellings() {
         initComponents();
     }
 
