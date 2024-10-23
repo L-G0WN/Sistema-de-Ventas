@@ -5,7 +5,6 @@ import com.monagas.view.sales.forms.Products;
 import com.monagas.view.sales.forms.Sellings;
 import com.monagas.view.sales.forms.Suppliers;
 import com.monagas.view.sales.util.ApplicationUtil;
-import java.awt.Insets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFrame;
@@ -16,8 +15,8 @@ public class Sales extends JFrame {
     public Sales() {
         initComponents();
         
-        tpWindows.putClientProperty("JTabbedPane.showContentSeparator", false);
-        tpWindows.putClientProperty("JTabbedPane.tabAreaInsets", new Insets(0, 0, 6, 0));
+        tpWindows.putClientProperty("JTabbedPane.tabType", "card");
+        tpWindows.putClientProperty("JTabbedPane.hasFullBorder", true);
         
         tpWindows.addTab("Clientes Registrados (F1)", new Clients(this));
         tpWindows.addTab("Productos (F2)", new Products());

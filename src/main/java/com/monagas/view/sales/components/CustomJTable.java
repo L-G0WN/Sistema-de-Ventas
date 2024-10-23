@@ -1,7 +1,5 @@
 package com.monagas.view.sales.components;
 
-import com.formdev.flatlaf.FlatClientProperties;
-import com.monagas.view.sales.renderer.TableCenterRenderer;
 import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;

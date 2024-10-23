@@ -1,7 +1,6 @@
 package com.monagas.view.sales.forms;
 
 import com.monagas.controllers.sales.ClientController;
-import com.monagas.entities.sales.Client;
 import com.monagas.view.sales.components.CustomJPanel;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
@@ -20,7 +19,7 @@ public class Clients extends CustomJPanel {
     public Clients(Frame parent) {
         initComponents();
 
-        FlatStyle.setStyle(tblClients);
+        FlatStyle.setStyle(spClients, tblClients);
 
         TableActionEvent event = new TableActionEvent() {
             @Override
@@ -71,8 +70,6 @@ public class Clients extends CustomJPanel {
         tblClients = new CustomJTable();
         txtSearch = new CustomJTextField(tblClients);
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-
         tblClients.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tblClients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -97,12 +94,14 @@ public class Clients extends CustomJPanel {
                 return canEdit [columnIndex];
             }
         });
+        tblClients.setGridColor(new java.awt.Color(102, 102, 102));
         tblClients.setIntercellSpacing(new java.awt.Dimension(0, 1));
         tblClients.setName("Clients"); // NOI18N
         tblClients.setRowHeight(30);
+        tblClients.setSelectionBackground(new java.awt.Color(230, 230, 230));
+        tblClients.setSelectionForeground(new java.awt.Color(51, 51, 51));
         tblClients.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblClients.setShowGrid(true);
-        tblClients.setShowHorizontalLines(true);
         tblClients.getTableHeader().setReorderingAllowed(false);
         spClients.setViewportView(tblClients);
         if (tblClients.getColumnModel().getColumnCount() > 0) {
@@ -118,7 +117,7 @@ public class Clients extends CustomJPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(spClients, javax.swing.GroupLayout.DEFAULT_SIZE, 986, Short.MAX_VALUE)
+                    .addComponent(spClients, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
                     .addComponent(txtSearch))
                 .addContainerGap())
         );
@@ -128,7 +127,7 @@ public class Clients extends CustomJPanel {
                 .addContainerGap()
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(spClients, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                .addComponent(spClients, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
