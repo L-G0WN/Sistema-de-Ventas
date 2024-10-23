@@ -1,6 +1,8 @@
 package com.monagas.view.sales.forms;
 
-public class Suppliers extends javax.swing.JPanel {
+import com.monagas.view.sales.components.CustomJPanel;
+
+public class Suppliers extends CustomJPanel {
 
     public Suppliers() {
         initComponents();
@@ -14,11 +16,11 @@ public class Suppliers extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 1000, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 550, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

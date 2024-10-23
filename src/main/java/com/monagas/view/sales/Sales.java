@@ -1,14 +1,14 @@
 package com.monagas.view.sales;
 
-import com.monagas.view.sales.forms.Categories;
 import com.monagas.view.sales.forms.Clients;
 import com.monagas.view.sales.forms.Products;
 import com.monagas.view.sales.forms.Sellings;
 import com.monagas.view.sales.forms.Suppliers;
 import com.monagas.view.sales.util.ApplicationUtil;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
@@ -16,10 +16,12 @@ public class Sales extends JFrame {
 
     public Sales() {
         initComponents();
-
+        
+        tpWindows.putClientProperty("JTabbedPane.showContentSeparator", false);
+        tpWindows.putClientProperty("JTabbedPane.tabAreaInsets", new Insets(0, 0, 6, 0));
+        
         tpWindows.addTab("Clientes (F1)", new Clients());
         tpWindows.addTab("Productos (F2)", new Products());
-        tpWindows.addTab("Categorias (F3)", new Categories());
         tpWindows.addTab("Proveedores (F4)", new Suppliers());
         tpWindows.addTab("Ventas (F5)", new Sellings());
 
@@ -28,7 +30,7 @@ public class Sales extends JFrame {
 
         updateDateTime();
     }
-//
+
     private void updateDateTime() {
         Date now = new Date();
         String dateFormat = new SimpleDateFormat("'Fecha :' EEEE, dd 'de' MMMM 'del' yyyy '- Hora :' hh:mm a").format(now);
@@ -71,17 +73,18 @@ public class Sales extends JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tpWindows, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(tpWindows)
+                    .addComponent(lbTime, javax.swing.GroupLayout.DEFAULT_SIZE, 1012, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tpWindows, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
-                .addGap(43, 43, 43)
+                .addComponent(tpWindows, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbTime, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );

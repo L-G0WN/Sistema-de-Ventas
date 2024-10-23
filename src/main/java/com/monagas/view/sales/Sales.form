@@ -57,10 +57,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="tpWindows" alignment="1" pref="1024" max="32767" attributes="0"/>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="lbTime" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="tpWindows" max="32767" attributes="0"/>
+                  <Component id="lbTime" pref="1012" max="32767" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -68,8 +70,8 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="tpWindows" pref="506" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+              <Component id="tpWindows" pref="543" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="lbTime" min="-2" pref="21" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
