@@ -28,7 +28,7 @@ public class Sales extends JFrame {
 
         updateDateTime();
     }
-
+//
     private void updateDateTime() {
         Date now = new Date();
         String dateFormat = new SimpleDateFormat("'Fecha :' EEEE, dd 'de' MMMM 'del' yyyy '- Hora :' hh:mm a").format(now);
