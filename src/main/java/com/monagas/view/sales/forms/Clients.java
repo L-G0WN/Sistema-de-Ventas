@@ -1,5 +1,7 @@
 package com.monagas.view.sales.forms;
 
+import com.monagas.controllers.sales.ClientController;
+import com.monagas.entities.sales.Client;
 import com.monagas.view.sales.components.CustomJPanel;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
@@ -10,54 +12,15 @@ import com.monagas.view.sales.renderer.cell.TableActionEvent;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 public class Clients extends CustomJPanel {
+
+    private final ClientController controller = new ClientController();
 
     public Clients(Frame parent) {
         initComponents();
 
         FlatStyle.setStyle(tblClients);
-
-        Object[][] data = {
-            {1, "1234567890", "Juan", "Pérez", "0426-1234", "Calle 1, Madrid"},
-            {2, "9876543210", "Ana", "Gómez", "555-5678", "Avenida 2, Barcelona"},
-            {3, "1111111111", "Luis", "Fernández", "555-9012", "Calle 3, Valencia"},
-            {4, "2222222222", "María", "López", "555-1111", "Avenida 4, Sevilla"},
-            {5, "3333333333", "Carlos", "Sánchez", "555-2222", "Calle 5, Bilbao"},
-            {6, "4444444444", "Laura", "Martínez", "555-3333", "Avenida 6, Zaragoza"},
-            {7, "5555555555", "José", "Rodríguez", "555-4444", "Calle 7, Granada"},
-            {8, "6666666666", "Isabel", "Torres", "555-5555", "Avenida 8, Málaga"},
-            {9, "7777777777", "Javier", "Ramírez", "555-6666", "Calle 9, Alicante"},
-            {10, "8888888888", "Patricia", "Díaz", "555-7777", "Avenida 10, Córdoba"},
-            {11, "9999999999", "Fernando", "Castro", "555-8888", "Calle 11, Murcia"},
-            {12, "1010101010", "Sofía", "Herrera", "555-9999", "Avenida 12, Toledo"},
-            {13, "1212121212", "Diego", "Romero", "555-1010", "Calle 13, Salamanca"},
-            {14, "1313131313", "Clara", "Ruiz", "555-1212", "Avenida 14, Burgos"},
-            {15, "1414141414", "Gabriel", "Vargas", "555-1313", "Calle 15, Oviedo"},
-            {16, "1515151515", "Elena", "Morales", "555-1414", "Avenida 16, Santiago"},
-            {17, "1616161616", "Andrés", "Jiménez", "555-1515", "Calle 17, La Coruña"},
-            {18, "1717171717", "Carmen", "Medina", "555-1616", "Avenida 18, Almería"},
-            {19, "1818181818", "Hugo", "Paredes", "555-1717", "Calle 19, Tarragona"},
-            {20, "1919191919", "Valeria", "Peña", "555-1818", "Avenida 20, San Sebastián"},
-            {21, "2020202020", "Rafael", "Castro", "555-1919", "Calle 21, Gijón"},
-            {22, "2121212121", "Lucía", "Salas", "555-2020", "Avenida 22, Pamplona"},
-            {23, "2222222222", "Santiago", "Ortega", "555-2121", "Calle 23, Lérida"},
-            {24, "2323232323", "Marisol", "Aguirre", "555-2222", "Avenida 24, Albacete"},
-            {25, "2424242424", "Pablo", "Cordero", "555-2323", "Calle 25, Cádiz"},
-            {26, "2525252525", "Nuria", "Ramos", "555-2424", "Avenida 26, Badajoz"},
-            {27, "2626262626", "Joaquín", "León", "555-2525", "Calle 27, Huelva"},
-            {28, "2727272727", "Silvia", "Aguado", "555-2626", "Avenida 28, Tenerife"},
-            {29, "2828282828", "Ricardo", "Salgado", "555-2727", "Calle 29, Las Palmas"},
-            {30, "2929292929", "Teresa", "Castro", "555-2828", "Avenida 30, Murcia"},
-            {31, "3030303030", "Cristian", "Martínez", "555-2929", "Calle 31, Valencia"},
-            {32, "3131313131", "Lola", "García", "555-3030", "Avenida 32, Madrid"}
-        };
-
-        DefaultTableModel model = (DefaultTableModel) tblClients.getModel();
-        for (Object[] date : data) {
-            model.addRow(date);
-        }
 
         TableActionEvent event = new TableActionEvent() {
             @Override
@@ -96,6 +59,8 @@ public class Clients extends CustomJPanel {
 
         tblClients.getColumnModel().getColumn(6).setCellRenderer(new TableActionCellRender());
         tblClients.getColumnModel().getColumn(6).setCellEditor(new TableActionCellEditor(event));
+
+        controller.loadClients(tblClients);
     }
 
     @SuppressWarnings("unchecked")

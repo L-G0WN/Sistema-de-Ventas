@@ -1,7 +1,7 @@
 package com.monagas.view.login.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import com.monagas.controllers.login.LoginController;
+import com.monagas.controllers.login.UserController;
 import com.monagas.view.login.Login;
 import com.monagas.view.login.components.FocusablePanel;
 import com.monagas.view.login.forms.button.ButtonCancel;
@@ -11,15 +11,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.Timer;
 import net.miginfocom.swing.MigLayout;
 
 public class FormRecovery extends JPanel implements FocusablePanel {
 
-    private final LoginController controller = new LoginController();
+    private final UserController controller = new UserController();
 
     private final Login Frame;
     private final String username;
@@ -91,34 +89,8 @@ public class FormRecovery extends JPanel implements FocusablePanel {
     }
 
     private void ActionPerformedChangePassword() {
-        String password = new String(txtPassword.getPassword());
-        String confirmPassword = new String(txtConfirmPassword.getPassword());
         int passwordStrength = passwordStrengthStatus.getPasswordStrengthType();
-
-        if (password.equals(confirmPassword)) {
-            if ((passwordStrength == 2) || (passwordStrength == 3)) {
-                if (controller.changePassword(username, password)) {
-                    txtPassword.setEditable(false);
-                    txtConfirmPassword.setEditable(false);
-                    btnChangePassword.setEnabled(false);
-                    Cancel.setEnabled(false);
-                    JOptionPane.showMessageDialog(Frame, "La contraseña se ha cambiado exitosamente.", "Sistema de Ventas", JOptionPane.INFORMATION_MESSAGE);
-
-                    Timer timer = new Timer(3000, ex -> {
-                        Cancel.ActionPerfomedCancel();
-                    });
-
-                    timer.setRepeats(false);
-                    timer.start();
-                } else {
-                    JOptionPane.showMessageDialog(Frame, "Ha ocurrido un error al intentar cambiar la contraseña.", "Sistema de Ventas", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(Frame, "La contraseña es muy debil...", "Sistema de Ventas", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(Frame, "Las contraseñas no coinciden. Por favor revise y vuelve a intentarlo.", "Sistema de Ventas", JOptionPane.ERROR_MESSAGE);
-        }
+        controller.changePassword(Frame, username, txtPassword, txtConfirmPassword, passwordStrength, btnChangePassword, Cancel);
     }
 
     @Override

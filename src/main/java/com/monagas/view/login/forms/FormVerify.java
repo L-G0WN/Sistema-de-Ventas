@@ -1,9 +1,7 @@
 package com.monagas.view.login.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
-import com.monagas.controllers.login.LoginController;
+import com.monagas.controllers.login.UserController;
 import com.monagas.view.login.Login;
 import com.monagas.view.login.components.FocusablePanel;
 import com.monagas.view.login.forms.button.ButtonCancel;
@@ -14,15 +12,13 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.Timer;
 import net.miginfocom.swing.MigLayout;
 
 public class FormVerify extends JPanel implements FocusablePanel {
 
-    private final LoginController controller = new LoginController();
+    private final UserController controller = new UserController();
 
     private final Login Frame;
     private final String username;
@@ -79,30 +75,7 @@ public class FormVerify extends JPanel implements FocusablePanel {
     }
 
     private void ActionPerformedVerify() {
-        String question = cbQuestions.getSelectedItem().toString();
-        String answer = txtAnswer.getText();
-
-        if (controller.verify(username, question, answer)) {
-            txtAnswer.setEditable(false);
-            cbQuestions.setEnabled(false);
-            btnVerify.setEnabled(false);
-            Cancel.setEnabled(false);
-            JOptionPane.showMessageDialog(Frame, "Enhorabuena! Los datos que has introducido son correctos.", "Sistema de Ventas", JOptionPane.INFORMATION_MESSAGE);
-
-            Timer timer = new Timer(3000, ex -> {
-                FlatAnimatedLafChange.showSnapshot();
-                Frame.switchPanel(new FormRecovery(Frame, username));
-                FlatLaf.updateUI();
-                FlatAnimatedLafChange.hideSnapshotWithAnimation();
-            });
-
-            timer.setRepeats(false);
-            timer.start();
-
-        } else {
-            JOptionPane.showMessageDialog(Frame, "Pregunta o Respuesta son incorrectos. Por favor, revise y vuelve a intentarlo.", "Sistema de Ventas", JOptionPane.ERROR_MESSAGE);
-
-        }
+        controller.verify(Frame, username, cbQuestions, txtAnswer, btnVerify, Cancel);
     }
 
     @Override

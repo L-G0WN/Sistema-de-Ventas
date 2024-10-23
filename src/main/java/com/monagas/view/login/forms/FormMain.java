@@ -3,13 +3,11 @@ package com.monagas.view.login.forms;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
-import com.monagas.controllers.login.LoginController;
-import com.monagas.services.login.UserService;
+import com.monagas.controllers.login.UserController;
 import com.monagas.view.login.Login;
 import com.monagas.view.login.components.CredentialManager;
 import com.monagas.view.login.components.FocusablePanel;
 import com.monagas.view.login.forms.labels.LabelLogin;
-import com.monagas.view.sales.Sales;
 import java.awt.Cursor;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -17,16 +15,14 @@ import java.util.Properties;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.Timer;
 import net.miginfocom.swing.MigLayout;
 
 public class FormMain extends JPanel implements FocusablePanel {
-    
-    private final LoginController controller = new LoginController();
+
+    private final UserController controller = new UserController();
 
     private final Login Frame;
 
@@ -117,35 +113,7 @@ public class FormMain extends JPanel implements FocusablePanel {
     }
 
     private void ActionPerformedLogin() {
-        String username = txtUsername.getText();
-        String password = new String(txtPassword.getPassword());
-
-        if (controller.login(username, password)) {
-            txtUsername.setEditable(false);
-            txtPassword.setEditable(false);
-            cbRememberMe.setEnabled(false);
-            btnLogin.setEnabled(false);
-            btnForget.setEnabled(false);
-            JOptionPane.showMessageDialog(Frame, "Iniciando Sessón...", "Sistema de Ventas", JOptionPane.INFORMATION_MESSAGE);
-
-            if (cbRememberMe.isSelected()) {
-                CredentialManager.saveCredentials(username);
-            } else {
-                CredentialManager.clearCredentials();
-            }
-
-
-            Timer timer = new Timer(3000, ex -> {
-                Frame.dispose();
-                new Sales().setVisible(true);
-            });
-
-            timer.setRepeats(false);
-            timer.start();
-
-        } else {
-            JOptionPane.showMessageDialog(Frame, "Usuario o contraseña incorrectos. Por favor, revise y vuelve a intentarlo.", "Sistema de Ventas", JOptionPane.ERROR_MESSAGE);
-        }
+        controller.login(Frame, txtUsername, txtPassword, cbRememberMe, btnLogin, btnForget);
     }
 
     private void ActionPerformedForget() {

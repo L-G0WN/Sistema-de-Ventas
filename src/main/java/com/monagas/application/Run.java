@@ -27,7 +27,7 @@ public class Run {
         }
 
         java.awt.EventQueue.invokeLater(() -> {
-            new Sales().setVisible(true);
+            new Login().setVisible(true);
         });
     }
 }
