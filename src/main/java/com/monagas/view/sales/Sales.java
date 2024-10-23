@@ -5,7 +5,6 @@ import com.monagas.view.sales.forms.Products;
 import com.monagas.view.sales.forms.Sellings;
 import com.monagas.view.sales.forms.Suppliers;
 import com.monagas.view.sales.util.ApplicationUtil;
-import java.awt.Dimension;
 import java.awt.Insets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,7 +19,7 @@ public class Sales extends JFrame {
         tpWindows.putClientProperty("JTabbedPane.showContentSeparator", false);
         tpWindows.putClientProperty("JTabbedPane.tabAreaInsets", new Insets(0, 0, 6, 0));
         
-        tpWindows.addTab("Clientes (F1)", new Clients());
+        tpWindows.addTab("Clientes Registrados (F1)", new Clients(this));
         tpWindows.addTab("Productos (F2)", new Products());
         tpWindows.addTab("Proveedores (F4)", new Suppliers());
         tpWindows.addTab("Ventas (F5)", new Sellings());
@@ -45,6 +44,7 @@ public class Sales extends JFrame {
         lbTime = new javax.swing.JLabel();
         MenuBar = new javax.swing.JMenuBar();
         mAccount = new javax.swing.JMenu();
+        itemControls = new javax.swing.JMenuItem();
         itemLogout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -60,6 +60,10 @@ public class Sales extends JFrame {
 
         mAccount.setText("Administrador: Angeles Hernandez");
         mAccount.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
+        itemControls.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        itemControls.setText("Control de Usuarios");
+        mAccount.add(itemControls);
 
         itemLogout.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemLogout.setText("Cerrar Sesión");
@@ -95,6 +99,7 @@ public class Sales extends JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JMenuItem itemControls;
     private javax.swing.JMenuItem itemLogout;
     private javax.swing.JLabel lbTime;
     private javax.swing.JMenu mAccount;
