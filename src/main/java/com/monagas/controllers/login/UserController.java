@@ -66,8 +66,7 @@ public class UserController {
                     parent,
                     "Por favor, complete todos los campos vacíos.",
                     "Sistema de Ventas - Advertencia",
-                    JOptionPane.WARNING_MESSAGE
-            );
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -108,8 +107,7 @@ public class UserController {
                     parent,
                     "Por favor, complete el campo vacio para continuar.",
                     "Sistema de Ventas - Advertencia",
-                    JOptionPane.WARNING_MESSAGE
-            );
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -152,8 +150,7 @@ public class UserController {
                     parent,
                     "Por favor, complete el campo vacio para continuar.",
                     "Sistema de Ventas - Advertencia",
-                    JOptionPane.WARNING_MESSAGE
-            );
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -209,8 +206,7 @@ public class UserController {
                     parent,
                     "Por favor, complete todos los campos vacíos.",
                     "Sistema de Ventas - Advertencia",
-                    JOptionPane.WARNING_MESSAGE
-            );
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
 }

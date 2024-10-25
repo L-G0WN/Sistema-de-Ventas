@@ -29,7 +29,7 @@ public class CustomJTextField extends JTextField {
         TYPE_MESSAGES.put("Lastname", "Apellido");
         TYPE_MESSAGES.put("Cedula", "Cedula");
         TYPE_MESSAGES.put("Phone", "Número de teléfono");
-        TYPE_MESSAGES.put("Address", "Dirección principal");
+        TYPE_MESSAGES.put("Address", "Dirección principal (Opcional)");
     }
 
     public CustomJTextField(String type) {
@@ -115,11 +115,7 @@ public class CustomJTextField extends JTextField {
         int[] columns = null;
 
         if (getName() != null && getName().equals("Clients")) {
-            columns = new int[]{1, 2, 3};
-        }
-
-        if (table.isEditing()) {
-            table.getCellEditor().stopCellEditing();
+            columns = new int[]{1, 2};
         }
 
         SorterFilter.setRowFilter(RowFilter.regexFilter("(?iu)" + getText(), columns));

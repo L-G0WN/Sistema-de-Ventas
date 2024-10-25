@@ -25,7 +25,7 @@ public class PanelAction extends javax.swing.JPanel {
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
 
-        btnEdit.setBackground(new java.awt.Color(183, 185, 39));
+        btnEdit.setBackground(new java.awt.Color(216, 219, 45));
         btnEdit.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnEdit.setForeground(new java.awt.Color(255, 255, 255));
         btnEdit.setText("EDITAR");

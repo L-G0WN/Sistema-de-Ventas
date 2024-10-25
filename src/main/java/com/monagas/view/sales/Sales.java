@@ -1,5 +1,7 @@
 package com.monagas.view.sales;
 
+import com.monagas.entities.login.CurrentUser;
+import com.monagas.entities.login.User;
 import com.monagas.view.sales.forms.Clients;
 import com.monagas.view.sales.forms.Products;
 import com.monagas.view.sales.forms.Sellings;
@@ -12,16 +14,23 @@ import javax.swing.Timer;
 
 public class Sales extends JFrame {
 
+    private final User currentUser = CurrentUser.getInstance().getUser();
+
     public Sales() {
         initComponents();
-        
+
         tpWindows.putClientProperty("JTabbedPane.tabType", "card");
         tpWindows.putClientProperty("JTabbedPane.hasFullBorder", true);
-        
+
         tpWindows.addTab("Clientes Registrados (F1)", new Clients(this));
         tpWindows.addTab("Productos (F2)", new Products());
         tpWindows.addTab("Proveedores (F4)", new Suppliers());
         tpWindows.addTab("Ventas (F5)", new Sellings());
+
+        String type = (currentUser.getAccountType() == 1) ? "Administrador: " : "Empleado: ";
+        itemControls.setVisible(currentUser.getAccountType() == 1);
+        
+        mAccount.setText(type + currentUser.getFirstname() + " " + currentUser.getLastname());
 
         Timer timer = new Timer(1000, e -> updateDateTime());
         timer.start();
@@ -101,7 +110,7 @@ public class Sales extends JFrame {
     private javax.swing.JMenuItem itemControls;
     private javax.swing.JMenuItem itemLogout;
     private javax.swing.JLabel lbTime;
-    private javax.swing.JMenu mAccount;
+    public static javax.swing.JMenu mAccount;
     private javax.swing.JTabbedPane tpWindows;
     // End of variables declaration//GEN-END:variables
 }

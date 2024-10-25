@@ -1,5 +1,7 @@
 package com.monagas.services.sales;
 
+import com.monagas.entities.login.CurrentUser;
+import com.monagas.entities.login.User;
 import com.monagas.entities.sales.Client;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -29,39 +31,47 @@ public class ClientService implements Serializable {
     }
 
     public void create(Client client) {
-        EntityManager em = null;
-        try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            em.persist(client);
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
+        User currentUser = CurrentUser.getInstance().getUser();
+        if (currentUser != null) {
+            client.setRegisteredBy(currentUser);
+
+            EntityManager em = null;
+            try {
+                em = getEntityManager();
+                em.getTransaction().begin();
+                em.persist(client);
+                em.getTransaction().commit();
+            } catch (Exception e) {
+                if (em != null && em.getTransaction().isActive()) {
+                    em.getTransaction().rollback();
+                }
+            } finally {
+                if (em != null) {
+                    em.close();
+                }
             }
         }
     }
 
-    public boolean edit(Client client) {
-        EntityManager em = null;
-        try {
-            em = getEntityManager();
-            em.getTransaction().begin();
+    public void edit(Client client) {
+        User currentUser = CurrentUser.getInstance().getUser();
+        if (currentUser != null) {
+            client.setUpdatedBy(currentUser);
 
-            if (client.getClientId()== null || findClientById(client.getClientId()) == null) {
-                return false;
-            }
-
-            em.getTransaction().commit();
-            return true;
-        } catch (Exception ex) {
-            if (em != null && em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            return false;
-        } finally {
-            if (em != null) {
-                em.close();
+            EntityManager em = null;
+            try {
+                em = getEntityManager();
+                em.getTransaction().begin();
+                em.merge(client);
+                em.getTransaction().commit();
+            } catch (Exception e) {
+                if (em != null && em.getTransaction().isActive()) {
+                    em.getTransaction().rollback();
+                }
+            } finally {
+                if (em != null) {
+                    em.close();
+                }
             }
         }
     }
@@ -128,7 +138,7 @@ public class ClientService implements Serializable {
         }
     }
 
-    public int getClientCount() {
+    public Long getClientCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -137,7 +147,7 @@ public class ClientService implements Serializable {
             cq.select(cb.count(rt));
 
             Query q = em.createQuery(cq);
-            return (int) q.getSingleResult();
+            return (Long) q.getSingleResult();
         } finally {
             em.close();
         }

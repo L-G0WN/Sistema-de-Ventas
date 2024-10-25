@@ -4,7 +4,6 @@ import com.monagas.entities.login.User;
 import com.monagas.services.login.UserService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import java.sql.Timestamp;
 
 public class DataInitializer {
 
@@ -29,7 +28,6 @@ public class DataInitializer {
                 admin.setAnswer("Azul");
                 admin.setAccountType(1);
                 admin.setEnabled(true);
-                admin.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
                 em.persist(admin);
                 em.getTransaction().commit();

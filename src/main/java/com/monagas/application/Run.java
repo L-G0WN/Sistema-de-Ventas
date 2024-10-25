@@ -3,7 +3,7 @@ package com.monagas.application;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.monagas.controllers.DataInitializer;
-import com.monagas.view.sales.Sales;
+import com.monagas.view.login.Login;
 import javax.swing.JOptionPane;
 
 public class Run {
@@ -20,7 +20,7 @@ public class Run {
         }
 
         java.awt.EventQueue.invokeLater(() -> {
-            new Sales().setVisible(true);
+            new Login().setVisible(true);
         });
     }
 }

@@ -33,7 +33,6 @@ public class CustomJTable extends JTable {
 
             @Override
             public void columnMarginChanged(ChangeEvent e) {
-                //adjustColumnWidths();
             }
 
             @Override
@@ -49,7 +48,7 @@ public class CustomJTable extends JTable {
 
         while (column < getColumnCount()) {
             TableColumn tableColumn = modelColumn.getColumn(column);
-            int preferredWidth = 0;
+            int preferredWidth = 160;
 
             TableCellRenderer headerRenderer = getTableHeader().getDefaultRenderer();
             Object headerValue = tableColumn.getHeaderValue();

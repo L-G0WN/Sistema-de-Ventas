@@ -1,5 +1,6 @@
 package com.monagas.services.login;
 
+import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -143,7 +144,7 @@ public class UserService implements Serializable {
         }
     }
 
-    public int getUsersCount() {
+    public Long getUsersCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -152,7 +153,7 @@ public class UserService implements Serializable {
             cq.select(cb.count(rt));
 
             Query q = em.createQuery(cq);
-            return (int) q.getSingleResult();
+            return (Long) q.getSingleResult();
         } finally {
             em.close();
         }
@@ -169,6 +170,7 @@ public class UserService implements Serializable {
             if (!users.isEmpty()) {
                 User user = users.get(0);
                 if (user.getPassword().equals(password)) {
+                    CurrentUser.getInstance().setUser(user);
                     return true;
                 }
             }

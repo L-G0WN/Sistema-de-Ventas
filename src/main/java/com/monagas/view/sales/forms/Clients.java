@@ -18,24 +18,14 @@ public class Clients extends CustomJPanel {
 
     public Clients(Frame parent) {
         initComponents();
-
+        controller.save();
         FlatStyle.setStyle(spClients, tblClients);
 
         TableActionEvent event = new TableActionEvent() {
             @Override
             public void onEdit(int row) {
-                int id = Integer.parseInt(tblClients.getValueAt(row, 0).toString());
-                String cedula = tblClients.getValueAt(row, 1).toString();
-                String type = (cedula.startsWith("V")) ? "V" : "E";
-
-                String firstname = tblClients.getValueAt(row, 2).toString();
-                String lastname = tblClients.getValueAt(row, 3).toString();
-
-                String phone = tblClients.getValueAt(row, 4).toString();
-                String[] PhoneSplit = phone.split("-\\s*");
-
-                String address = tblClients.getValueAt(row, 5).toString();
-                new DialogClients(parent, true, id, type, cedula.substring(1), firstname, lastname, PhoneSplit, address).setVisible(true);
+                Long id = Long.valueOf(tblClients.getValueAt(row, 1).toString().substring(1));
+                new DialogClients(parent, true, tblClients, id).setVisible(true);
             }
 
             @Override
@@ -56,8 +46,8 @@ public class Clients extends CustomJPanel {
             }
         };
 
-        tblClients.getColumnModel().getColumn(6).setCellRenderer(new TableActionCellRender());
-        tblClients.getColumnModel().getColumn(6).setCellEditor(new TableActionCellEditor(event));
+        tblClients.getColumnModel().getColumn(tblClients.getColumnCount() - 1).setCellRenderer(new TableActionCellRender());
+        tblClients.getColumnModel().getColumn(tblClients.getColumnCount() - 1).setCellEditor(new TableActionCellEditor(event));
 
         controller.loadClients(tblClients);
     }
@@ -70,20 +60,21 @@ public class Clients extends CustomJPanel {
         tblClients = new CustomJTable();
         txtSearch = new CustomJTextField(tblClients);
 
+        tblClients.setAutoCreateRowSorter(true);
         tblClients.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tblClients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "CEDULA", "NOMBRE", "APELLIDO", "TELÉFONO", "DIRECCIÓN PRINCIPAL", "ACCIONES"
+                "N°", "ID", "CEDULA", "NOMBRE Y APELLIDO", "TELÉFONO", "DIRECCIÓN PRINCIPAL", "REGISTRADO EN", "REGISTRADO POR", "ACTUALIZADO EN", "ACTUALIZADO POR", "ACCIONES"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -94,6 +85,7 @@ public class Clients extends CustomJPanel {
                 return canEdit [columnIndex];
             }
         });
+        tblClients.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tblClients.setGridColor(new java.awt.Color(102, 102, 102));
         tblClients.setIntercellSpacing(new java.awt.Dimension(0, 1));
         tblClients.setName("Clients"); // NOI18N
@@ -105,7 +97,9 @@ public class Clients extends CustomJPanel {
         tblClients.getTableHeader().setReorderingAllowed(false);
         spClients.setViewportView(tblClients);
         if (tblClients.getColumnModel().getColumnCount() > 0) {
-            tblClients.getColumnModel().getColumn(6).setMinWidth(110);
+            tblClients.getColumnModel().getColumn(0).setMaxWidth(50);
+            tblClients.getColumnModel().getColumn(1).setMaxWidth(50);
+            tblClients.getColumnModel().getColumn(10).setMinWidth(110);
         }
 
         txtSearch.setName("Clients"); // NOI18N

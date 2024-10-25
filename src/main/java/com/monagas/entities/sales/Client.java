@@ -1,17 +1,23 @@
 package com.monagas.entities.sales;
 
+import com.monagas.entities.login.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.sql.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.sql.Timestamp;
+import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "Clients")
@@ -19,6 +25,7 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Client implements Serializable {
 
     @Id
@@ -44,9 +51,22 @@ public class Client implements Serializable {
     @Column(name = "phone", length = 7, nullable = false)
     private String phone;
 
-    @Column(name = "address", length = 255, nullable = false)
+    @Column(name = "address", length = 255, nullable = true)
     private String address;
 
-    @Column(name = "created_at", updatable = false)
-    private Timestamp createdAt;
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private Date createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "registered_by", referencedColumnName = "user_id", updatable = false, nullable = false)
+    private User registeredBy;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = true)
+    private Date updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "updated_by", referencedColumnName = "user_id", nullable = true)
+    private User updatedBy;
 }
