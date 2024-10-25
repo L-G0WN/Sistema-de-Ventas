@@ -1,5 +1,6 @@
 package com.monagas.view.sales;
 
+import com.monagas.api.CurrencyApp;
 import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
 import com.monagas.view.sales.forms.Clients;
@@ -16,6 +17,8 @@ public class Sales extends JFrame {
 
     private final User currentUser = CurrentUser.getInstance().getUser();
 
+    private CurrencyApp currency = new CurrencyApp();
+
     public Sales() {
         initComponents();
 
@@ -27,15 +30,20 @@ public class Sales extends JFrame {
         tpWindows.addTab("Proveedores (F4)", new Suppliers());
         tpWindows.addTab("Ventas (F5)", new Sellings());
 
-        String type = (currentUser.getAccountType() == 1) ? "Administrador: " : "Empleado: ";
-        itemControls.setVisible(currentUser.getAccountType() == 1);
-        
-        mAccount.setText(type + currentUser.getFirstname() + " " + currentUser.getLastname());
+        currentUser();
 
         Timer timer = new Timer(1000, e -> updateDateTime());
         timer.start();
 
         updateDateTime();
+        loadCurrency();
+    }
+
+    private void currentUser() {
+        String type = (currentUser.getAccountType() == 1) ? "Administrador: " : "Empleado: ";
+        itemControls.setVisible(currentUser.getAccountType() == 1);
+
+        mAccount.setText(type + currentUser.getFirstname() + " " + currentUser.getLastname());
     }
 
     private void updateDateTime() {
@@ -44,11 +52,18 @@ public class Sales extends JFrame {
         lbTime.setText(dateFormat);
     }
 
+    private void loadCurrency() {
+        currency.loadCurrencyData(cbList);
+        currency.updateCurrencyInfo(cbList, lbCurrentPrice);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         tpWindows = new javax.swing.JTabbedPane();
+        cbList = new javax.swing.JComboBox<>();
+        lbCurrentPrice = new javax.swing.JLabel();
         lbTime = new javax.swing.JLabel();
         MenuBar = new javax.swing.JMenuBar();
         mAccount = new javax.swing.JMenu();
@@ -62,7 +77,16 @@ public class Sales extends JFrame {
 
         tpWindows.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        lbTime.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        cbList.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        cbList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbListActionPerformed(evt);
+            }
+        });
+
+        lbCurrentPrice.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+
+        lbTime.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         lbTime.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbTime.setText("DATE");
 
@@ -87,17 +111,26 @@ public class Sales extends JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(tpWindows)
-                    .addComponent(lbTime, javax.swing.GroupLayout.DEFAULT_SIZE, 1012, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tpWindows, javax.swing.GroupLayout.DEFAULT_SIZE, 1012, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cbList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)
+                        .addComponent(lbCurrentPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tpWindows, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+                .addComponent(tpWindows, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbTime, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lbTime, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                        .addComponent(lbCurrentPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cbList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -105,10 +138,16 @@ public class Sales extends JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cbListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbListActionPerformed
+        currency.updateCurrencyInfo(cbList, lbCurrentPrice);
+    }//GEN-LAST:event_cbListActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JComboBox<String> cbList;
     private javax.swing.JMenuItem itemControls;
     private javax.swing.JMenuItem itemLogout;
+    private javax.swing.JLabel lbCurrentPrice;
     private javax.swing.JLabel lbTime;
     public static javax.swing.JMenu mAccount;
     private javax.swing.JTabbedPane tpWindows;

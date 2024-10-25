@@ -75,7 +75,7 @@ public class DialogClients extends JDialog {
 
         txtAddress.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        btnUpdate.setBackground(new java.awt.Color(216, 219, 45));
+        btnUpdate.setBackground(new java.awt.Color(232, 213, 42));
         btnUpdate.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
         btnUpdate.setText("ACTUALIZAR");
@@ -121,9 +121,8 @@ public class DialogClients extends JDialog {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(panelEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtFirstname, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-                                    .addComponent(txtLastname, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))))
+                                .addComponent(txtFirstname)
+                                .addComponent(txtLastname)))
                         .addGap(74, 74, 74))))
         );
         panelEditLayout.setVerticalGroup(

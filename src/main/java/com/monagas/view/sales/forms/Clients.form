@@ -63,9 +63,9 @@
                 <Column editable="false" title="NOMBRE Y APELLIDO" type="java.lang.String"/>
                 <Column editable="false" title="TEL&#xc9;FONO" type="java.lang.String"/>
                 <Column editable="false" title="DIRECCI&#xd3;N PRINCIPAL" type="java.lang.String"/>
-                <Column editable="false" title="REGISTRADO EN" type="java.lang.String"/>
+                <Column editable="false" title="REGISTRADO EN" type="java.lang.Object"/>
                 <Column editable="false" title="REGISTRADO POR" type="java.lang.String"/>
-                <Column editable="false" title="ACTUALIZADO EN" type="java.lang.String"/>
+                <Column editable="false" title="ACTUALIZADO EN" type="java.lang.Object"/>
                 <Column editable="false" title="ACTUALIZADO POR" type="java.lang.String"/>
                 <Column editable="true" title="ACCIONES" type="java.lang.Object"/>
               </Table>

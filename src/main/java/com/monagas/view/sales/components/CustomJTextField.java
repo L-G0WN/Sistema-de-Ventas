@@ -115,7 +115,7 @@ public class CustomJTextField extends JTextField {
         int[] columns = null;
 
         if (getName() != null && getName().equals("Clients")) {
-            columns = new int[]{1, 2};
+            columns = new int[]{2, 3};
         }
 
         SorterFilter.setRowFilter(RowFilter.regexFilter("(?iu)" + getText(), columns));
