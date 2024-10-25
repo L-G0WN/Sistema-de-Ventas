@@ -159,7 +159,7 @@ public class UserService implements Serializable {
         }
     }
 
-    public boolean login(String username, String password) {
+    public void login(String username, String password) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -169,14 +169,19 @@ public class UserService implements Serializable {
 
             if (!users.isEmpty()) {
                 User user = users.get(0);
+                if (!user.isEnabled()) {
+                    throw new Exception("La cuenta está desactivada.");
+                }
                 if (user.getPassword().equals(password)) {
                     CurrentUser.getInstance().setUser(user);
-                    return true;
+                } else {
+                    throw new Exception("Contraseña incorrecta.");
                 }
+            } else {
+                throw new Exception("Usuario no encontrado.");
             }
-            return false;
-        } catch (Exception e) {
-            return false;
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage(), ex);
         } finally {
             if (em != null) {
                 em.close();
@@ -184,19 +189,27 @@ public class UserService implements Serializable {
         }
     }
 
-    public boolean verify(String username, String question, String answer) {
+    public boolean verify(String username, String question, String answer) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             User user = findUserByUsername(username);
 
             if (user == null) {
-                return false;
+                throw new Exception("Usuario no encontrado.");
             }
 
-            return user.getQuestion().equals(question) && user.getAnswer().equals(answer);
-        } catch (Exception e) {
-            return false;
+            if (!user.isEnabled()) {
+                throw new Exception("La cuenta está desactivada.");
+            }
+
+            if (!user.getQuestion().equals(question) || !user.getAnswer().equals(answer)) {
+                throw new Exception("La pregunta o la respuesta son incorrectas.");
+            }
+
+            return true;
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage(), ex);
         } finally {
             if (em != null) {
                 em.close();
@@ -204,7 +217,7 @@ public class UserService implements Serializable {
         }
     }
 
-    public boolean changePassword(String username, String password) {
+    public boolean changePassword(String username, String password) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -213,7 +226,11 @@ public class UserService implements Serializable {
 
             User user = findUserByUsername(username);
             if (user == null) {
-                return false;
+                throw new Exception("Usuario no encontrado.");
+            }
+
+            if (!user.isEnabled()) {
+                throw new Exception("La cuenta está desactivada.");
             }
 
             user.setPassword(password);
@@ -221,12 +238,11 @@ public class UserService implements Serializable {
 
             transaction.commit();
             return true;
-        } catch (Exception e) {
+        } catch (Exception ex) {
             if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-
-            return false;
+            throw new Exception(ex.getMessage(), ex);
         } finally {
             if (em != null) {
                 em.close();

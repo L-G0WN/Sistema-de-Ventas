@@ -28,7 +28,9 @@ public class UserController {
         String password = new String(txtPassword.getPassword());
 
         if (!username.isEmpty() && !password.isEmpty()) {
-            if (userService.login(username, password)) {
+            try {
+                userService.login(username, password);
+
                 txtUsername.setEditable(false);
                 txtPassword.setEditable(false);
                 cbRememberMe.setEnabled(false);
@@ -54,10 +56,10 @@ public class UserController {
 
                 timer.setRepeats(false);
                 timer.start();
-            } else {
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(
                         parent,
-                        "Usuario o contraseña incorrectos. Por favor, revise y vuelve a intentarlo.",
+                        ex.getMessage(),
                         "Sistema de Ventas - Error",
                         JOptionPane.ERROR_MESSAGE);
             }
@@ -94,7 +96,6 @@ public class UserController {
 
                 timer.setRepeats(false);
                 timer.start();
-
             } else {
                 JOptionPane.showMessageDialog(
                         parent,
@@ -116,7 +117,9 @@ public class UserController {
         String answer = txtAnswer.getText();
 
         if (!answer.isEmpty()) {
-            if (userService.verify(username, question, answer)) {
+            try {
+                userService.verify(username, question, answer);
+
                 txtAnswer.setEditable(false);
                 cbQuestions.setEnabled(false);
                 btnVerify.setEnabled(false);
@@ -137,11 +140,10 @@ public class UserController {
 
                 timer.setRepeats(false);
                 timer.start();
-
-            } else {
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(
                         parent,
-                        "Pregunta o Respuesta son incorrectos. Por favor, revise y vuelve a intentarlo.",
+                        ex.getMessage(),
                         "Sistema de Ventas - Error",
                         JOptionPane.ERROR_MESSAGE);
             }
@@ -161,7 +163,9 @@ public class UserController {
         if (!password.isEmpty() && !confirmPassword.isEmpty()) {
             if (password.equals(confirmPassword)) {
                 if ((passwordStrength == 2) || (passwordStrength == 3)) {
-                    if (userService.changePassword(username, password)) {
+                    try {
+                        userService.changePassword(username, password);
+
                         txtPassword.setEditable(false);
                         txtConfirmPassword.setEditable(false);
                         btnChangePassword.setEnabled(false);
@@ -180,10 +184,10 @@ public class UserController {
 
                         timer.setRepeats(false);
                         timer.start();
-                    } else {
+                    } catch (Exception ex) {
                         JOptionPane.showMessageDialog(
                                 parent,
-                                "Ha ocurrido un error al intentar cambiar la contraseña.",
+                                ex.getMessage(),
                                 "Sistema de Ventas - Error",
                                 JOptionPane.ERROR_MESSAGE);
                     }

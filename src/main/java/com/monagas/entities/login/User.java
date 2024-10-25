@@ -51,7 +51,7 @@ public class User implements Serializable {
     private Integer accountType;
 
     @Column(name = "enabled")
-    private Boolean enabled;
+    private boolean enabled;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
