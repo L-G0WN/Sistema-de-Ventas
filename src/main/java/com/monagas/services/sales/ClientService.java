@@ -53,48 +53,57 @@ public class ClientService implements Serializable {
         }
     }
 
-    public void edit(Client client) {
+    public void edit(Client client) throws Exception {
         User currentUser = CurrentUser.getInstance().getUser();
-        if (currentUser != null) {
-            client.setUpdatedBy(currentUser);
-
-            EntityManager em = null;
-            try {
-                em = getEntityManager();
-                em.getTransaction().begin();
-                em.merge(client);
-                em.getTransaction().commit();
-            } catch (Exception e) {
-                if (em != null && em.getTransaction().isActive()) {
-                    em.getTransaction().rollback();
-                }
-            } finally {
-                if (em != null) {
-                    em.close();
-                }
-            }
+        if (currentUser == null) {
+            throw new Exception("Usuario no autenticado.");
         }
-    }
 
-    public boolean destroy(Long id) {
+        client.setUpdatedBy(currentUser);
+
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
 
-            Client user = em.find(Client.class, id);
-            if (user == null) {
-                return false;
+            Client existingClient = em.find(Client.class, client.getClientId());
+            if (existingClient == null) {
+                throw new Exception("Cliente no encontrado.");
             }
 
-            em.remove(user);
+            em.merge(client);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new Exception(ex.getMessage(), ex);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public boolean destroy(Long id) throws Exception {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
+            Client client = em.find(Client.class, id);
+            if (client == null) {
+                throw new Exception("Cliente no encontrado.");
+            }
+
+            em.remove(client);
             em.getTransaction().commit();
             return true;
         } catch (Exception ex) {
             if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            return false;
+            throw new Exception(ex.getMessage(), ex);
         } finally {
             if (em != null) {
                 em.close();

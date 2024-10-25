@@ -5,7 +5,6 @@ import com.monagas.entities.login.User;
 import com.monagas.entities.sales.Client;
 import com.monagas.services.login.UserService;
 import com.monagas.services.sales.ClientService;
-import com.monagas.view.sales.Sales;
 import java.awt.Frame;
 import java.util.List;
 import javax.swing.JComboBox;
@@ -59,9 +58,17 @@ public class ClientController {
             client.setAddress(address);
             client.setUpdatedBy(currentUser);
 
-            clientService.edit(client);
-            dialog.dispose();
-            loadClients(table);
+            try {
+                clientService.edit(client);
+                dialog.dispose();
+                loadClients(table);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
+                        parent,
+                        ex.getMessage(),
+                        "Sistema de Ventas - Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         } else {
             JOptionPane.showMessageDialog(
                     parent,
@@ -71,6 +78,27 @@ public class ClientController {
         }
 
         return client;
+    }
+
+    public void deleteClient(Frame parent, JTable table, Long id) {
+        try {
+            boolean isDeleted = clientService.destroy(id);
+
+            if (isDeleted) {
+                JOptionPane.showMessageDialog(
+                        parent,
+                        "Se ha eliminado con éxito al cliente registrado.",
+                        "Sistema de Ventas - Información",
+                        JOptionPane.INFORMATION_MESSAGE);
+                loadClients(table);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    parent,
+                    ex.getMessage(),
+                    "Sistema de Ventas - Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public Client loadClientById(Long id, JComboBox cbType, JTextField txtCedula, JTextField txtFirstname, JTextField txtLastname, JComboBox cbCode, JTextField txtPhone, JTextField txtAddress) {

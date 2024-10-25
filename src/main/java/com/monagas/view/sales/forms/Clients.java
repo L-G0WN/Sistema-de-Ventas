@@ -18,7 +18,7 @@ public class Clients extends CustomJPanel {
 
     public Clients(Frame parent) {
         initComponents();
-        controller.save();
+
         FlatStyle.setStyle(spClients, tblClients);
 
         TableActionEvent event = new TableActionEvent() {
@@ -39,9 +39,8 @@ public class Clients extends CustomJPanel {
                 int confirm = JOptionPane.showConfirmDialog(parent, message, "Sistema de Ventas", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
                 if (confirm == 0) {
-                    System.out.println("ELIMINAR");
-                } else {
-                    System.out.println("CANCELAR");
+                    Long id = Long.valueOf(tblClients.getValueAt(row, 1).toString().substring(1));
+                    controller.deleteClient(parent, tblClients, id);
                 }
             }
         };
@@ -59,6 +58,12 @@ public class Clients extends CustomJPanel {
         spClients = new javax.swing.JScrollPane();
         tblClients = new CustomJTable();
         txtSearch = new CustomJTextField(tblClients);
+
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         tblClients.setAutoCreateRowSorter(true);
         tblClients.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -125,6 +130,10 @@ public class Clients extends CustomJPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        controller.loadClients(tblClients);
+    }//GEN-LAST:event_formComponentShown
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane spClients;

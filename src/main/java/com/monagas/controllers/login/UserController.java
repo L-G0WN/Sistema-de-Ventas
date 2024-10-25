@@ -49,7 +49,7 @@ public class UserController {
                     CredentialManager.clearCredentials();
                 }
 
-                Timer timer = new Timer(3000, ex -> {
+                Timer timer = new Timer(1500, ex -> {
                     parent.dispose();
                     new Sales().setVisible(true);
                 });
