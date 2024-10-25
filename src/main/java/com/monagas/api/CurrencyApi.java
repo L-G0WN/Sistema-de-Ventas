@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import org.json.JSONObject;
 
-public class CurrencyApp extends JFrame {
+public class CurrencyApi extends JFrame {
 
     private double currentPrice = 0.0;
 
@@ -34,13 +34,10 @@ public class CurrencyApp extends JFrame {
                     }
                 }
 
-                // Procesar la respuesta JSON
                 JSONObject jsonResponse = new JSONObject(response.toString());
-                // Acceder a la clave "monitors"
                 if (jsonResponse.has("monitors")) {
                     JSONObject monitors = jsonResponse.getJSONObject("monitors");
 
-                    // Agregar solo las monedas "usd" y "eur" al JComboBox
                     String[] desiredCurrencies = {"usd", "eur"};
                     for (String currencyCode : desiredCurrencies) {
                         if (monitors.has(currencyCode)) {
@@ -51,10 +48,9 @@ public class CurrencyApp extends JFrame {
             }
 
         } catch (IOException e) {
-            // Manejo de errores
             JOptionPane.showMessageDialog(this,
-                    "Error loading currency data: " + e.getMessage(),
-                    "Error",
+                    "No se ha podido cargar la información del precio actual:\n" + e.getMessage(),
+                    "Sistema de Ventas - Error",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -79,7 +75,6 @@ public class CurrencyApp extends JFrame {
 //            resultLabel.setText("Please enter a valid number");
 //        }
 //    }
-
     public void updateCurrencyInfo(JComboBox<String> cbCurrency, JLabel price) {
         String selectedCurrency = (String) cbCurrency.getSelectedItem();
         String urlString = "https://pydolarve.org/api/v1/dollar?page=bcv";
@@ -106,7 +101,7 @@ public class CurrencyApp extends JFrame {
 
                 currentPrice = currency.getDouble("price");
                 String lastUpdate = currency.getString("last_update");
-                
+
                 price.setText("Precio: " + currentPrice + " Bs. - Última actualización: " + lastUpdate);
             }
 
@@ -117,6 +112,4 @@ public class CurrencyApp extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    
 }

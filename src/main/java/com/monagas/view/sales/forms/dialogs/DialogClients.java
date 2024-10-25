@@ -25,6 +25,7 @@ public class DialogClients extends JDialog {
         initComponents();
 
         controller.loadClientById(id, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress);
+        lbTitle.setText("Cliente : " + txtFirstname.getText() + " " + txtLastname.getText());
         
         JTextField[] textFields = {txtCedula, txtFirstname, txtLastname, txtPhone, txtAddress};
         eventField(textFields);
@@ -57,10 +58,10 @@ public class DialogClients extends JDialog {
         lbTitle.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         lbTitle.setForeground(new java.awt.Color(255, 255, 255));
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbTitle.setText("Cliente : Ramón José");
+        lbTitle.setText("Cliente : ");
 
         cbType.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        cbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V", "E" }));
+        cbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V-", "E-", "P-" }));
 
         txtCedula.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -113,9 +114,9 @@ public class DialogClients extends JDialog {
                                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(panelEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(panelEditLayout.createSequentialGroup()
-                                    .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtCedula))
+                                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditLayout.createSequentialGroup()
                                     .addComponent(cbCode, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

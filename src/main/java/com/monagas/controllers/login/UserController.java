@@ -37,12 +37,6 @@ public class UserController {
                 btnLogin.setEnabled(false);
                 btnForget.setEnabled(false);
 
-                JOptionPane.showMessageDialog(
-                        parent,
-                        "Iniciando Sessón...",
-                        "Sistema de Ventas - Información",
-                        JOptionPane.INFORMATION_MESSAGE);
-
                 if (cbRememberMe.isSelected()) {
                     CredentialManager.saveCredentials(username);
                 } else {

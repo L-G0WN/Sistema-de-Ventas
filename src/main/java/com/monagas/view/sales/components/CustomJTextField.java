@@ -19,16 +19,23 @@ public class CustomJTextField extends JTextField {
 
     private final int MAX_LENGTH = 50;
     private final int MAX_LENGTH_CEDULA = 8;
+    private final int MAX_LENGTH_RIF = 10;
+    private final int MAX_LENGTH_CODE = 4;
     private final int MAX_LENGTH_PHONE = 7;
+    private final int MAX_LENGTH_EMAIL = 255;
     private final int MAX_LENGTH_ADDRESS = 255;
 
     private static final Map<String, String> TYPE_MESSAGES = new HashMap<>();
 
     static {
+        TYPE_MESSAGES.put("Name", "Nombre");
         TYPE_MESSAGES.put("Firstname", "Nombre");
         TYPE_MESSAGES.put("Lastname", "Apellido");
         TYPE_MESSAGES.put("Cedula", "Cedula");
+        TYPE_MESSAGES.put("Code", "Codigo");
+        TYPE_MESSAGES.put("Rif", "Rif");
         TYPE_MESSAGES.put("Phone", "Número de teléfono");
+        TYPE_MESSAGES.put("Email", "Correo Electrónico (Opcional)");
         TYPE_MESSAGES.put("Address", "Dirección principal (Opcional)");
     }
 
@@ -58,14 +65,54 @@ public class CustomJTextField extends JTextField {
                         }
                     }
 
+                    if (getName().equals("Name")) {
+                        if (getText().length() >= MAX_LENGTH) {
+                            e.consume();
+                        }
+                    }
+
                     if (getName().equals("Cedula")) {
                         if (!Character.isDigit(c) || getText().length() >= MAX_LENGTH_CEDULA) {
                             e.consume();
                         }
                     }
 
+                    if (getName().equals("Code")) {
+                        if (!Character.isDigit(c) || getText().length() >= MAX_LENGTH_CODE) {
+                            e.consume();
+                        }
+                    }
+
+                    if (getName().equals("Rif")) {
+                        if (!Character.isDigit(c) || getText().length() >= MAX_LENGTH_RIF) {
+                            e.consume();
+                        }
+                    }
+
                     if (getName().equals("Phone")) {
                         if (!Character.isDigit(c) || getText().length() >= MAX_LENGTH_PHONE) {
+                            e.consume();
+                        }
+                    }
+
+                    if (getName().equals("Email")) {
+                        JTextField textField = (JTextField) e.getSource();
+                        String currentText = textField.getText();
+
+                        if (e.isControlDown() || e.isAltDown() || e.isMetaDown() || e.isShiftDown()) {
+                            return;
+                        }
+
+                        if (e.getExtendedKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                            if (!currentText.isEmpty()) {
+                                currentText = currentText.substring(0, (currentText.length() - 1));
+                                textField.setText(currentText);
+                            }
+                            e.consume();
+                            return;
+                        }
+
+                        if (c == ' ' || currentText.length() >= MAX_LENGTH_EMAIL) {
                             e.consume();
                         }
                     }
@@ -112,11 +159,7 @@ public class CustomJTextField extends JTextField {
     private void keyEvent(JTable table) {
         TableRowSorter<TableModel> SorterFilter = new TableRowSorter<>(table.getModel());
 
-        int[] columns = null;
-
-        if (getName() != null && getName().equals("Clients")) {
-            columns = new int[]{2, 3};
-        }
+        int[] columns = new int[]{2, 3};
 
         SorterFilter.setRowFilter(RowFilter.regexFilter("(?iu)" + getText(), columns));
         table.setRowSorter(SorterFilter);

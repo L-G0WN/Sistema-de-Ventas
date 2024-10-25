@@ -2,25 +2,25 @@ package com.monagas.services.sales;
 
 import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
-import com.monagas.entities.sales.Client;
+import com.monagas.entities.sales.Supplier;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import java.io.Serializable;
-import jakarta.persistence.Query;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import java.util.List;
 
-public class ClientService implements Serializable {
+public class SupplierService implements Serializable {
 
-    public ClientService(EntityManagerFactory emf) {
+    public SupplierService(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
-    public ClientService() {
+    public SupplierService() {
         emf = Persistence.createEntityManagerFactory("Sistema_de_VentasPU");
     }
 
@@ -30,24 +30,24 @@ public class ClientService implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Client client) throws Exception {
+    public void create(Supplier supplier) throws Exception {
         User currentUser = CurrentUser.getInstance().getUser();
         if (currentUser == null) {
             throw new Exception("Usuario no autenticado.");
         }
 
-        client.setRegisteredBy(currentUser);
+        supplier.setRegisteredBy(currentUser);
         EntityManager em = null;
 
         try {
             em = getEntityManager();
             em.getTransaction().begin();
 
-            if (doesSupplierExist(em, client.getType(), client.getCedula())) {
-                throw new Exception("La cédula \"" + client.getType() + client.getCedula() + "\" ya se encuentra registrada.");
+            if (doesSupplierExist(em, supplier.getType(), supplier.getRif())) {
+                throw new Exception("El rif \"" + supplier.getType() + supplier.getRif() + "\" ya se encuentra registrado.");
             }
 
-            em.persist(client);
+            em.persist(supplier);
             em.getTransaction().commit();
         } catch (Exception ex) {
             if (em != null && em.getTransaction().isActive()) {
@@ -61,31 +61,31 @@ public class ClientService implements Serializable {
         }
     }
 
-    public void edit(Client client) throws Exception {
+    public void edit(Supplier supplier) throws Exception {
         User currentUser = CurrentUser.getInstance().getUser();
         if (currentUser == null) {
             throw new Exception("Usuario no autenticado.");
         }
 
-        client.setUpdatedBy(currentUser);
+        supplier.setUpdatedBy(currentUser);
         EntityManager em = null;
 
         try {
             em = getEntityManager();
             em.getTransaction().begin();
 
-            Client existingSupplier = em.find(Client.class, client.getClientId());
+            Supplier existingSupplier = em.find(Supplier.class, supplier.getSupplierId());
             if (existingSupplier == null) {
-                throw new Exception("Cliente no encontrado.");
+                throw new Exception("Proveedor no encontrado.");
             }
 
-            if (doesSupplierExist(em, client.getType(), client.getCedula())) {
-                if (!existingSupplier.getCedula().equals(client.getCedula())) {
-                    throw new Exception("La cédula \"" + client.getType() + client.getCedula() + "\" ya se encuentra registrada.");
+            if (doesSupplierExist(em, supplier.getType(), supplier.getRif())) {
+                if (!existingSupplier.getRif().equals(supplier.getRif())) {
+                    throw new Exception("El rif \"" + supplier.getType() + supplier.getRif() + "\" ya se encuentra registrado.");
                 }
             }
 
-            em.merge(client);
+            em.merge(supplier);
             em.getTransaction().commit();
         } catch (Exception ex) {
             if (em != null && em.getTransaction().isActive()) {
@@ -105,12 +105,12 @@ public class ClientService implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
 
-            Client client = em.find(Client.class, id);
-            if (client == null) {
-                throw new Exception("Cliente no encontrado.");
+            Supplier supplier = em.find(Supplier.class, id);
+            if (supplier == null) {
+                throw new Exception("Proveedor no encontrado.");
             }
 
-            em.remove(client);
+            em.remove(supplier);
             em.getTransaction().commit();
             return true;
         } catch (Exception ex) {
@@ -125,32 +125,32 @@ public class ClientService implements Serializable {
         }
     }
 
-    private boolean doesSupplierExist(EntityManager em, String type, String cedula) {
-        String query = "SELECT COUNT(c) FROM Client c WHERE c.type = :type AND c.cedula = :cedula";
+    private boolean doesSupplierExist(EntityManager em, String type, String rif) {
+        String query = "SELECT COUNT(s) FROM Supplier s WHERE s.type = :type AND s.rif = :rif";
         Long count = em.createQuery(query, Long.class)
                 .setParameter("type", type)
-                .setParameter("cedula", cedula)
+                .setParameter("rif", rif)
                 .getSingleResult();
         return count > 0;
     }
 
-    public List<Client> findClientEntities() {
-        return findClientEntities(true, -1, -1);
+    public List<Supplier> findSupplierEntities() {
+        return findSupplierEntities(true, -1, -1);
     }
 
-    public List<Client> findClientEntities(int maxResults, int firstResult) {
-        return findClientEntities(false, maxResults, firstResult);
+    public List<Supplier> findSupplierEntities(int maxResults, int firstResult) {
+        return findSupplierEntities(false, maxResults, firstResult);
     }
 
-    private List<Client> findClientEntities(boolean all, int maxResults, int firstResult) {
+    private List<Supplier> findSupplierEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<Client> cq = cb.createQuery(Client.class);
-            Root<Client> rt = cq.from(Client.class);
+            CriteriaQuery<Supplier> cq = cb.createQuery(Supplier.class);
+            Root<Supplier> rt = cq.from(Supplier.class);
             cq.select(rt);
 
-            TypedQuery<Client> q = em.createQuery(cq);
+            TypedQuery<Supplier> q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
@@ -161,21 +161,21 @@ public class ClientService implements Serializable {
         }
     }
 
-    public Client findClientById(Long id) {
+    public Supplier findSupplierById(Long id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Client.class, id);
+            return em.find(Supplier.class, id);
         } finally {
             em.close();
         }
     }
 
-    public Long getClientCount() {
+    public Long getSupplierCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-            Root<Client> rt = cq.from(Client.class);
+            Root<Supplier> rt = cq.from(Supplier.class);
             cq.select(cb.count(rt));
 
             Query q = em.createQuery(cq);

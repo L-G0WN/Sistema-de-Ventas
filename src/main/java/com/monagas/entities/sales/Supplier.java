@@ -20,30 +20,30 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "Clients")
+@Table(name = "Suppliers")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Client implements Serializable {
+public class Supplier implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "client_id")
-    private Long clientId;
+    @Column(name = "supplier_id")
+    private Long supplierId;
 
     @Column(name = "type", length = 2, nullable = false)
     private String type;
 
-    @Column(name = "cedula", length = 50, nullable = false)
-    private String cedula;
+    @Column(name = "rif", length = 50, nullable = false)
+    private String rif;
 
-    @Column(name = "firstname", length = 50, nullable = false)
-    private String firstname;
+    @Column(name = "name", length = 50, nullable = false)
+    private String name;
 
-    @Column(name = "lastname", length = 50, nullable = false)
-    private String lastname;
+    @Column(name = "email", length = 255, nullable = true)
+    private String email;
 
     @Column(name = "code", length = 4, nullable = false)
     private String code;

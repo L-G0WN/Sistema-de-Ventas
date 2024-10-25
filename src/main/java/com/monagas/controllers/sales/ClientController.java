@@ -20,20 +20,47 @@ public class ClientController {
     private final ClientService clientService = new ClientService();
     private final User currentUser = CurrentUser.getInstance().getUser();
 
-    public boolean save() {
+    public Client createClient(Frame parent, JDialog dialog, JTable table, JComboBox cbType, JTextField txtCedula, JTextField txtFirstname, JTextField txtLastname, JComboBox cbCode, JTextField txtPhone, JTextField txtAddress) {
+        String type = cbType.getSelectedItem().toString();
+        String cedula = txtCedula.getText().toUpperCase();
+        String firstname = txtFirstname.getText().toUpperCase();
+        String lastname = txtLastname.getText().toUpperCase();
+        String code = cbCode.getSelectedItem().toString();
+        String phone = txtPhone.getText();
+        String address = txtAddress.getText().toUpperCase();
 
         Client client = new Client();
 
-        client.setType("V");
-        client.setCedula("28394776");
-        client.setFirstname("ANGELES");
-        client.setLastname("HERNANDEZ");
-        client.setCode("0424");
-        client.setPhone("9308226");
-        client.setRegisteredBy(currentUser);
+        if (!cedula.isEmpty() && !firstname.isEmpty() && !lastname.isEmpty() && !phone.isEmpty()) {
+            client.setType(type);
+            client.setCedula(cedula);
+            client.setFirstname(firstname);
+            client.setLastname(lastname);
+            client.setCode(code);
+            client.setPhone(phone);
+            client.setAddress(address);
+            client.setRegisteredBy(currentUser);
 
-        clientService.create(client);
-        return true;
+            try {
+                clientService.create(client);
+                dialog.dispose();
+                loadClients(table);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
+                        parent,
+                        ex.getMessage(),
+                        "Sistema de Ventas - Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    parent,
+                    "Por favor, complete todos los campos requeridos para actualizar.",
+                    "Sistema de Ventas - Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+
+        return client;
     }
 
     public Client editClient(Frame parent, JDialog dialog, JTable table, Long id, JComboBox cbType, JTextField txtCedula, JTextField txtFirstname, JTextField txtLastname, JComboBox cbCode, JTextField txtPhone, JTextField txtAddress) {

@@ -2,7 +2,7 @@ package com.monagas.application;
 
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
-import com.monagas.controllers.DataInitializer;
+import com.monagas.services.DataInitializer;
 import com.monagas.view.login.Login;
 import javax.swing.JOptionPane;
 

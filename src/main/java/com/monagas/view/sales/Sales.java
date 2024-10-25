@@ -1,6 +1,6 @@
 package com.monagas.view.sales;
 
-import com.monagas.api.CurrencyApp;
+import com.monagas.api.CurrencyApi;
 import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
 import com.monagas.view.sales.forms.Clients;
@@ -17,7 +17,7 @@ public class Sales extends JFrame {
 
     private final User currentUser = CurrentUser.getInstance().getUser();
 
-    private CurrencyApp currency = new CurrencyApp();
+    private CurrencyApi currency = new CurrencyApi();
 
     public Sales() {
         initComponents();
@@ -27,7 +27,7 @@ public class Sales extends JFrame {
 
         tpWindows.addTab("Clientes Registrados (F1)", new Clients(this));
         tpWindows.addTab("Productos (F2)", new Products());
-        tpWindows.addTab("Proveedores (F4)", new Suppliers());
+        tpWindows.addTab("Proveedores (F4)", new Suppliers(this));
         tpWindows.addTab("Ventas (F5)", new Sellings());
 
         currentUser();
