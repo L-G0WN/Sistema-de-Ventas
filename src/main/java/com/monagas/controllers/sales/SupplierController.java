@@ -40,7 +40,7 @@ public class SupplierController {
             supplier.setPhone(phone);
             supplier.setAddress(address);
             supplier.setRegisteredBy(currentUser);
-            
+
             try {
                 supplierService.create(supplier);
                 dialog.dispose();
@@ -107,16 +107,12 @@ public class SupplierController {
         return supplier;
     }
 
-    public void deleteSupplier(Frame parent, JTable table, Long id) {
+    public void deleteSupplier(Frame parent, JDialog dialog, JTable table, Long id) {
         try {
             boolean isDeleted = supplierService.destroy(id);
 
             if (isDeleted) {
-                JOptionPane.showMessageDialog(
-                        parent,
-                        "Se ha eliminado con éxito al cliente registrado.",
-                        "Sistema de Ventas - Información",
-                        JOptionPane.INFORMATION_MESSAGE);
+                dialog.dispose();
                 loadSuppliers(table);
             }
         } catch (Exception ex) {

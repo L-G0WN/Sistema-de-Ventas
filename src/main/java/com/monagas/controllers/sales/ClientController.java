@@ -107,16 +107,12 @@ public class ClientController {
         return client;
     }
 
-    public void deleteClient(Frame parent, JTable table, Long id) {
+    public void deleteClient(Frame parent, JDialog dialog, JTable table, Long id) {
         try {
             boolean isDeleted = clientService.destroy(id);
 
             if (isDeleted) {
-                JOptionPane.showMessageDialog(
-                        parent,
-                        "Se ha eliminado con éxito al cliente registrado.",
-                        "Sistema de Ventas - Información",
-                        JOptionPane.INFORMATION_MESSAGE);
+                dialog.dispose();
                 loadClients(table);
             }
         } catch (Exception ex) {

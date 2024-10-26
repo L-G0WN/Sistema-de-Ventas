@@ -4,13 +4,13 @@ import com.monagas.controllers.sales.SupplierController;
 import com.monagas.view.sales.components.CustomJPanel;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
+import com.monagas.view.sales.forms.dialogs.DialogConfirm;
 import com.monagas.view.sales.forms.dialogs.DialogSuppliers;
 import com.monagas.view.sales.renderer.cell.TableActionCellEditor;
 import com.monagas.view.sales.renderer.cell.TableActionCellRender;
 import com.monagas.view.sales.renderer.cell.TableActionEvent;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
-import javax.swing.JOptionPane;
 
 public class Suppliers extends CustomJPanel {
 
@@ -33,18 +33,8 @@ public class Suppliers extends CustomJPanel {
 
             @Override
             public void onDelete(int row) {
-                StringBuilder message = new StringBuilder();
-
-                message.append("Le solicitamos su confirmación para proceder con la eliminación de la información del proveedor. ")
-                        .append("Esta acción es irreversible y resultará en la pérdida permanente de todos los datos asociados. ")
-                        .append("Agradecemos su atención a este asunto y le pedimos que confirme si desea continuar con este proceso.");
-
-                int confirm = JOptionPane.showConfirmDialog(parent, message, "Sistema de Ventas", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-
-                if (confirm == 0) {
-                    Long id = Long.valueOf(tblSuppliers.getValueAt(row, 1).toString().substring(1));
-                    controller.deleteSupplier(parent, tblSuppliers, id);
-                }
+                Long id = Long.valueOf(tblSuppliers.getValueAt(row, 1).toString().substring(1));
+                new DialogConfirm(parent, true, tblSuppliers, id, "Suppliers").setVisible(true);
             }
         };
 
