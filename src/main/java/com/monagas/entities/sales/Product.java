@@ -20,39 +20,38 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "Clients")
+@Table(name = "Products")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Client implements Serializable {
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "client_id")
-    private Long clientId;
+    @Column(name = "product_id")
+    private Long productId;
 
-    @Column(name = "type", length = 2, nullable = false)
-    private String type;
+    @Column(name = "description", length = 255, nullable = false)
+    private String description;
 
-    @Column(name = "cedula", length = 50, unique = true, nullable = false)
-    private String cedula;
+    @Column(name = "price", nullable = false)
+    private Double price;
 
-    @Column(name = "firstname", length = 50, nullable = false)
-    private String firstname;
+    @Column(name = "purchase", nullable = false)
+    private Double purchase;
 
-    @Column(name = "lastname", length = 50, nullable = false)
-    private String lastname;
+    @Column(name = "amount", nullable = false)
+    private Integer amount;
 
-    @Column(name = "code", length = 4, nullable = false)
-    private String code;
+    @ManyToOne
+    @JoinColumn(name = "brand", referencedColumnName = "brand_id", nullable = true)
+    private Brand brand;
 
-    @Column(name = "phone", length = 7, nullable = false)
-    private String phone;
-
-    @Column(name = "address", length = 255, nullable = true)
-    private String address;
+    @ManyToOne
+    @JoinColumn(name = "categoriy", referencedColumnName = "category_id", nullable = true)
+    private Category category;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)

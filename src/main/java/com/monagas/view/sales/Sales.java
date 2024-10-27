@@ -26,7 +26,7 @@ public class Sales extends JFrame {
         tpWindows.putClientProperty("JTabbedPane.hasFullBorder", true);
 
         tpWindows.addTab("Clientes Registrados (F1)", new Clients(this));
-        tpWindows.addTab("Productos (F2)", new Products());
+        tpWindows.addTab("Productos (F2)", new Products(this));
         tpWindows.addTab("Proveedores (F4)", new Suppliers(this));
         tpWindows.addTab("Ventas (F5)", new Sellings());
 

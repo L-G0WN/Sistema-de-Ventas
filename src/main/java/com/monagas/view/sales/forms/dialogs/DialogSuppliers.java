@@ -1,6 +1,5 @@
 package com.monagas.view.sales.forms.dialogs;
 
-import com.monagas.controllers.sales.ClientController;
 import com.monagas.controllers.sales.SupplierController;
 import com.monagas.view.sales.components.CustomJTextField;
 import java.awt.Color;

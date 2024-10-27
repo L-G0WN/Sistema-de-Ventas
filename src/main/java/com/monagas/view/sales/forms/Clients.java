@@ -66,7 +66,7 @@ public class Clients extends CustomJPanel {
 
             },
             new String [] {
-                "N°", "ID", "CEDULA", "NOMBRE Y APELLIDO", "TELÉFONO", "DIRECCIÓN PRINCIPAL", "REGISTRADO EN", "REGISTRADO POR", "ACTUALIZADO EN", "ACTUALIZADO POR", "ACCIONES"
+                "N°", "CODIGO", "CEDULA", "NOMBRE Y APELLIDO", "TELÉFONO", "DIRECCIÓN PRINCIPAL", "REGISTRADO EN", "REGISTRADO POR", "ACTUALIZADO EN", "ACTUALIZADO POR", "ACCIONES"
             }
         ) {
             Class[] types = new Class [] {
@@ -97,7 +97,7 @@ public class Clients extends CustomJPanel {
         spClients.setViewportView(tblClients);
         if (tblClients.getColumnModel().getColumnCount() > 0) {
             tblClients.getColumnModel().getColumn(0).setMaxWidth(50);
-            tblClients.getColumnModel().getColumn(1).setMaxWidth(50);
+            tblClients.getColumnModel().getColumn(1).setPreferredWidth(80);
             tblClients.getColumnModel().getColumn(10).setMinWidth(110);
         }
 

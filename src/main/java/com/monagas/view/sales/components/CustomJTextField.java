@@ -24,6 +24,8 @@ public class CustomJTextField extends JTextField {
     private final int MAX_LENGTH_PHONE = 7;
     private final int MAX_LENGTH_EMAIL = 255;
     private final int MAX_LENGTH_ADDRESS = 255;
+    private final int MAX_LENGTH_DESCRIPTION = 255;
+    private final int MAX_LENGTH_AMOUNT = 10;
 
     private static final Map<String, String> TYPE_MESSAGES = new HashMap<>();
 
@@ -37,6 +39,10 @@ public class CustomJTextField extends JTextField {
         TYPE_MESSAGES.put("Phone", "Número de teléfono");
         TYPE_MESSAGES.put("Email", "Correo Electrónico (Opcional)");
         TYPE_MESSAGES.put("Address", "Dirección principal (Opcional)");
+        TYPE_MESSAGES.put("Description", "Descripción del Producto");
+        TYPE_MESSAGES.put("Price", "P.C.");
+        TYPE_MESSAGES.put("Purchase", "P.V.");
+        TYPE_MESSAGES.put("Amount", "Stock/Cantidad");
     }
 
     public CustomJTextField(String type) {
@@ -119,6 +125,24 @@ public class CustomJTextField extends JTextField {
 
                     if (getName().equals("Address")) {
                         if (getText().length() >= MAX_LENGTH_ADDRESS) {
+                            e.consume();
+                        }
+                    }
+
+                    if (getName().equals("Description")) {
+                        if (getText().length() >= MAX_LENGTH_DESCRIPTION) {
+                            e.consume();
+                        }
+                    }
+
+                    if (getName().equals("Price") || getName().equals("Purchase")) {
+                        if (!Character.isDigit(c) && c != '.') {
+                            e.consume();
+                        }
+                    }
+
+                    if (getName().equals("Amount")) {
+                        if (!Character.isDigit(c) || getText().length() >= MAX_LENGTH_AMOUNT) {
                             e.consume();
                         }
                     }

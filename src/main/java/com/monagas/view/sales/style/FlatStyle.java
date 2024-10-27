@@ -11,6 +11,7 @@ public class FlatStyle {
         table.setDefaultRenderer(Long.class, new TableCenterRenderer());
         table.setDefaultRenderer(String.class, new TableCenterRenderer());
         table.setDefaultRenderer(Object.class, new TableCenterRenderer());
+        table.setDefaultRenderer(Double.class, new TableCenterRenderer());
 
         table.getTableHeader().putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:@accentColor;"

@@ -66,7 +66,7 @@ public class Suppliers extends CustomJPanel {
 
             },
             new String [] {
-                "N°", "ID", "RIF", "NOMBRE", "TELÉFONO", "CORREO ELECTRÓNICO", "DIRECCIÓN", "REGISTRADO EN", "REGISTRADO POR", "ACTUALIZADO EN", "ACTUALIZADO POR", "ACCIONES"
+                "N°", "CODIGO", "RIF", "NOMBRE", "TELÉFONO", "CORREO ELECTRÓNICO", "DIRECCIÓN", "REGISTRADO EN", "REGISTRADO POR", "ACTUALIZADO EN", "ACTUALIZADO POR", "ACCIONES"
             }
         ) {
             Class[] types = new Class [] {
@@ -97,10 +97,10 @@ public class Suppliers extends CustomJPanel {
         spSuppliers.setViewportView(tblSuppliers);
         if (tblSuppliers.getColumnModel().getColumnCount() > 0) {
             tblSuppliers.getColumnModel().getColumn(0).setMaxWidth(50);
-            tblSuppliers.getColumnModel().getColumn(1).setMaxWidth(50);
+            tblSuppliers.getColumnModel().getColumn(1).setPreferredWidth(80);
         }
 
-        txtSearch.setName("Clients"); // NOI18N
+        txtSearch.setName("Suppliers"); // NOI18N
 
         btnRegister.setBackground(new java.awt.Color(40, 188, 72));
         btnRegister.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
