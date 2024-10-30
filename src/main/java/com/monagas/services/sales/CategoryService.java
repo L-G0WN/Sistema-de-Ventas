@@ -159,7 +159,7 @@ public class CategoryService implements Serializable {
     public Category findCategoryByName(String name) {
         EntityManager em = getEntityManager();
         try {
-            TypedQuery<Category> query = em.createQuery("SELECT b FROM Category b WHERE u.name = :name", Category.class);
+            TypedQuery<Category> query = em.createQuery("SELECT c FROM Category c WHERE c.name = :name", Category.class);
             query.setParameter("name", name);
             return query.getSingleResult();
         } catch (NoResultException e) {

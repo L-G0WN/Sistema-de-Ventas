@@ -1,5 +1,7 @@
 package com.monagas.view.sales.forms.dialogs;
 
+import com.monagas.controllers.sales.BrandController;
+import com.monagas.controllers.sales.CategoryController;
 import com.monagas.controllers.sales.ProductController;
 import com.monagas.view.sales.components.CustomJTextField;
 import java.awt.Color;
@@ -12,7 +14,9 @@ import javax.swing.JTextField;
 
 public class DialogProducts extends JDialog {
 
-    private final ProductController controller = new ProductController();
+    private final ProductController productController = new ProductController();
+    private final BrandController brandController = new BrandController();
+    private final CategoryController categoryController = new CategoryController();
 
     private final Frame parent;
     private final JTable table;
@@ -27,6 +31,9 @@ public class DialogProducts extends JDialog {
         this.isRegister = isRegister;
         initComponents();
 
+        categoryController.loadCategories(cbCategories);
+        brandController.loadBrands(cbBands);
+
         if (isRegister) {
             btnGeneral.setBackground(new Color(40, 188, 72));
             btnGeneral.setText("REGISTRAR");
@@ -36,7 +43,7 @@ public class DialogProducts extends JDialog {
             btnGeneral.setBackground(new java.awt.Color(232, 213, 42));
             btnGeneral.setText("ACTUALIZAR");
 
-            controller.loadProductById(id, txtDescription, txtPrice, txtPurchase, txtAmount, cbBands, cbCategories);
+            productController.loadProductById(id, txtDescription, txtPrice, txtPurchase, txtAmount, cbBands, cbCategories);
             lbTitle.setText("Producto : " + txtDescription.getText());
         }
 
@@ -54,8 +61,8 @@ public class DialogProducts extends JDialog {
         txtPrice = new CustomJTextField("Price");
         txtPurchase = new CustomJTextField("Purchase");
         txtAmount = new CustomJTextField("Amount");
-        cbBands = new javax.swing.JComboBox<>();
         cbCategories = new javax.swing.JComboBox<>();
+        cbBands = new javax.swing.JComboBox<>();
         btnCancel = new javax.swing.JButton();
         btnGeneral = new javax.swing.JButton();
 
@@ -78,9 +85,9 @@ public class DialogProducts extends JDialog {
 
         txtAmount.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        cbBands.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Seleccionar Marca" }));
+        cbCategories.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Seleccionar Categoría (Opcional)" }));
 
-        cbCategories.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Seleccionar Categoría" }));
+        cbBands.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Seleccionar Marca (Opcional)" }));
 
         btnCancel.setBackground(new java.awt.Color(185, 39, 39));
         btnCancel.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -141,9 +148,9 @@ public class DialogProducts extends JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cbBands, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbCategories, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbBands, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
@@ -168,9 +175,9 @@ public class DialogProducts extends JDialog {
 
     private void btnGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeneralActionPerformed
         if (isRegister) {
-            controller.createProduct(parent, this, table, txtDescription, txtPrice, txtPurchase, txtAmount, cbBands, cbCategories);
+            productController.createProduct(parent, this, table, txtDescription, txtPrice, txtPurchase, txtAmount, cbBands, cbCategories);
         } else {
-            controller.editProduct(parent, this, table, id, txtDescription, txtPrice, txtPurchase, txtAmount, cbBands, cbCategories);
+            productController.editProduct(parent, this, table, id, txtDescription, txtPrice, txtPurchase, txtAmount, cbBands, cbCategories);
         }
     }//GEN-LAST:event_btnGeneralActionPerformed
 

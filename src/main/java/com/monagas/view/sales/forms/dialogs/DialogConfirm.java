@@ -1,5 +1,7 @@
 package com.monagas.view.sales.forms.dialogs;
 
+import com.monagas.controllers.sales.BrandController;
+import com.monagas.controllers.sales.CategoryController;
 import com.monagas.controllers.sales.ClientController;
 import com.monagas.controllers.sales.ProductController;
 import com.monagas.controllers.sales.SupplierController;
@@ -11,6 +13,8 @@ public class DialogConfirm extends javax.swing.JDialog {
     private final ClientController clientController = new ClientController();
     private final SupplierController supplierController = new SupplierController();
     private final ProductController productController = new ProductController();
+    private final BrandController brandController = new BrandController();
+    private final CategoryController categoryController = new CategoryController();
 
     private final Frame parent;
     private final JTable table;
@@ -118,12 +122,11 @@ public class DialogConfirm extends javax.swing.JDialog {
                 supplierController.deleteSupplier(parent, this, table, id);
             case "Products" ->
                 productController.deleteProduct(parent, this, table, id);
-            case "Brands" -> {
-            }
-            case "Categories" -> {
-            }
-            default -> {
-            }
+            case "Categories" ->
+                categoryController.deleteCategory(parent, this, table, id);
+            case "Brands" ->
+                brandController.deleteBrand(parent, this, table, id);
+            default -> {}
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 

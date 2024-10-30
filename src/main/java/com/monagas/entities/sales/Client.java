@@ -36,7 +36,7 @@ public class Client implements Serializable {
     @Column(name = "type", length = 2, nullable = false)
     private String type;
 
-    @Column(name = "cedula", length = 50, unique = true, nullable = false)
+    @Column(name = "cedula", length = 50, nullable = false)
     private String cedula;
 
     @Column(name = "firstname", length = 50, nullable = false)

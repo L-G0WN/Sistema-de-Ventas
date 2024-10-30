@@ -159,7 +159,7 @@ public class BrandService implements Serializable {
     public Brand findBrandByName(String name) {
         EntityManager em = getEntityManager();
         try {
-            TypedQuery<Brand> query = em.createQuery("SELECT b FROM Brand b WHERE u.name = :name", Brand.class);
+            TypedQuery<Brand> query = em.createQuery("SELECT b FROM Brand b WHERE b.name = :name", Brand.class);
             query.setParameter("name", name);
             return query.getSingleResult();
         } catch (NoResultException e) {

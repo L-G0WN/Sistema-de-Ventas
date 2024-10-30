@@ -143,8 +143,8 @@ public class ProductController {
         txtPrice.setText(product.getPrice().toString());
         txtPurchase.setText(product.getPurchase().toString());
         txtAmount.setText(product.getAmount().toString());
-        cbBrands.setSelectedItem((product.getBrand() != null) ? product.getBrand().getName() : "-- Seleccionar Marca");
-        cbCategories.setSelectedItem((product.getCategory() != null) ? product.getCategory().getName() : "-- Seleccionar Categoría");
+        cbBrands.setSelectedItem((product.getBrand() != null) ? product.getBrand().getName() : "-- Seleccionar Marca (Opcional)");
+        cbCategories.setSelectedItem((product.getCategory() != null) ? product.getCategory().getName() : "-- Seleccionar Categoría (Opcional)");
 
         return product;
     }

@@ -1,11 +1,14 @@
 package com.monagas.view.sales.forms;
 
+import com.monagas.controllers.sales.BrandController;
+import com.monagas.controllers.sales.CategoryController;
 import com.monagas.controllers.sales.ProductController;
 import com.monagas.view.sales.components.CustomJPanel;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
 import com.monagas.view.sales.forms.dialogs.DialogConfirm;
 import com.monagas.view.sales.forms.dialogs.DialogProducts;
+import com.monagas.view.sales.forms.dialogs.DialogSubProducts;
 import com.monagas.view.sales.renderer.cell.TableActionCellEditor;
 import com.monagas.view.sales.renderer.cell.TableActionCellRender;
 import com.monagas.view.sales.renderer.cell.TableActionEvent;
@@ -16,7 +19,9 @@ import javax.swing.JTable;
 
 public class Products extends CustomJPanel {
 
-    private final ProductController controller = new ProductController();
+    private final ProductController productController = new ProductController();
+    private final BrandController brandController = new BrandController();
+    private final CategoryController categoryController = new CategoryController();
 
     private final Frame parent;
 
@@ -36,16 +41,26 @@ public class Products extends CustomJPanel {
                 @Override
                 public void onEdit(int row) {
                     Long id = Long.valueOf(table.getValueAt(row, 1).toString().substring(2));
-                    if (table.getName().equals("Products")) {
-                        new DialogProducts(parent, true, table, id, false).setVisible(true);
+                    switch (table.getName()) {
+                        case "Products" ->
+                            new DialogProducts(parent, true, table, id, false).setVisible(true);
+                        case "Categories" ->
+                            new DialogSubProducts(parent, true, table, id, false, true).setVisible(true);
+                        default ->
+                            new DialogSubProducts(parent, true, table, id, false, false).setVisible(true);
                     }
                 }
 
                 @Override
                 public void onDelete(int row) {
                     Long id = Long.valueOf(table.getValueAt(row, 1).toString().substring(2));
-                    if (table.getName().equals("Products")) {
-                        new DialogConfirm(parent, true, table, id, "Products").setVisible(true);
+                    switch (table.getName()) {
+                        case "Products" ->
+                            new DialogConfirm(parent, true, table, id, "Products").setVisible(true);
+                        case "Categories" ->
+                            new DialogConfirm(parent, true, table, id, "Categories").setVisible(true);
+                        default ->
+                            new DialogConfirm(parent, true, table, id, "Brands").setVisible(true);
                     }
                 }
             };
@@ -54,7 +69,9 @@ public class Products extends CustomJPanel {
             table.getColumnModel().getColumn(table.getColumnCount() - 1).setCellEditor(new TableActionCellEditor(event));
         }
 
-        controller.loadProducts(tblProducts);
+        productController.loadProducts(tblProducts);
+        brandController.loadBrands(tblBrands);
+        categoryController.loadCategories(tblCategories);
     }
 
     @SuppressWarnings("unchecked")
@@ -276,11 +293,11 @@ public class Products extends CustomJPanel {
     }//GEN-LAST:event_btnProductActionPerformed
 
     private void btnCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryActionPerformed
-
+        new DialogSubProducts(parent, true, tblCategories, null, true, true).setVisible(true);
     }//GEN-LAST:event_btnCategoryActionPerformed
 
     private void btnBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrandActionPerformed
-
+        new DialogSubProducts(parent, true, tblBrands, null, true, false).setVisible(true);
     }//GEN-LAST:event_btnBrandActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
