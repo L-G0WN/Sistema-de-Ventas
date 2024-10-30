@@ -28,9 +28,9 @@ public class ProductController {
 
     public Product createProduct(Frame parent, JDialog dialog, JTable table, JTextField txtDescription, JTextField txtPrice, JTextField txtPurchase, JTextField txtAmount, JComboBox cbBrands, JComboBox cbCategories) {
         String description = txtDescription.getText().toUpperCase();
-        Double price = Double.valueOf(txtPrice.getText());
-        Double purchase = Double.valueOf(txtPurchase.getText());
-        Integer amount = Integer.valueOf(txtAmount.getText());
+        Double price = (txtPrice.getText() != null && !txtPrice.getText().isEmpty()) ? Double.valueOf(txtPrice.getText()) : null;
+        Double purchase = (txtPurchase != null && !txtPurchase.getText().isEmpty()) ? Double.valueOf(txtPurchase.getText()) : null;
+        Integer amount = (txtAmount != null && !txtAmount.getText().isEmpty()) ? Integer.valueOf(txtAmount.getText()) : null;
         String brandName = (cbBrands.getSelectedIndex() == 0) ? null : cbBrands.getSelectedItem().toString();
         String categoryName = (cbCategories.getSelectedIndex() == 0) ? null : cbCategories.getSelectedItem().toString();
 
@@ -38,7 +38,7 @@ public class ProductController {
         Brand brand;
         Category category;
 
-        if (!description.isEmpty() && price != 0 && purchase != 0 && amount != 0) {
+        if (!description.isEmpty() && price != null && purchase != null && amount != null) {
             brand = (brandName != null) ? brandService.findBrandByName(brandName) : null;
             category = (categoryName != null) ? categoryService.findCategoryByName(categoryName) : null;
 
@@ -138,7 +138,7 @@ public class ProductController {
 
     public Product loadProductById(Long id, JTextField txtDescription, JTextField txtPrice, JTextField txtPurchase, JTextField txtAmount, JComboBox cbBrands, JComboBox cbCategories) {
         Product product = productService.findProductById(id);
-        
+
         txtDescription.setText(product.getDescription());
         txtPrice.setText(product.getPrice().toString());
         txtPurchase.setText(product.getPurchase().toString());
