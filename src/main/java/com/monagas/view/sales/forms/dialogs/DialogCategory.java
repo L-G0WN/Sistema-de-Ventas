@@ -1,6 +1,5 @@
 package com.monagas.view.sales.forms.dialogs;
 
-import com.monagas.controllers.sales.BrandController;
 import com.monagas.controllers.sales.CategoryController;
 import com.monagas.view.sales.components.CustomJTextField;
 import java.awt.Color;
@@ -11,46 +10,34 @@ import javax.swing.JDialog;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public class DialogSubProducts extends JDialog {
+public class DialogCategory extends JDialog {
 
-    private final BrandController brandController = new BrandController();
     private final CategoryController categoryController = new CategoryController();
 
     private final Frame parent;
     private final JTable table;
     private final Long id;
     private final boolean isRegister;
-    private final boolean isCategory;
 
-    public DialogSubProducts(Frame parent, boolean modal, JTable table, Long id, boolean isRegister, boolean isCategory) {
+    public DialogCategory(Frame parent, boolean modal, JTable table, Long id, boolean isRegister) {
         super(parent, modal);
         this.parent = parent;
         this.table = table;
         this.id = id;
         this.isRegister = isRegister;
-        this.isCategory = isCategory;
         initComponents();
 
         if (isRegister) {
             btnGeneral.setBackground(new Color(40, 188, 72));
             btnGeneral.setText("REGISTRAR");
 
-            if (isCategory) {
-                lbTitle.setText("Registrar Categoría");
-            } else {
-                lbTitle.setText("Registrar Marca");
-            }
+            lbTitle.setText("Registrar Categoría");
         } else {
             btnGeneral.setBackground(new java.awt.Color(232, 213, 42));
             btnGeneral.setText("ACTUALIZAR");
 
-            if (isCategory) {
-                categoryController.loadCategoryById(id, txtName);
-                lbTitle.setText("Categoría : " + txtName.getText());
-            } else {
-                brandController.loadBrandById(id, txtName);
-                lbTitle.setText("Marca : " + txtName.getText());
-            }
+            categoryController.loadCategoryById(id, txtName);
+            lbTitle.setText("Categoría : " + txtName.getText());
         }
 
         eventField(txtName);
@@ -146,17 +133,9 @@ public class DialogSubProducts extends JDialog {
 
     private void btnGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeneralActionPerformed
         if (isRegister) {
-            if (isCategory) {
-                categoryController.createCategory(parent, this, table, txtName);
-            } else {
-                brandController.createBrand(parent, this, table, txtName);
-            }
+            categoryController.createCategory(parent, this, table, txtName);
         } else {
-            if (isCategory) {
-                categoryController.editCategory(parent, this, table, id, txtName);
-            } else {
-                brandController.editBrand(parent, this, table, id, txtName);
-            }
+            categoryController.editCategory(parent, this, table, id, txtName);
         }
     }//GEN-LAST:event_btnGeneralActionPerformed
 

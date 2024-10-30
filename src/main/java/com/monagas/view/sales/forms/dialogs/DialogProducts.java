@@ -1,8 +1,8 @@
 package com.monagas.view.sales.forms.dialogs;
 
-import com.monagas.controllers.sales.BrandController;
 import com.monagas.controllers.sales.CategoryController;
 import com.monagas.controllers.sales.ProductController;
+import com.monagas.controllers.sales.SupplierController;
 import com.monagas.view.sales.components.CustomJTextField;
 import java.awt.Color;
 import java.awt.Frame;
@@ -15,8 +15,8 @@ import javax.swing.JTextField;
 public class DialogProducts extends JDialog {
 
     private final ProductController productController = new ProductController();
-    private final BrandController brandController = new BrandController();
     private final CategoryController categoryController = new CategoryController();
+    private final SupplierController supplierController  = new SupplierController();
 
     private final Frame parent;
     private final JTable table;
@@ -32,7 +32,7 @@ public class DialogProducts extends JDialog {
         initComponents();
 
         categoryController.loadCategories(cbCategories);
-        brandController.loadBrands(cbBands);
+        supplierController.loadSuppliers(cbSuppliers);
 
         if (isRegister) {
             btnGeneral.setBackground(new Color(40, 188, 72));
@@ -43,7 +43,7 @@ public class DialogProducts extends JDialog {
             btnGeneral.setBackground(new java.awt.Color(232, 213, 42));
             btnGeneral.setText("ACTUALIZAR");
 
-            productController.loadProductById(id, txtDescription, txtPrice, txtPurchase, txtAmount, cbBands, cbCategories);
+            productController.loadProductById(id, txtDescription, txtPrice, txtPurchase, txtAmount, cbCategories, cbSuppliers);
             lbTitle.setText("Producto : " + txtDescription.getText());
         }
 
@@ -62,7 +62,7 @@ public class DialogProducts extends JDialog {
         txtPurchase = new CustomJTextField("Purchase");
         txtAmount = new CustomJTextField("Amount");
         cbCategories = new javax.swing.JComboBox<>();
-        cbBands = new javax.swing.JComboBox<>();
+        cbSuppliers = new javax.swing.JComboBox<>();
         btnCancel = new javax.swing.JButton();
         btnGeneral = new javax.swing.JButton();
 
@@ -87,7 +87,7 @@ public class DialogProducts extends JDialog {
 
         cbCategories.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Seleccionar Categoría (Opcional)" }));
 
-        cbBands.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Seleccionar Marca (Opcional)" }));
+        cbSuppliers.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Seleccionar Proveedor" }));
 
         btnCancel.setBackground(new java.awt.Color(185, 39, 39));
         btnCancel.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -125,13 +125,13 @@ public class DialogProducts extends JDialog {
                                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtDescription, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cbBands, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(cbCategories, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelGeneralLayout.createSequentialGroup()
                                     .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtPurchase, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(txtAmount, javax.swing.GroupLayout.Alignment.LEADING)))))
+                                .addComponent(txtAmount, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cbSuppliers, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelGeneralLayout.setVerticalGroup(
@@ -150,11 +150,11 @@ public class DialogProducts extends JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbCategories, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cbBands, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbSuppliers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(btnGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
                 .addGap(15, 15, 15))
         );
 
@@ -175,9 +175,9 @@ public class DialogProducts extends JDialog {
 
     private void btnGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeneralActionPerformed
         if (isRegister) {
-            productController.createProduct(parent, this, table, txtDescription, txtPrice, txtPurchase, txtAmount, cbBands, cbCategories);
+            productController.createProduct(parent, this, table, txtDescription, txtPrice, txtPurchase, txtAmount, cbCategories, cbSuppliers);
         } else {
-            productController.editProduct(parent, this, table, id, txtDescription, txtPrice, txtPurchase, txtAmount, cbBands, cbCategories);
+            productController.editProduct(parent, this, table, id, txtDescription, txtPrice, txtPurchase, txtAmount, cbCategories, cbSuppliers);
         }
     }//GEN-LAST:event_btnGeneralActionPerformed
 
@@ -201,8 +201,8 @@ public class DialogProducts extends JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnGeneral;
-    private javax.swing.JComboBox<String> cbBands;
     private javax.swing.JComboBox<String> cbCategories;
+    private javax.swing.JComboBox<String> cbSuppliers;
     private javax.swing.JLabel lbTitle;
     private javax.swing.JPanel panelGeneral;
     private javax.swing.JTextField txtAmount;

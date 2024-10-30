@@ -46,12 +46,12 @@ public class Product implements Serializable {
     private Integer amount;
 
     @ManyToOne
-    @JoinColumn(name = "brand", referencedColumnName = "brand_id", nullable = true)
-    private Brand brand;
-
-    @ManyToOne
     @JoinColumn(name = "categoriy", referencedColumnName = "category_id", nullable = true)
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "supplier", referencedColumnName = "supplier_id", nullable = false)
+    private Supplier supplier;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)

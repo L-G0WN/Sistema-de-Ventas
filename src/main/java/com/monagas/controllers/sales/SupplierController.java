@@ -124,6 +124,22 @@ public class SupplierController {
         }
     }
 
+    public List<Supplier> loadSuppliers(JComboBox<String> combo) {
+        if (combo.getItemCount() > 0) {
+            for (int i = 1; i < combo.getItemCount(); i++) {
+                combo.removeItemAt(i);
+            }
+        }
+
+        List<Supplier> suppliers = supplierService.findSupplierEntities();
+
+        for (Supplier supplier : suppliers) {
+            combo.addItem(supplier.getName());
+        }
+
+        return suppliers;
+    }
+
     public Supplier loadSupplierById(Long id, JComboBox cbType, JTextField txtRif, JTextField txtName, JTextField txtEmail, JTextField txtCode, JTextField txtPhone, JTextField txtAddress) {
         Supplier supplier = supplierService.findSupplierById(id);
 

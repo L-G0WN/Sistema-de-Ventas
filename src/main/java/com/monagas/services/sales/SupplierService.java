@@ -5,6 +5,7 @@ import com.monagas.entities.login.User;
 import com.monagas.entities.sales.Supplier;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 import java.io.Serializable;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
@@ -165,6 +166,19 @@ public class SupplierService implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return em.find(Supplier.class, id);
+        } finally {
+            em.close();
+        }
+    }
+
+    public Supplier findSupplierByName(String name) {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Supplier> query = em.createQuery("SELECT s FROM Supplier s WHERE s.name = :name", Supplier.class);
+            query.setParameter("name", name);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
         } finally {
             em.close();
         }

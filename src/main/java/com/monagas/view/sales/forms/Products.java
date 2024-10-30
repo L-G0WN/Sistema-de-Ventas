@@ -1,6 +1,5 @@
 package com.monagas.view.sales.forms;
 
-import com.monagas.controllers.sales.BrandController;
 import com.monagas.controllers.sales.CategoryController;
 import com.monagas.controllers.sales.ProductController;
 import com.monagas.view.sales.components.CustomJPanel;
@@ -8,7 +7,7 @@ import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
 import com.monagas.view.sales.forms.dialogs.DialogConfirm;
 import com.monagas.view.sales.forms.dialogs.DialogProducts;
-import com.monagas.view.sales.forms.dialogs.DialogSubProducts;
+import com.monagas.view.sales.forms.dialogs.DialogCategory;
 import com.monagas.view.sales.renderer.cell.TableActionCellEditor;
 import com.monagas.view.sales.renderer.cell.TableActionCellRender;
 import com.monagas.view.sales.renderer.cell.TableActionEvent;
@@ -20,7 +19,6 @@ import javax.swing.JTable;
 public class Products extends CustomJPanel {
 
     private final ProductController productController = new ProductController();
-    private final BrandController brandController = new BrandController();
     private final CategoryController categoryController = new CategoryController();
 
     private final Frame parent;
@@ -29,8 +27,8 @@ public class Products extends CustomJPanel {
         this.parent = parent;
         initComponents();
 
-        JScrollPane[] scrollpanes = {spProducts, spCategories, spBrands};
-        JTable[] tables = {tblProducts, tblCategories, tblBrands};
+        JScrollPane[] scrollpanes = {spProducts};
+        JTable[] tables = {tblProducts};
 
         for (JTable table : tables) {
             for (JScrollPane scrollpane : scrollpanes) {
@@ -44,10 +42,8 @@ public class Products extends CustomJPanel {
                     switch (table.getName()) {
                         case "Products" ->
                             new DialogProducts(parent, true, table, id, false).setVisible(true);
-                        case "Categories" ->
-                            new DialogSubProducts(parent, true, table, id, false, true).setVisible(true);
                         default ->
-                            new DialogSubProducts(parent, true, table, id, false, false).setVisible(true);
+                            new DialogCategory(parent, true, table, id, false).setVisible(true);
                     }
                 }
 
@@ -57,10 +53,8 @@ public class Products extends CustomJPanel {
                     switch (table.getName()) {
                         case "Products" ->
                             new DialogConfirm(parent, true, table, id, "Products").setVisible(true);
-                        case "Categories" ->
-                            new DialogConfirm(parent, true, table, id, "Categories").setVisible(true);
                         default ->
-                            new DialogConfirm(parent, true, table, id, "Brands").setVisible(true);
+                            new DialogConfirm(parent, true, table, id, "Categories").setVisible(true);
                     }
                 }
             };
@@ -70,8 +64,7 @@ public class Products extends CustomJPanel {
         }
 
         productController.loadProducts(tblProducts);
-        brandController.loadBrands(tblBrands);
-        categoryController.loadCategories(tblCategories);
+        //categoryController.loadCategories(tblCategories);
     }
 
     @SuppressWarnings("unchecked")
@@ -82,12 +75,7 @@ public class Products extends CustomJPanel {
         tblProducts = new CustomJTable();
         txtSearch = new CustomJTextField(tblProducts);
         btnProduct = new javax.swing.JButton();
-        spCategories = new javax.swing.JScrollPane();
-        tblCategories = new CustomJTable();
         btnCategory = new javax.swing.JButton();
-        spBrands = new javax.swing.JScrollPane();
-        tblBrands = new CustomJTable();
-        btnBrand = new javax.swing.JButton();
 
         tblProducts.setAutoCreateRowSorter(true);
         tblProducts.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -96,7 +84,7 @@ public class Products extends CustomJPanel {
 
             },
             new String [] {
-                "N°", "CODIGO", "DESCRIPCIÓN", "P.C.", "P.V.", "MARCA", "STOCK", "CATEGORÍA", "REGISTRADO EN", "REGISTRADO POR", "ACTUALIZADO EN", "ACTUALIZADO POR", "ACCIONES"
+                "N°", "CODIGO", "DESCRIPCIÓN", "P.C.", "P.V.", "STOCK", "CATEGORÍA", "PROVEEDOR", "REGISTRADO EN", "REGISTRADO POR", "ACTUALIZADO EN", "ACTUALIZADO POR", "ACCIONES"
             }
         ) {
             Class[] types = new Class [] {
@@ -130,7 +118,7 @@ public class Products extends CustomJPanel {
             tblProducts.getColumnModel().getColumn(1).setPreferredWidth(80);
             tblProducts.getColumnModel().getColumn(3).setPreferredWidth(60);
             tblProducts.getColumnModel().getColumn(4).setPreferredWidth(60);
-            tblProducts.getColumnModel().getColumn(6).setPreferredWidth(60);
+            tblProducts.getColumnModel().getColumn(5).setPreferredWidth(60);
         }
 
         txtSearch.setName("Products"); // NOI18N
@@ -145,105 +133,13 @@ public class Products extends CustomJPanel {
             }
         });
 
-        tblCategories.setAutoCreateRowSorter(true);
-        tblCategories.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        tblCategories.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "N°", "CODIGO", "NOMBRE", "ACCIONES"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblCategories.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        tblCategories.setGridColor(new java.awt.Color(102, 102, 102));
-        tblCategories.setIntercellSpacing(new java.awt.Dimension(0, 1));
-        tblCategories.setName("Categories"); // NOI18N
-        tblCategories.setRowHeight(30);
-        tblCategories.setSelectionBackground(new java.awt.Color(230, 230, 230));
-        tblCategories.setSelectionForeground(new java.awt.Color(51, 51, 51));
-        tblCategories.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblCategories.setShowGrid(true);
-        tblCategories.getTableHeader().setReorderingAllowed(false);
-        spCategories.setViewportView(tblCategories);
-        if (tblCategories.getColumnModel().getColumnCount() > 0) {
-            tblCategories.getColumnModel().getColumn(0).setMaxWidth(50);
-            tblCategories.getColumnModel().getColumn(1).setPreferredWidth(80);
-        }
-
         btnCategory.setBackground(new java.awt.Color(40, 188, 72));
         btnCategory.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnCategory.setForeground(new java.awt.Color(255, 255, 255));
-        btnCategory.setText("REGISTRAR CATEGORIA");
+        btnCategory.setText("CATEGORÍAS");
         btnCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCategoryActionPerformed(evt);
-            }
-        });
-
-        tblBrands.setAutoCreateRowSorter(true);
-        tblBrands.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        tblBrands.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "N°", "CODIGO", "NOMBRE", "ACCIONES"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblBrands.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        tblBrands.setGridColor(new java.awt.Color(102, 102, 102));
-        tblBrands.setIntercellSpacing(new java.awt.Dimension(0, 1));
-        tblBrands.setName("Brands"); // NOI18N
-        tblBrands.setRowHeight(30);
-        tblBrands.setSelectionBackground(new java.awt.Color(230, 230, 230));
-        tblBrands.setSelectionForeground(new java.awt.Color(51, 51, 51));
-        tblBrands.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblBrands.setShowGrid(true);
-        tblBrands.getTableHeader().setReorderingAllowed(false);
-        spBrands.setViewportView(tblBrands);
-        if (tblBrands.getColumnModel().getColumnCount() > 0) {
-            tblBrands.getColumnModel().getColumn(0).setMaxWidth(50);
-            tblBrands.getColumnModel().getColumn(1).setPreferredWidth(80);
-        }
-
-        btnBrand.setBackground(new java.awt.Color(40, 188, 72));
-        btnBrand.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnBrand.setForeground(new java.awt.Color(255, 255, 255));
-        btnBrand.setText("REGISTRAR MARCA");
-        btnBrand.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBrandActionPerformed(evt);
             }
         });
 
@@ -257,14 +153,10 @@ public class Products extends CustomJPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtSearch))
-                    .addComponent(spProducts, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE))
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(spCategories, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(spBrands, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(btnBrand, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCategory, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+                        .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spProducts))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -276,14 +168,7 @@ public class Products extends CustomJPanel {
                     .addComponent(btnProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(spCategories, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBrand, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spBrands, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addComponent(spProducts, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE))
+                .addComponent(spProducts, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -293,22 +178,13 @@ public class Products extends CustomJPanel {
     }//GEN-LAST:event_btnProductActionPerformed
 
     private void btnCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryActionPerformed
-        new DialogSubProducts(parent, true, tblCategories, null, true, true).setVisible(true);
+        //new DialogCategory(parent, true, tblCategories, null, true).setVisible(true);
     }//GEN-LAST:event_btnCategoryActionPerformed
 
-    private void btnBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrandActionPerformed
-        new DialogSubProducts(parent, true, tblBrands, null, true, false).setVisible(true);
-    }//GEN-LAST:event_btnBrandActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBrand;
     private javax.swing.JButton btnCategory;
     private javax.swing.JButton btnProduct;
-    private javax.swing.JScrollPane spBrands;
-    private javax.swing.JScrollPane spCategories;
     private javax.swing.JScrollPane spProducts;
-    private javax.swing.JTable tblBrands;
-    private javax.swing.JTable tblCategories;
     private javax.swing.JTable tblProducts;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
