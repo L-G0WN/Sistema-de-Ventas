@@ -111,6 +111,14 @@ public class SupplierService implements Serializable {
                 throw new Exception("Proveedor no encontrado.");
             }
 
+            long count = (long) em.createQuery("SELECT COUNT(p) FROM Product p WHERE p.supplier.id = :supplierId")
+                    .setParameter("supplierId", id)
+                    .getSingleResult();
+
+            if (count > 0) {
+                throw new Exception("No se puede eliminar el proveedor porque hay productos asociados a ella.");
+            }
+
             em.remove(supplier);
             em.getTransaction().commit();
             return true;

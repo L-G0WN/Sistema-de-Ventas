@@ -96,7 +96,7 @@ public class Suppliers extends CustomJPanel {
         tblSuppliers.getTableHeader().setReorderingAllowed(false);
         spSuppliers.setViewportView(tblSuppliers);
         if (tblSuppliers.getColumnModel().getColumnCount() > 0) {
-            tblSuppliers.getColumnModel().getColumn(0).setMaxWidth(50);
+            tblSuppliers.getColumnModel().getColumn(0).setPreferredWidth(50);
             tblSuppliers.getColumnModel().getColumn(1).setPreferredWidth(80);
         }
 

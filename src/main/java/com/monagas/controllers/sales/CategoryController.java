@@ -53,7 +53,7 @@ public class CategoryController {
         if (!name.isEmpty()) {
             category.setCategoryId(id);
             category.setName(name);
-            
+
             try {
                 categoryService.edit(category);
                 dialog.dispose();
@@ -128,7 +128,8 @@ public class CategoryController {
             model.addRow(new Object[]{
                 count++,
                 "CT" + category.getCategoryId(),
-                category.getName(),});
+                category.getName()
+            });
         }
 
         return categories;

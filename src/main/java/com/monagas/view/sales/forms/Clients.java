@@ -96,7 +96,7 @@ public class Clients extends CustomJPanel {
         tblClients.getTableHeader().setReorderingAllowed(false);
         spClients.setViewportView(tblClients);
         if (tblClients.getColumnModel().getColumnCount() > 0) {
-            tblClients.getColumnModel().getColumn(0).setMaxWidth(50);
+            tblClients.getColumnModel().getColumn(0).setPreferredWidth(50);
             tblClients.getColumnModel().getColumn(1).setPreferredWidth(80);
             tblClients.getColumnModel().getColumn(10).setMinWidth(110);
         }

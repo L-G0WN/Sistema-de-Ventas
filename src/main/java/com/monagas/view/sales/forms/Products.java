@@ -1,25 +1,21 @@
 package com.monagas.view.sales.forms;
 
-import com.monagas.controllers.sales.CategoryController;
 import com.monagas.controllers.sales.ProductController;
 import com.monagas.view.sales.components.CustomJPanel;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
+import com.monagas.view.sales.forms.dialogs.DialogCategory;
 import com.monagas.view.sales.forms.dialogs.DialogConfirm;
 import com.monagas.view.sales.forms.dialogs.DialogProducts;
-import com.monagas.view.sales.forms.dialogs.DialogCategory;
 import com.monagas.view.sales.renderer.cell.TableActionCellEditor;
 import com.monagas.view.sales.renderer.cell.TableActionCellRender;
 import com.monagas.view.sales.renderer.cell.TableActionEvent;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 public class Products extends CustomJPanel {
 
     private final ProductController productController = new ProductController();
-    private final CategoryController categoryController = new CategoryController();
 
     private final Frame parent;
 
@@ -27,44 +23,27 @@ public class Products extends CustomJPanel {
         this.parent = parent;
         initComponents();
 
-        JScrollPane[] scrollpanes = {spProducts};
-        JTable[] tables = {tblProducts};
+        FlatStyle.setStyle(spProducts, tblProducts);
 
-        for (JTable table : tables) {
-            for (JScrollPane scrollpane : scrollpanes) {
-                FlatStyle.setStyle(scrollpane, table);
+        TableActionEvent event = new TableActionEvent() {
+            @Override
+            public void onEdit(int row) {
+                Long id = Long.valueOf(tblProducts.getValueAt(row, 1).toString().substring(2));
+                new DialogProducts(parent, true, tblProducts, id, false).setVisible(true);
+
             }
 
-            TableActionEvent event = new TableActionEvent() {
-                @Override
-                public void onEdit(int row) {
-                    Long id = Long.valueOf(table.getValueAt(row, 1).toString().substring(2));
-                    switch (table.getName()) {
-                        case "Products" ->
-                            new DialogProducts(parent, true, table, id, false).setVisible(true);
-                        default ->
-                            new DialogCategory(parent, true, table, id, false).setVisible(true);
-                    }
-                }
+            @Override
+            public void onDelete(int row) {
+                Long id = Long.valueOf(tblProducts.getValueAt(row, 1).toString().substring(2));
+                new DialogConfirm(parent, true, tblProducts, id, "Products").setVisible(true);
+            }
+        };
 
-                @Override
-                public void onDelete(int row) {
-                    Long id = Long.valueOf(table.getValueAt(row, 1).toString().substring(2));
-                    switch (table.getName()) {
-                        case "Products" ->
-                            new DialogConfirm(parent, true, table, id, "Products").setVisible(true);
-                        default ->
-                            new DialogConfirm(parent, true, table, id, "Categories").setVisible(true);
-                    }
-                }
-            };
-
-            table.getColumnModel().getColumn(table.getColumnCount() - 1).setCellRenderer(new TableActionCellRender());
-            table.getColumnModel().getColumn(table.getColumnCount() - 1).setCellEditor(new TableActionCellEditor(event));
-        }
+        tblProducts.getColumnModel().getColumn(tblProducts.getColumnCount() - 1).setCellRenderer(new TableActionCellRender());
+        tblProducts.getColumnModel().getColumn(tblProducts.getColumnCount() - 1).setCellEditor(new TableActionCellEditor(event));
 
         productController.loadProducts(tblProducts);
-        //categoryController.loadCategories(tblCategories);
     }
 
     @SuppressWarnings("unchecked")
@@ -114,7 +93,7 @@ public class Products extends CustomJPanel {
         tblProducts.getTableHeader().setReorderingAllowed(false);
         spProducts.setViewportView(tblProducts);
         if (tblProducts.getColumnModel().getColumnCount() > 0) {
-            tblProducts.getColumnModel().getColumn(0).setMaxWidth(50);
+            tblProducts.getColumnModel().getColumn(0).setPreferredWidth(50);
             tblProducts.getColumnModel().getColumn(1).setPreferredWidth(80);
             tblProducts.getColumnModel().getColumn(3).setPreferredWidth(60);
             tblProducts.getColumnModel().getColumn(4).setPreferredWidth(60);
@@ -178,7 +157,7 @@ public class Products extends CustomJPanel {
     }//GEN-LAST:event_btnProductActionPerformed
 
     private void btnCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryActionPerformed
-        //new DialogCategory(parent, true, tblCategories, null, true).setVisible(true);
+        new DialogCategory(parent, true).setVisible(true);
     }//GEN-LAST:event_btnCategoryActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

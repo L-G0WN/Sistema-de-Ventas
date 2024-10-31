@@ -1,164 +1,155 @@
 package com.monagas.view.sales.forms.dialogs;
 
 import com.monagas.controllers.sales.CategoryController;
-import com.monagas.view.sales.components.CustomJTextField;
-import java.awt.Color;
+import com.monagas.view.sales.components.CustomJTable;
+import com.monagas.view.sales.renderer.cell.TableActionCellEditor;
+import com.monagas.view.sales.renderer.cell.TableActionCellRender;
+import com.monagas.view.sales.renderer.cell.TableActionEvent;
+import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.JDialog;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 
-public class DialogCategory extends JDialog {
+public class DialogCategory extends javax.swing.JDialog {
 
     private final CategoryController categoryController = new CategoryController();
 
     private final Frame parent;
-    private final JTable table;
-    private final Long id;
-    private final boolean isRegister;
 
-    public DialogCategory(Frame parent, boolean modal, JTable table, Long id, boolean isRegister) {
+    public DialogCategory(Frame parent, boolean modal) {
         super(parent, modal);
         this.parent = parent;
-        this.table = table;
-        this.id = id;
-        this.isRegister = isRegister;
         initComponents();
 
-        if (isRegister) {
-            btnGeneral.setBackground(new Color(40, 188, 72));
-            btnGeneral.setText("REGISTRAR");
+        FlatStyle.setStyle(spCategories, tblCategories);
 
-            lbTitle.setText("Registrar Categoría");
-        } else {
-            btnGeneral.setBackground(new java.awt.Color(232, 213, 42));
-            btnGeneral.setText("ACTUALIZAR");
+        TableActionEvent event = new TableActionEvent() {
+            @Override
+            public void onEdit(int row) {
+                Long id = Long.valueOf(tblCategories.getValueAt(row, 1).toString().substring(2));
+                new DialogSubCategory(parent, true, tblCategories, id, false).setVisible(true);
+            }
 
-            categoryController.loadCategoryById(id, txtName);
-            lbTitle.setText("Categoría : " + txtName.getText());
-        }
+            @Override
+            public void onDelete(int row) {
+                Long id = Long.valueOf(tblCategories.getValueAt(row, 1).toString().substring(2));
+                new DialogConfirm(parent, true, tblCategories, id, "Categories").setVisible(true);
+            }
+        };
 
-        eventField(txtName);
+        tblCategories.getColumnModel().getColumn(tblCategories.getColumnCount() - 1).setCellRenderer(new TableActionCellRender());
+        tblCategories.getColumnModel().getColumn(tblCategories.getColumnCount() - 1).setCellEditor(new TableActionCellEditor(event));
+
+        categoryController.loadCategories(tblCategories);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelGeneral = new javax.swing.JPanel();
-        lbTitle = new javax.swing.JLabel();
-        txtName = new CustomJTextField("Firstname");
-        btnCancel = new javax.swing.JButton();
-        btnGeneral = new javax.swing.JButton();
+        panelCategory = new javax.swing.JPanel();
+        btnCategory = new javax.swing.JButton();
+        spCategories = new javax.swing.JScrollPane();
+        tblCategories = new CustomJTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Categorías/Marcas");
-        setUndecorated(true);
+        setTitle("Categorías");
+        setResizable(false);
 
-        panelGeneral.setBackground(new java.awt.Color(39, 92, 183));
-
-        lbTitle.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        lbTitle.setForeground(new java.awt.Color(255, 255, 255));
-        lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbTitle.setText(":");
-
-        txtName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-
-        btnCancel.setBackground(new java.awt.Color(185, 39, 39));
-        btnCancel.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnCancel.setForeground(new java.awt.Color(255, 255, 255));
-        btnCancel.setText("CANCELAR");
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+        btnCategory.setBackground(new java.awt.Color(40, 188, 72));
+        btnCategory.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnCategory.setForeground(new java.awt.Color(255, 255, 255));
+        btnCategory.setText("REGISTRAR CATEGORÍA");
+        btnCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
+                btnCategoryActionPerformed(evt);
             }
         });
 
-        btnGeneral.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnGeneral.setForeground(new java.awt.Color(255, 255, 255));
-        btnGeneral.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGeneralActionPerformed(evt);
+        tblCategories.setAutoCreateRowSorter(true);
+        tblCategories.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tblCategories.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "N°", "CODIGO", "NOMBRE", "ACCIONES"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
+        tblCategories.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tblCategories.setGridColor(new java.awt.Color(102, 102, 102));
+        tblCategories.setName("Categories"); // NOI18N
+        tblCategories.setRowHeight(30);
+        tblCategories.setRowMargin(1);
+        tblCategories.setSelectionBackground(new java.awt.Color(230, 230, 230));
+        tblCategories.setSelectionForeground(new java.awt.Color(51, 51, 51));
+        tblCategories.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblCategories.setShowGrid(true);
+        tblCategories.getTableHeader().setReorderingAllowed(false);
+        spCategories.setViewportView(tblCategories);
+        if (tblCategories.getColumnModel().getColumnCount() > 0) {
+            tblCategories.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tblCategories.getColumnModel().getColumn(1).setPreferredWidth(80);
+            tblCategories.getColumnModel().getColumn(2).setPreferredWidth(185);
+        }
 
-        javax.swing.GroupLayout panelGeneralLayout = new javax.swing.GroupLayout(panelGeneral);
-        panelGeneral.setLayout(panelGeneralLayout);
-        panelGeneralLayout.setHorizontalGroup(
-            panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelGeneralLayout.createSequentialGroup()
+        javax.swing.GroupLayout panelCategoryLayout = new javax.swing.GroupLayout(panelCategory);
+        panelCategory.setLayout(panelCategoryLayout);
+        panelCategoryLayout.setHorizontalGroup(
+            panelCategoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCategoryLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelGeneralLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelGeneralLayout.createSequentialGroup()
-                        .addComponent(btnGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(73, 73, 73))
+                .addGroup(panelCategoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spCategories, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
+                    .addComponent(btnCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-        panelGeneralLayout.setVerticalGroup(
-            panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelGeneralLayout.createSequentialGroup()
+        panelCategoryLayout.setVerticalGroup(
+            panelCategoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCategoryLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbTitle)
-                .addGap(28, 28, 28)
-                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(btnGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(15, 15, 15))
+                .addComponent(spCategories, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelGeneral, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeneralActionPerformed
-        if (isRegister) {
-            categoryController.createCategory(parent, this, table, txtName);
-        } else {
-            categoryController.editCategory(parent, this, table, id, txtName);
-        }
-    }//GEN-LAST:event_btnGeneralActionPerformed
-
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnCancelActionPerformed
-
-    private void eventField(JTextField txtName) {
-        txtName.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    btnGeneral.doClick();
-                }
-            }
-        });
-    }
+    private void btnCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryActionPerformed
+        new DialogSubCategory(parent, true, tblCategories, null, true).setVisible(true);
+    }//GEN-LAST:event_btnCategoryActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnGeneral;
-    private javax.swing.JLabel lbTitle;
-    private javax.swing.JPanel panelGeneral;
-    private javax.swing.JTextField txtName;
+    private javax.swing.JButton btnCategory;
+    private javax.swing.JPanel panelCategory;
+    private javax.swing.JScrollPane spCategories;
+    private javax.swing.JTable tblCategories;
     // End of variables declaration//GEN-END:variables
 }

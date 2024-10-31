@@ -7,10 +7,12 @@ import jakarta.persistence.NoResultException;
 import java.io.Serializable;
 import jakarta.persistence.Query;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+import java.sql.SQLException;
 import java.util.List;
 
 public class CategoryService implements Serializable {
@@ -97,6 +99,14 @@ public class CategoryService implements Serializable {
                 throw new Exception("Categoría no encontrada.");
             }
 
+            long count = (long) em.createQuery("SELECT COUNT(p) FROM Product p WHERE p.category.id = :categoryId")
+                    .setParameter("categoryId", id)
+                    .getSingleResult();
+
+            if (count > 0) {
+                throw new Exception("No se puede eliminar la categoría porque hay productos asociados a ella.");
+            }
+
             em.remove(category);
             em.getTransaction().commit();
             return true;
@@ -155,7 +165,7 @@ public class CategoryService implements Serializable {
             em.close();
         }
     }
-    
+
     public Category findCategoryByName(String name) {
         EntityManager em = getEntityManager();
         try {
