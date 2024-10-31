@@ -25,7 +25,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Product implements Serializable {
 
     @Id

@@ -64,7 +64,7 @@ public class ProductController {
         } else {
             JOptionPane.showMessageDialog(
                     parent,
-                    "Por favor, complete todos los campos requeridos para registrar al proveedor.",
+                    "Por favor, complete todos los campos requeridos para registrar el producto.",
                     "Sistema de Ventas - Advertencia",
                     JOptionPane.WARNING_MESSAGE);
         }
