@@ -16,7 +16,10 @@ public class Clients extends CustomJPanel {
 
     private final ClientController controller = new ClientController();
 
+    private final Frame parent;
+    
     public Clients(Frame parent) {
+        this.parent = parent;
         initComponents();
 
         FlatStyle.setStyle(spClients, tblClients);
@@ -25,7 +28,7 @@ public class Clients extends CustomJPanel {
             @Override
             public void onEdit(int row) {
                 Long id = Long.valueOf(tblClients.getValueAt(row, 1).toString().substring(1));
-                new DialogClients(parent, true, tblClients, id).setVisible(true);
+                new DialogClients(parent, true, tblClients, id, false).setVisible(true);
             }
 
             @Override
@@ -48,6 +51,7 @@ public class Clients extends CustomJPanel {
         spClients = new javax.swing.JScrollPane();
         tblClients = new CustomJTable();
         txtSearch = new CustomJTextField(tblClients);
+        btnRegister = new javax.swing.JButton();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -99,6 +103,16 @@ public class Clients extends CustomJPanel {
 
         txtSearch.setName("Clients"); // NOI18N
 
+        btnRegister.setBackground(new java.awt.Color(40, 188, 72));
+        btnRegister.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnRegister.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegister.setText("REGISTRAR CLIENTE");
+        btnRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegisterActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -107,25 +121,35 @@ public class Clients extends CustomJPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(spClients, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
-                    .addComponent(txtSearch))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtSearch)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(btnRegister, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(spClients, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+        new DialogClients(parent, true, tblClients, null, true).setVisible(true);
+    }//GEN-LAST:event_btnRegisterActionPerformed
+
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         controller.loadClients(tblClients);
     }//GEN-LAST:event_formComponentShown
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnRegister;
     private javax.swing.JScrollPane spClients;
     private javax.swing.JTable tblClients;
     private javax.swing.JTextField txtSearch;

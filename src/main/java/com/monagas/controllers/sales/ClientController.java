@@ -22,7 +22,7 @@ public class ClientController {
 
     public Client createClient(Frame parent, JDialog dialog, JTable table, JComboBox cbType, JTextField txtCedula, JTextField txtFirstname, JTextField txtLastname, JComboBox cbCode, JTextField txtPhone, JTextField txtAddress) {
         String type = cbType.getSelectedItem().toString();
-        String cedula = txtCedula.getText().toUpperCase();
+        String cedula = txtCedula.getText();
         String firstname = txtFirstname.getText().toUpperCase();
         String lastname = txtLastname.getText().toUpperCase();
         String code = cbCode.getSelectedItem().toString();
@@ -43,8 +43,8 @@ public class ClientController {
 
             try {
                 clientService.create(client);
-                dialog.dispose();
-                loadClients(table);
+                if (dialog != null) dialog.dispose();
+                if (table != null) loadClients(table);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(
                         parent,
@@ -65,7 +65,7 @@ public class ClientController {
 
     public Client editClient(Frame parent, JDialog dialog, JTable table, Long id, JComboBox cbType, JTextField txtCedula, JTextField txtFirstname, JTextField txtLastname, JComboBox cbCode, JTextField txtPhone, JTextField txtAddress) {
         String type = cbType.getSelectedItem().toString();
-        String cedula = txtCedula.getText().toUpperCase();
+        String cedula = txtCedula.getText();
         String firstname = txtFirstname.getText().toUpperCase();
         String lastname = txtLastname.getText().toUpperCase();
         String code = cbCode.getSelectedItem().toString();
@@ -75,6 +75,18 @@ public class ClientController {
         Client client = new Client();
 
         if (!cedula.isEmpty() && !firstname.isEmpty() && !lastname.isEmpty() && !phone.isEmpty()) {
+            if (id == null) {
+                try {
+                    id = clientService.findIdByCedula(type, cedula);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(
+                            parent,
+                            ex.getMessage(),
+                            "Sistema de Ventas - Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
             client.setClientId(id);
             client.setType(type);
             client.setCedula(cedula);
@@ -87,8 +99,8 @@ public class ClientController {
 
             try {
                 clientService.edit(client);
-                dialog.dispose();
-                loadClients(table);
+                if (dialog != null) dialog.dispose();
+                if (table != null) loadClients(table);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(
                         parent,
@@ -134,6 +146,40 @@ public class ClientController {
         cbCode.setSelectedItem(client.getCode());
         txtPhone.setText(client.getPhone());
         txtAddress.setText(client.getAddress());
+
+        return client;
+    }
+
+    public Client loadClientByCedula(Frame parent, JComboBox cbType, JTextField txtCedula, JTextField txtFirstname, JTextField txtLastname, JComboBox cbCode, JTextField txtPhone, JTextField txtAddress) {
+        String type = cbType.getSelectedItem().toString();
+        String cedula = txtCedula.getText();
+
+        Client client = null;
+
+        try {
+            if (!cedula.isEmpty()) {
+
+                client = clientService.findClientByCedula(type, cedula);
+
+                txtFirstname.setText(client.getFirstname());
+                txtLastname.setText(client.getLastname());
+                cbCode.setSelectedItem(client.getCode());
+                txtPhone.setText(client.getPhone());
+                txtAddress.setText(client.getAddress());
+            } else {
+                JOptionPane.showMessageDialog(
+                        parent,
+                        "Por favor, Ingrese una cedula para realizar la busqueda.",
+                        "Sistema de Ventas - Advertencia",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    parent,
+                    ex.getMessage(),
+                    "Sistema de Ventas - Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
 
         return client;
     }

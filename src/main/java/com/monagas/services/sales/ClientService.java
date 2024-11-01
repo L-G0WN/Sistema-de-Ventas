@@ -170,6 +170,36 @@ public class ClientService implements Serializable {
         }
     }
 
+    public Long findIdByCedula(String type, String cedula) throws Exception {
+        EntityManager em = getEntityManager();
+        try {
+            String query = "SELECT c.clientId FROM Client c WHERE c.type = :type AND c.cedula = :cedula";
+            return em.createQuery(query, Long.class)
+                    .setParameter("type", type)
+                    .setParameter("cedula", cedula)
+                    .getSingleResult();
+        } catch (Exception ex) {
+            throw new Exception("No se han encontrado resultados: " + ex.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+
+    public Client findClientByCedula(String type, String cedula) throws Exception {
+        EntityManager em = getEntityManager();
+        try {
+            String query = "SELECT c FROM Client c WHERE c.type = :type AND c.cedula = :cedula";
+            return em.createQuery(query, Client.class)
+                    .setParameter("type", type)
+                    .setParameter("cedula", cedula)
+                    .getSingleResult();
+        } catch (Exception ex) {
+            throw new Exception("No se han encontrado resultados: " + ex.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+
     public Long getClientCount() {
         EntityManager em = getEntityManager();
         try {

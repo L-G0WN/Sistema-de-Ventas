@@ -2,6 +2,7 @@ package com.monagas.view.sales.forms.dialogs;
 
 import com.monagas.controllers.sales.ClientController;
 import com.monagas.view.sales.components.CustomJTextField;
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -16,17 +17,29 @@ public class DialogClients extends JDialog {
     private final Frame parent;
     private final JTable table;
     private final Long id;
+    private final boolean isRegister;
 
-    public DialogClients(Frame parent, boolean modal, JTable table, Long id) {
+    public DialogClients(Frame parent, boolean modal, JTable table, Long id, boolean isRegister) {
         super(parent, modal);
         this.parent = parent;
         this.table = table;
         this.id = id;
+        this.isRegister = isRegister;
         initComponents();
 
-        controller.loadClientById(id, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress);
-        lbTitle.setText("Cliente : " + txtFirstname.getText() + " " + txtLastname.getText());
-        
+        if (isRegister) {
+            btnGeneral.setBackground(new Color(40, 188, 72));
+            btnGeneral.setText("REGISTRAR");
+
+            lbTitle.setText("Registrar Cliente");
+        } else {
+            btnGeneral.setBackground(new java.awt.Color(232, 213, 42));
+            btnGeneral.setText("ACTUALIZAR");
+
+            controller.loadClientById(id, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress);
+            lbTitle.setText("Cliente : " + txtFirstname.getText() + " " + txtLastname.getText());
+        }
+
         JTextField[] textFields = {txtCedula, txtFirstname, txtLastname, txtPhone, txtAddress};
         eventField(textFields);
     }
@@ -35,7 +48,7 @@ public class DialogClients extends JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelEdit = new javax.swing.JPanel();
+        panelGeneral = new javax.swing.JPanel();
         lbTitle = new javax.swing.JLabel();
         cbType = new javax.swing.JComboBox<>();
         txtCedula = new CustomJTextField("Cedula");
@@ -44,7 +57,7 @@ public class DialogClients extends JDialog {
         cbCode = new javax.swing.JComboBox<>();
         txtPhone = new CustomJTextField("Phone");
         txtAddress = new CustomJTextField("Address");
-        btnUpdate = new javax.swing.JButton();
+        btnGeneral = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -53,7 +66,7 @@ public class DialogClients extends JDialog {
         setName("dialog"); // NOI18N
         setUndecorated(true);
 
-        panelEdit.setBackground(new java.awt.Color(39, 92, 183));
+        panelGeneral.setBackground(new java.awt.Color(39, 92, 183));
 
         lbTitle.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         lbTitle.setForeground(new java.awt.Color(255, 255, 255));
@@ -76,13 +89,11 @@ public class DialogClients extends JDialog {
 
         txtAddress.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        btnUpdate.setBackground(new java.awt.Color(232, 213, 42));
-        btnUpdate.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
-        btnUpdate.setText("ACTUALIZAR");
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+        btnGeneral.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnGeneral.setForeground(new java.awt.Color(255, 255, 255));
+        btnGeneral.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
+                btnGeneralActionPerformed(evt);
             }
         });
 
@@ -96,28 +107,28 @@ public class DialogClients extends JDialog {
             }
         });
 
-        javax.swing.GroupLayout panelEditLayout = new javax.swing.GroupLayout(panelEdit);
-        panelEdit.setLayout(panelEditLayout);
-        panelEditLayout.setHorizontalGroup(
-            panelEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelEditLayout.createSequentialGroup()
+        javax.swing.GroupLayout panelGeneralLayout = new javax.swing.GroupLayout(panelGeneral);
+        panelGeneral.setLayout(panelGeneralLayout);
+        panelGeneralLayout.setHorizontalGroup(
+            panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelGeneralLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelEditLayout.createSequentialGroup()
+                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelGeneralLayout.createSequentialGroup()
                         .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditLayout.createSequentialGroup()
-                        .addGroup(panelEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelEditLayout.createSequentialGroup()
-                                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelGeneralLayout.createSequentialGroup()
+                        .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelGeneralLayout.createSequentialGroup()
+                                .addComponent(btnGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(panelEditLayout.createSequentialGroup()
+                            .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(panelGeneralLayout.createSequentialGroup()
                                     .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditLayout.createSequentialGroup()
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelGeneralLayout.createSequentialGroup()
                                     .addComponent(cbCode, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -126,13 +137,13 @@ public class DialogClients extends JDialog {
                                 .addComponent(txtLastname)))
                         .addGap(74, 74, 74))))
         );
-        panelEditLayout.setVerticalGroup(
-            panelEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelEditLayout.createSequentialGroup()
+        panelGeneralLayout.setVerticalGroup(
+            panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelGeneralLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(lbTitle)
                 .addGap(18, 18, 18)
-                .addGroup(panelEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -140,15 +151,15 @@ public class DialogClients extends JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtLastname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addGroup(panelEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(15, 15, 15))
         );
 
@@ -156,45 +167,49 @@ public class DialogClients extends JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        controller.editClient(parent, this, table, id, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress);
-    }//GEN-LAST:event_btnUpdateActionPerformed
+    private void btnGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeneralActionPerformed
+        if (isRegister) {
+            controller.createClient(parent, this, table, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress);
+        } else {
+            controller.editClient(parent, this, table, id, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress);
+        }
+    }//GEN-LAST:event_btnGeneralActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
-    private void eventField(JTextField[] textFields){
+    private void eventField(JTextField[] textFields) {
         for (JTextField textField : textFields) {
             textField.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent e) {
                     if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                        btnUpdate.doClick();
+                        btnGeneral.doClick();
                     }
                 }
             });
         }
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnUpdate;
+    private javax.swing.JButton btnGeneral;
     private javax.swing.JComboBox<String> cbCode;
     private javax.swing.JComboBox<String> cbType;
     private javax.swing.JLabel lbTitle;
-    private javax.swing.JPanel panelEdit;
+    private javax.swing.JPanel panelGeneral;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtFirstname;

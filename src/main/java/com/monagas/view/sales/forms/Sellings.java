@@ -1,17 +1,28 @@
 package com.monagas.view.sales.forms;
 
+import com.monagas.controllers.sales.ClientController;
 import com.monagas.view.sales.components.CustomJPanel;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
 import com.monagas.view.sales.style.FlatStyle;
+import java.awt.Frame;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JTextField;
 
 public class Sellings extends CustomJPanel {
 
-    public Sellings() {
+    private final ClientController clientController = new ClientController();
+
+    private final Frame parent;
+
+    public Sellings(Frame parent) {
+        this.parent = parent;
         initComponents();
 
         FlatStyle.setStyle(spSellings, tblSellings);
 
+        eventField(txtCedula);
     }
 
     @SuppressWarnings("unchecked")
@@ -99,6 +110,11 @@ public class Sellings extends CustomJPanel {
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LogoSearch.png"))); // NOI18N
         btnSearch.setToolTipText("Buscar cliente registrado en el sistema.");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         txtLastname.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -115,11 +131,21 @@ public class Sellings extends CustomJPanel {
         btnUpdate.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
         btnUpdate.setText("ACTUALIZAR");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnClear.setBackground(new java.awt.Color(185, 39, 39));
         btnClear.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnClear.setForeground(new java.awt.Color(255, 255, 255));
         btnClear.setText("LIMPIAR");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelSellingLayout = new javax.swing.GroupLayout(panelSelling);
         panelSelling.setLayout(panelSellingLayout);
@@ -202,6 +228,35 @@ public class Sellings extends CustomJPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        clientController.loadClientByCedula(parent, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress);
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        clientController.editClient(parent, null, null, null, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress);
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        cbType.setSelectedIndex(0);
+        txtCedula.setText("");
+        txtFirstname.setText("");
+        txtLastname.setText("");
+        cbCode.setSelectedIndex(0);
+        txtPhone.setText("");
+        txtAddress.setText("");
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void eventField(JTextField txtCedula) {
+        txtCedula.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    btnSearch.doClick();
+                }
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
