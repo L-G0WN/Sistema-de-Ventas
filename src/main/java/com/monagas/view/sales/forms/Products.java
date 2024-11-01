@@ -15,7 +15,7 @@ import java.awt.Frame;
 
 public class Products extends CustomJPanel {
 
-    private final ProductController productController = new ProductController();
+    private final ProductController controller = new ProductController();
 
     private final Frame parent;
 
@@ -43,7 +43,7 @@ public class Products extends CustomJPanel {
         tblProducts.getColumnModel().getColumn(tblProducts.getColumnCount() - 1).setCellRenderer(new TableActionCellRender());
         tblProducts.getColumnModel().getColumn(tblProducts.getColumnCount() - 1).setCellEditor(new TableActionCellEditor(event));
 
-        productController.loadProducts(tblProducts);
+        controller.loadProducts(tblProducts);
     }
 
     @SuppressWarnings("unchecked")
@@ -55,6 +55,12 @@ public class Products extends CustomJPanel {
         txtSearch = new CustomJTextField(tblProducts);
         btnProduct = new javax.swing.JButton();
         btnCategory = new javax.swing.JButton();
+
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         tblProducts.setAutoCreateRowSorter(true);
         tblProducts.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -159,6 +165,10 @@ public class Products extends CustomJPanel {
     private void btnCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryActionPerformed
         new DialogCategory(parent, true).setVisible(true);
     }//GEN-LAST:event_btnCategoryActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        controller.loadProducts(tblProducts);
+    }//GEN-LAST:event_formComponentShown
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCategory;

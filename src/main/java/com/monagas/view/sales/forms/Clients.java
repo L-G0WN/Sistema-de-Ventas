@@ -10,11 +10,7 @@ import com.monagas.view.sales.renderer.cell.TableActionCellEditor;
 import com.monagas.view.sales.renderer.cell.TableActionCellRender;
 import com.monagas.view.sales.renderer.cell.TableActionEvent;
 import com.monagas.view.sales.style.FlatStyle;
-import java.awt.Color;
-import java.awt.Dialog;
-import java.awt.Dimension;
 import java.awt.Frame;
-import javax.swing.JOptionPane;
 
 public class Clients extends CustomJPanel {
 
