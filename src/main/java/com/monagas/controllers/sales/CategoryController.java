@@ -37,7 +37,7 @@ public class CategoryController {
         } else {
             JOptionPane.showMessageDialog(
                     parent,
-                    "Por favor, complete todos los campos requeridos para registrar la nueva categoría.",
+                    "Por favor, complete todos los campos requeridos para registrar la categoría.",
                     "Sistema de Ventas - Advertencia",
                     JOptionPane.WARNING_MESSAGE);
         }

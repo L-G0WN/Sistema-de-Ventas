@@ -179,7 +179,7 @@ public class ClientService implements Serializable {
                     .setParameter("cedula", cedula)
                     .getSingleResult();
         } catch (Exception ex) {
-            throw new Exception("No se han encontrado resultados: " + ex.getMessage());
+            throw new Exception("No se ha encontrado el cliente, por favor, verifique e intente nuevamente.");
         } finally {
             em.close();
         }
@@ -194,7 +194,7 @@ public class ClientService implements Serializable {
                     .setParameter("cedula", cedula)
                     .getSingleResult();
         } catch (Exception ex) {
-            throw new Exception("No se han encontrado resultados: " + ex.getMessage());
+            throw new Exception("No se han encontrado resultados asociados a esa cedula.");
         } finally {
             em.close();
         }

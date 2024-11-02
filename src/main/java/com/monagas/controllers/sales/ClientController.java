@@ -55,7 +55,7 @@ public class ClientController {
         } else {
             JOptionPane.showMessageDialog(
                     parent,
-                    "Por favor, complete todos los campos requeridos para actualizar.",
+                    "Por favor, complete todos los campos requeridos para registrar al cliente.",
                     "Sistema de Ventas - Advertencia",
                     JOptionPane.WARNING_MESSAGE);
         }
