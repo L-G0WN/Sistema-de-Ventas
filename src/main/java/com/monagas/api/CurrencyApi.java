@@ -14,69 +14,9 @@ import org.json.JSONObject;
 public class CurrencyApi extends JFrame {
 
     private double currentPrice = 0.0;
+    private double currentConvert = 0.0;
 
-    public void loadCurrencyData(JComboBox<String> currency) {
-        String urlString = "https://pydolarve.org/api/v1/dollar?page=bcv";
-
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                StringBuilder response;
-                try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                    response = new StringBuilder();
-                    String inputLine;
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-                }
-
-                JSONObject jsonResponse = new JSONObject(response.toString());
-                if (jsonResponse.has("monitors")) {
-                    JSONObject monitors = jsonResponse.getJSONObject("monitors");
-
-                    String[] desiredCurrencies = {"usd", "eur"};
-                    for (String currencyCode : desiredCurrencies) {
-                        if (monitors.has(currencyCode)) {
-                            currency.addItem(currencyCode.toUpperCase());
-                        }
-                    }
-                }
-            }
-
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this,
-                    "No se ha podido cargar la información del precio actual:\n" + e.getMessage(),
-                    "Sistema de Ventas - Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-//    private void convertCurrency() {
-//        try {
-//            double amount = Double.parseDouble(amountField.getText());
-//            String selectedType = (String) conversionTypeComboBox.getSelectedItem();
-//
-//            if (selectedType.equals("BS a Moneda Extranjera")) {
-//                // Convertir de BS a moneda extranjera
-//                double result = amount / currentPrice;
-//                resultLabel.setText(String.format("Resulto: %.2f %s",
-//                        result,
-//                        currencyComboBox.getSelectedItem()));
-//            } else {
-//                // Convertir de moneda extranjera a BS
-//                double result = amount * currentPrice;
-//                resultLabel.setText(String.format("Resulto: %.2f BS", result));
-//            }
-//        } catch (NumberFormatException ex) {
-//            resultLabel.setText("Please enter a valid number");
-//        }
-//    }
-    public void updateCurrencyInfo(JComboBox<String> cbCurrency, JLabel price) {
-        String selectedCurrency = (String) cbCurrency.getSelectedItem();
+    public void updateCurrencyInfo(JLabel price) {
         String urlString = "https://pydolarve.org/api/v1/dollar?page=bcv";
 
         try {
@@ -97,12 +37,49 @@ public class CurrencyApi extends JFrame {
 
                 JSONObject jsonResponse = new JSONObject(response.toString());
                 JSONObject data = jsonResponse.getJSONObject("monitors");
-                JSONObject currency = data.getJSONObject(selectedCurrency.toLowerCase());
+                JSONObject currency = data.getJSONObject("usd");
 
                 currentPrice = currency.getDouble("price");
                 String lastUpdate = currency.getString("last_update");
 
-                price.setText("Precio: " + currentPrice + " Bs. - Última actualización: " + lastUpdate);
+                price.setText("Precio del Dolar : " + currentPrice + " Bs. - Última actualización: " + lastUpdate);
+            }
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this,
+                    "No se ha podido cargar la información del precio actual:\n" + e.getMessage(),
+                    "Sistema de Ventas - Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void convertCurrency(double amount, JLabel result) {
+        String urlString = "https://pydolarve.org/api/v1/dollar?page=bcv";
+
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                StringBuilder response;
+                try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                    response = new StringBuilder();
+                    String inputLine;
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                }
+
+                JSONObject jsonResponse = new JSONObject(response.toString());
+                JSONObject data = jsonResponse.getJSONObject("monitors");
+                JSONObject currency = data.getJSONObject("usd");
+
+                currentConvert = currency.getDouble("price");
+
+                double value = amount * currentConvert;
+                result.setText(String.format("Monto en Bs. : %.2f Bs.", value));
             }
 
         } catch (IOException e) {

@@ -4,6 +4,7 @@ import com.monagas.api.CurrencyApi;
 import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
 import com.monagas.view.sales.forms.Clients;
+import com.monagas.view.sales.forms.History;
 import com.monagas.view.sales.forms.Products;
 import com.monagas.view.sales.forms.Sellings;
 import com.monagas.view.sales.forms.Suppliers;
@@ -17,7 +18,7 @@ public class Sales extends JFrame {
 
     private final User currentUser = CurrentUser.getInstance().getUser();
 
-    private CurrencyApi currency = new CurrencyApi();
+    private final CurrencyApi currency = new CurrencyApi();
 
     public Sales() {
         initComponents();
@@ -25,11 +26,7 @@ public class Sales extends JFrame {
         tpWindows.putClientProperty("JTabbedPane.tabType", "card");
         tpWindows.putClientProperty("JTabbedPane.hasFullBorder", true);
 
-        tpWindows.addTab("Clientes Registrados (F1)", new Clients(this));
-        tpWindows.addTab("Productos (F2)", new Products(this));
-        tpWindows.addTab("Proveedores (F4)", new Suppliers(this));
-        tpWindows.addTab("Ventas (F5)", new Sellings(this));
-
+        loadTaps();
         currentUser();
 
         Timer timer = new Timer(1000, e -> updateDateTime());
@@ -37,6 +34,18 @@ public class Sales extends JFrame {
 
         updateDateTime();
         loadCurrency();
+    }
+
+    private void loadTaps() {
+        if (currentUser.getAccountType() == 1) {
+            tpWindows.addTab("Ventas", new Sellings(this));
+            tpWindows.addTab("Historial de Ventas", new History(this));
+            tpWindows.addTab("Clientes Registrados", new Clients(this));
+            tpWindows.addTab("Productos", new Products(this));
+            tpWindows.addTab("Proveedores", new Suppliers(this));
+        } else {
+            tpWindows.addTab("Ventas", new Sellings(this));
+        }
     }
 
     private void currentUser() {
@@ -53,8 +62,7 @@ public class Sales extends JFrame {
     }
 
     private void loadCurrency() {
-        currency.loadCurrencyData(cbList);
-        currency.updateCurrencyInfo(cbList, lbCurrentPrice);
+        currency.updateCurrencyInfo(lbCurrentPrice);
     }
 
     @SuppressWarnings("unchecked")
@@ -62,7 +70,6 @@ public class Sales extends JFrame {
     private void initComponents() {
 
         tpWindows = new javax.swing.JTabbedPane();
-        cbList = new javax.swing.JComboBox<>();
         lbCurrentPrice = new javax.swing.JLabel();
         lbTime = new javax.swing.JLabel();
         MenuBar = new javax.swing.JMenuBar();
@@ -77,20 +84,13 @@ public class Sales extends JFrame {
 
         tpWindows.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        cbList.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
-        cbList.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbListActionPerformed(evt);
-            }
-        });
-
         lbCurrentPrice.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
 
         lbTime.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         lbTime.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbTime.setText("DATE");
 
-        mAccount.setText("Administrador: Angeles Hernandez");
+        mAccount.setText("Username");
         mAccount.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         itemControls.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -115,9 +115,8 @@ public class Sales extends JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tpWindows, javax.swing.GroupLayout.DEFAULT_SIZE, 1012, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cbList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)
-                        .addComponent(lbCurrentPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(lbCurrentPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lbTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -126,12 +125,10 @@ public class Sales extends JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(tpWindows, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lbTime, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
-                        .addComponent(lbCurrentPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(cbList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lbTime, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                    .addComponent(lbCurrentPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -139,13 +136,8 @@ public class Sales extends JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbListActionPerformed
-        currency.updateCurrencyInfo(cbList, lbCurrentPrice);
-    }//GEN-LAST:event_cbListActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MenuBar;
-    private javax.swing.JComboBox<String> cbList;
     private javax.swing.JMenuItem itemControls;
     private javax.swing.JMenuItem itemLogout;
     private javax.swing.JLabel lbCurrentPrice;

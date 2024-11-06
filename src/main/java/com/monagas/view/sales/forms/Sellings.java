@@ -1,5 +1,6 @@
 package com.monagas.view.sales.forms;
 
+import com.monagas.api.CurrencyApi;
 import com.monagas.controllers.sales.ClientController;
 import com.monagas.controllers.sales.ProductController;
 import com.monagas.view.sales.components.CustomJPanel;
@@ -21,6 +22,8 @@ public class Sellings extends CustomJPanel {
 
     private final ClientController clientController = new ClientController();
     private final ProductController productController = new ProductController();
+
+    private final CurrencyApi currency = new CurrencyApi();
 
     private final Frame parent;
 
@@ -423,15 +426,11 @@ public class Sellings extends CustomJPanel {
 
         if (tblSellings.getRowCount() > 0) {
             for (int i = 0; i < tblSellings.getRowCount(); i++) {
-                String valueString = tblSellings.getValueAt(i, 4).toString();
-
-                valueString = valueString.replace(",", ".");
-
-                value += Double.parseDouble(valueString);
+                value += Double.parseDouble(tblSellings.getValueAt(i, 4).toString().replace(",", "."));
             }
 
             lbTotal.setText("Monto : " + decimalFormat.format(value) + " $");
-            lbBs.setText("Monto en Bs. : " + 0 + " Bs.");
+            currency.convertCurrency(value, lbBs);
             lbTotalProducts.setText("Cantidad de Productos : " + tblSellings.getRowCount());
         } else {
             lbTotal.setText("Monto : " + 0 + " $");
