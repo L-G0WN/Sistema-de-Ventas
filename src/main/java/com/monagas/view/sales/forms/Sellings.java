@@ -13,6 +13,7 @@ import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,7 +21,7 @@ public class Sellings extends CustomJPanel {
 
     private final ClientController clientController = new ClientController();
     private final ProductController productController = new ProductController();
-    
+
     private final Frame parent;
 
     public Sellings(Frame parent) {
@@ -32,6 +33,7 @@ public class Sellings extends CustomJPanel {
         TableRemoveEvent event = (int row) -> {
             DefaultTableModel model = (DefaultTableModel) tblSellings.getModel();
             model.removeRow(row);
+            refreshData();
         };
 
         tblSellings.getColumnModel().getColumn(tblSellings.getColumnCount() - 1).setCellRenderer(new TableActionCellRender());
@@ -48,6 +50,9 @@ public class Sellings extends CustomJPanel {
         spSellings = new javax.swing.JScrollPane();
         tblSellings = new CustomJTable();
         panelTotal = new javax.swing.JPanel();
+        lbTotal = new javax.swing.JLabel();
+        lbTotalProducts = new javax.swing.JLabel();
+        lbBs = new javax.swing.JLabel();
         panelSelling = new javax.swing.JPanel();
         lbTitle = new javax.swing.JLabel();
         cbType = new javax.swing.JComboBox<>();
@@ -65,6 +70,12 @@ public class Sellings extends CustomJPanel {
         btnLess = new javax.swing.JButton();
         btnSell = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         tblSellings.setAutoCreateRowSorter(true);
         tblSellings.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -123,15 +134,37 @@ public class Sellings extends CustomJPanel {
 
         panelTotal.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "TOTAL A PAGAR", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 14))); // NOI18N
 
+        lbTotal.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbTotal.setText("Monto :");
+
+        lbTotalProducts.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbTotalProducts.setText("Cantidad de Productos :");
+
+        lbBs.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lbBs.setText("Monto en Bs. :");
+
         javax.swing.GroupLayout panelTotalLayout = new javax.swing.GroupLayout(panelTotal);
         panelTotal.setLayout(panelTotalLayout);
         panelTotalLayout.setHorizontalGroup(
             panelTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(panelTotalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbTotal)
+                    .addComponent(lbBs)
+                    .addComponent(lbTotalProducts))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelTotalLayout.setVerticalGroup(
             panelTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 125, Short.MAX_VALUE)
+            .addGroup(panelTotalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbTotal)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbBs)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbTotalProducts)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelSelling.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Venta", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
@@ -220,11 +253,21 @@ public class Sellings extends CustomJPanel {
         btnSell.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnSell.setForeground(new java.awt.Color(255, 255, 255));
         btnSell.setText("GENERAR VENTA (F1)");
+        btnSell.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSellActionPerformed(evt);
+            }
+        });
 
         btnCancel.setBackground(new java.awt.Color(39, 92, 183));
         btnCancel.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnCancel.setForeground(new java.awt.Color(255, 255, 255));
         btnCancel.setText("CANCELAR VENTA (F2)");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelSellingLayout = new javax.swing.GroupLayout(panelSelling);
         panelSelling.setLayout(panelSellingLayout);
@@ -299,7 +342,7 @@ public class Sellings extends CustomJPanel {
                 .addComponent(btnSell, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -319,7 +362,7 @@ public class Sellings extends CustomJPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(panelProducts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -349,15 +392,53 @@ public class Sellings extends CustomJPanel {
 
     private void btnProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductsActionPerformed
         new DialogSellings(parent, true, tblSellings).setVisible(true);
+        refreshData();
     }//GEN-LAST:event_btnProductsActionPerformed
 
     private void btnPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlusActionPerformed
         productController.Amount(parent, tblSellings, true);
+        refreshData();
     }//GEN-LAST:event_btnPlusActionPerformed
 
     private void btnLessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLessActionPerformed
         productController.Amount(parent, tblSellings, false);
+        refreshData();
     }//GEN-LAST:event_btnLessActionPerformed
+
+    private void btnSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSellActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSellActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        refreshData();
+    }//GEN-LAST:event_formComponentShown
+
+    private void refreshData() {
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        double value = 0;
+
+        if (tblSellings.getRowCount() > 0) {
+            for (int i = 0; i < tblSellings.getRowCount(); i++) {
+                String valueString = tblSellings.getValueAt(i, 4).toString();
+
+                valueString = valueString.replace(",", ".");
+
+                value += Double.parseDouble(valueString);
+            }
+
+            lbTotal.setText("Monto : " + decimalFormat.format(value) + " $");
+            lbBs.setText("Monto en Bs. : " + 0 + " Bs.");
+            lbTotalProducts.setText("Cantidad de Productos : " + tblSellings.getRowCount());
+        } else {
+            lbTotal.setText("Monto : " + 0 + " $");
+            lbBs.setText("Monto en Bs. : " + 0 + " Bs.");
+            lbTotalProducts.setText("Cantidad de Productos : " + 0);
+        }
+    }
 
     private void eventField(JTextField txtCedula) {
         txtCedula.addKeyListener(new KeyAdapter() {
@@ -381,7 +462,10 @@ public class Sellings extends CustomJPanel {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbCode;
     private javax.swing.JComboBox<String> cbType;
+    private javax.swing.JLabel lbBs;
     private javax.swing.JLabel lbTitle;
+    private javax.swing.JLabel lbTotal;
+    private javax.swing.JLabel lbTotalProducts;
     private javax.swing.JPanel panelProducts;
     private javax.swing.JPanel panelSelling;
     private javax.swing.JPanel panelTotal;

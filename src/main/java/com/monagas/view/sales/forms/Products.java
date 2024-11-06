@@ -99,8 +99,8 @@ public class Products extends CustomJPanel {
         if (tblProducts.getColumnModel().getColumnCount() > 0) {
             tblProducts.getColumnModel().getColumn(0).setPreferredWidth(50);
             tblProducts.getColumnModel().getColumn(1).setPreferredWidth(80);
-            tblProducts.getColumnModel().getColumn(3).setPreferredWidth(60);
-            tblProducts.getColumnModel().getColumn(4).setPreferredWidth(60);
+            tblProducts.getColumnModel().getColumn(3).setPreferredWidth(80);
+            tblProducts.getColumnModel().getColumn(4).setPreferredWidth(80);
             tblProducts.getColumnModel().getColumn(5).setPreferredWidth(60);
         }
 
