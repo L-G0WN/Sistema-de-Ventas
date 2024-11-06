@@ -1,4 +1,4 @@
-package com.monagas.view.sales.renderer.cell;
+package com.monagas.view.sales.renderer.cell.PanelAction;
 
 import java.awt.Component;
 import javax.swing.DefaultCellEditor;

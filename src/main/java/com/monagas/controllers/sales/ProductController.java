@@ -10,6 +10,7 @@ import com.monagas.services.sales.CategoryService;
 import com.monagas.services.sales.ProductService;
 import com.monagas.services.sales.SupplierService;
 import java.awt.Frame;
+import java.text.DecimalFormat;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -156,13 +157,15 @@ public class ProductController {
         List<Product> products = productService.findProductEntities();
         int count = 1;
 
+        Object[] row;
+
         for (Product product : products) {
             User registeredBy = userService.findUserById(product.getRegisteredBy().getUserId());
             User updatedBy = (product.getUpdatedBy() != null) ? userService.findUserById(product.getUpdatedBy().getUserId()) : null;
             Category categoryName = (product.getCategory() != null) ? categoryService.findCategoryById(product.getCategory().getCategoryId()) : null;
             Supplier supplierName = supplierService.findSupplierById(product.getSupplier().getSupplierId());
 
-            model.addRow(new Object[]{
+            row = new Object[]{
                 count++,
                 "PD" + product.getProductId(),
                 product.getDescription(),
@@ -175,7 +178,65 @@ public class ProductController {
                 registeredBy.getFirstname() + " " + registeredBy.getLastname(),
                 product.getUpdatedAt(),
                 (updatedBy != null) ? updatedBy.getFirstname() + " " + updatedBy.getLastname() : null
-            });
+            };
+
+            model.addRow(row);
+        }
+
+        return products;
+    }
+
+    public void Amount(Frame parent, JTable table, boolean isPlusOrNot) {
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(
+                    parent,
+                    "Por favor, Seleccione un producto para ajustar la cantidad.",
+                    "Sistema de Ventas - Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Long id = Long.valueOf(table.getValueAt(selectedRow, 0).toString().substring(2));
+        Product product = productService.findProductById(id);
+        int currentValue = Integer.parseInt(table.getValueAt(selectedRow, 2).toString());
+        double purchasePrice = product.getPurchase();
+
+        if (isPlusOrNot) {
+            if (currentValue >= product.getAmount()) {
+                return;
+            }
+            currentValue++;
+        } else {
+            if (currentValue <= 1) {
+                return;
+            }
+            currentValue--;
+        }
+
+        double valueTotal = purchasePrice * currentValue;
+        table.setValueAt(currentValue, selectedRow, 2);
+        table.setValueAt(decimalFormat.format(valueTotal), selectedRow, 4);
+    }
+
+    public List<Product> loadSellings(JTable tblProducts) {
+        DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
+        model.setRowCount(0);
+
+        List<Product> products = productService.findProductEntities();
+        Object[] row;
+
+        for (Product product : products) {
+            row = new Object[]{
+                "PD" + product.getProductId(),
+                product.getDescription(),
+                product.getPurchase(),
+                product.getAmount()
+            };
+
+            model.addRow(row);
         }
 
         return products;

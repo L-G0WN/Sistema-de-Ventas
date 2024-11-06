@@ -25,6 +25,7 @@ public class CustomJTextField extends JTextField {
     private final int MAX_LENGTH_EMAIL = 255;
     private final int MAX_LENGTH_ADDRESS = 255;
     private final int MAX_LENGTH_DESCRIPTION = 255;
+    private final int MAX_LENGTH_MONEY = 99999999;
     private final int MAX_LENGTH_AMOUNT = 10;
 
     private static final Map<String, String> TYPE_MESSAGES = new HashMap<>();
@@ -136,8 +137,19 @@ public class CustomJTextField extends JTextField {
                     }
 
                     if (getName().equals("Price") || getName().equals("Purchase")) {
-                        if (!Character.isDigit(c) && c != '.') {
+                        if (!Character.isDigit(c) && c != '.' || getText().length() >= MAX_LENGTH_MONEY) {
                             e.consume();
+                        }
+
+                        if (getText().indexOf(".") != getText().lastIndexOf(".")) {
+                            e.consume();
+                        }
+
+                        if (getText().contains(".")) {
+                            String[] parts = getText().split("\\.");
+                            if (parts.length > 1 && parts[1].length() > 1) {
+                                e.consume();
+                            }
                         }
                     }
 
@@ -184,6 +196,10 @@ public class CustomJTextField extends JTextField {
         TableRowSorter<TableModel> SorterFilter = new TableRowSorter<>(table.getModel());
 
         int[] columns = new int[]{2, 3};
+
+        if (table.getName() != null && table.getName().equals("Products2")) {
+            columns = new int[]{0, 1};
+        }
 
         SorterFilter.setRowFilter(RowFilter.regexFilter("(?iu)" + getText(), columns));
         table.setRowSorter(SorterFilter);

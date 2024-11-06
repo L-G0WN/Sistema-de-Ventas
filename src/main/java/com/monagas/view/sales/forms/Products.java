@@ -7,9 +7,9 @@ import com.monagas.view.sales.components.CustomJTextField;
 import com.monagas.view.sales.forms.dialogs.DialogCategory;
 import com.monagas.view.sales.forms.dialogs.DialogConfirm;
 import com.monagas.view.sales.forms.dialogs.DialogProducts;
-import com.monagas.view.sales.renderer.cell.TableActionCellEditor;
-import com.monagas.view.sales.renderer.cell.TableActionCellRender;
-import com.monagas.view.sales.renderer.cell.TableActionEvent;
+import com.monagas.view.sales.renderer.cell.PanelAction.TableActionCellEditor;
+import com.monagas.view.sales.renderer.cell.PanelAction.TableActionCellRender;
+import com.monagas.view.sales.renderer.cell.PanelAction.TableActionEvent;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
 
@@ -42,8 +42,6 @@ public class Products extends CustomJPanel {
 
         tblProducts.getColumnModel().getColumn(tblProducts.getColumnCount() - 1).setCellRenderer(new TableActionCellRender());
         tblProducts.getColumnModel().getColumn(tblProducts.getColumnCount() - 1).setCellEditor(new TableActionCellEditor(event));
-
-        controller.loadProducts(tblProducts);
     }
 
     @SuppressWarnings("unchecked")

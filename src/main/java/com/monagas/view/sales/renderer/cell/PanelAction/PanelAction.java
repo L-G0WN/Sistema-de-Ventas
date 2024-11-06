@@ -1,8 +1,9 @@
-package com.monagas.view.sales.renderer.cell;
+package com.monagas.view.sales.renderer.cell.PanelAction;
 
 import java.awt.event.ActionEvent;
+import javax.swing.JPanel;
 
-public class PanelAction extends javax.swing.JPanel {
+public class PanelAction extends JPanel {
 
     public PanelAction() {
         initComponents();

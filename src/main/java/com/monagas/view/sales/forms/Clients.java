@@ -6,9 +6,9 @@ import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
 import com.monagas.view.sales.forms.dialogs.DialogClients;
 import com.monagas.view.sales.forms.dialogs.DialogConfirm;
-import com.monagas.view.sales.renderer.cell.TableActionCellEditor;
-import com.monagas.view.sales.renderer.cell.TableActionCellRender;
-import com.monagas.view.sales.renderer.cell.TableActionEvent;
+import com.monagas.view.sales.renderer.cell.PanelAction.TableActionCellEditor;
+import com.monagas.view.sales.renderer.cell.PanelAction.TableActionCellRender;
+import com.monagas.view.sales.renderer.cell.PanelAction.TableActionEvent;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
 
@@ -40,8 +40,6 @@ public class Clients extends CustomJPanel {
 
         tblClients.getColumnModel().getColumn(tblClients.getColumnCount() - 1).setCellRenderer(new TableActionCellRender());
         tblClients.getColumnModel().getColumn(tblClients.getColumnCount() - 1).setCellEditor(new TableActionCellEditor(event));
-
-        controller.loadClients(tblClients);
     }
 
     @SuppressWarnings("unchecked")

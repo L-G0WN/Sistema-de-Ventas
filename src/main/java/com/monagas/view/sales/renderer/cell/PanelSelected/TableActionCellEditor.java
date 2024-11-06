@@ -1,0 +1,24 @@
+package com.monagas.view.sales.renderer.cell.PanelSelected;
+
+import java.awt.Component;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JCheckBox;
+import javax.swing.JTable;
+
+public class TableActionCellEditor extends DefaultCellEditor {
+
+    private final TableSelectedEvent event;
+
+    public TableActionCellEditor(TableSelectedEvent event) {
+        super(new JCheckBox());
+        this.event = event;
+    }
+
+    @Override
+    public Component getTableCellEditorComponent(JTable jtable, Object o, boolean bln, int row, int column) {
+        PanelSelected selected = new PanelSelected();
+        selected.initEvent(event, row);
+        selected.setBackground(jtable.getSelectionBackground());
+        return selected;
+    }
+}

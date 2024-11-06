@@ -1,19 +1,26 @@
 package com.monagas.view.sales.forms;
 
 import com.monagas.controllers.sales.ClientController;
+import com.monagas.controllers.sales.ProductController;
 import com.monagas.view.sales.components.CustomJPanel;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
+import com.monagas.view.sales.forms.dialogs.DialogSellings;
+import com.monagas.view.sales.renderer.cell.PanelRemove.TableActionCellEditor;
+import com.monagas.view.sales.renderer.cell.PanelRemove.TableActionCellRender;
+import com.monagas.view.sales.renderer.cell.PanelRemove.TableRemoveEvent;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 public class Sellings extends CustomJPanel {
 
     private final ClientController clientController = new ClientController();
-
+    private final ProductController productController = new ProductController();
+    
     private final Frame parent;
 
     public Sellings(Frame parent) {
@@ -21,6 +28,14 @@ public class Sellings extends CustomJPanel {
         initComponents();
 
         FlatStyle.setStyle(spSellings, tblSellings);
+
+        TableRemoveEvent event = (int row) -> {
+            DefaultTableModel model = (DefaultTableModel) tblSellings.getModel();
+            model.removeRow(row);
+        };
+
+        tblSellings.getColumnModel().getColumn(tblSellings.getColumnCount() - 1).setCellRenderer(new TableActionCellRender());
+        tblSellings.getColumnModel().getColumn(tblSellings.getColumnCount() - 1).setCellEditor(new TableActionCellEditor(event));
 
         eventField(txtCedula);
     }
@@ -46,7 +61,8 @@ public class Sellings extends CustomJPanel {
         btnUpdate = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         btnProducts = new javax.swing.JButton();
-        btnAmount = new javax.swing.JButton();
+        btnPlus = new javax.swing.JButton();
+        btnLess = new javax.swing.JButton();
         btnSell = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
@@ -57,11 +73,11 @@ public class Sellings extends CustomJPanel {
 
             },
             new String [] {
-                "CODIGO", "PRODUCTO", "CANTIDAD", "PRECIO", "SUBTOTAL", "ACCION"
+                "CODIGO", "PRODUCTO", "CANTIDAD", "PRECIO", "SUBTOTAL", ""
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, true
@@ -87,8 +103,11 @@ public class Sellings extends CustomJPanel {
         spSellings.setViewportView(tblSellings);
         if (tblSellings.getColumnModel().getColumnCount() > 0) {
             tblSellings.getColumnModel().getColumn(0).setPreferredWidth(80);
-            tblSellings.getColumnModel().getColumn(1).setPreferredWidth(200);
-            tblSellings.getColumnModel().getColumn(5).setResizable(false);
+            tblSellings.getColumnModel().getColumn(1).setPreferredWidth(270);
+            tblSellings.getColumnModel().getColumn(2).setPreferredWidth(90);
+            tblSellings.getColumnModel().getColumn(3).setPreferredWidth(70);
+            tblSellings.getColumnModel().getColumn(4).setPreferredWidth(80);
+            tblSellings.getColumnModel().getColumn(5).setPreferredWidth(50);
         }
 
         javax.swing.GroupLayout panelProductsLayout = new javax.swing.GroupLayout(panelProducts);
@@ -169,11 +188,33 @@ public class Sellings extends CustomJPanel {
         btnProducts.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnProducts.setForeground(new java.awt.Color(255, 255, 255));
         btnProducts.setText("AGREGAR PRODUCTO (F3)");
+        btnProducts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProductsActionPerformed(evt);
+            }
+        });
 
-        btnAmount.setBackground(new java.awt.Color(39, 92, 183));
-        btnAmount.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnAmount.setForeground(new java.awt.Color(255, 255, 255));
-        btnAmount.setText("CANTIDAD DE PRODUCTO (F4)");
+        btnPlus.setBackground(new java.awt.Color(39, 92, 183));
+        btnPlus.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnPlus.setForeground(new java.awt.Color(255, 255, 255));
+        btnPlus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconPlus.png"))); // NOI18N
+        btnPlus.setText("CANT.");
+        btnPlus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlusActionPerformed(evt);
+            }
+        });
+
+        btnLess.setBackground(new java.awt.Color(39, 92, 183));
+        btnLess.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnLess.setForeground(new java.awt.Color(255, 255, 255));
+        btnLess.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconLess20.png"))); // NOI18N
+        btnLess.setText("CANT.");
+        btnLess.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLessActionPerformed(evt);
+            }
+        });
 
         btnSell.setBackground(new java.awt.Color(39, 92, 183));
         btnSell.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -198,7 +239,6 @@ public class Sellings extends CustomJPanel {
                         .addGap(25, 25, 25)
                         .addGroup(panelSellingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(btnProducts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAmount, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnSell, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnCancel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(panelSellingLayout.createSequentialGroup()
@@ -215,7 +255,11 @@ public class Sellings extends CustomJPanel {
                                 .addComponent(cbCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtAddress, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
+                            .addComponent(txtAddress, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelSellingLayout.createSequentialGroup()
+                                .addComponent(btnPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLess, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSearch)
                         .addGap(0, 15, Short.MAX_VALUE)))
@@ -248,7 +292,9 @@ public class Sellings extends CustomJPanel {
                 .addGap(18, 18, 18)
                 .addComponent(btnProducts, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelSellingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLess, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSell, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -301,6 +347,18 @@ public class Sellings extends CustomJPanel {
         txtAddress.setText("");
     }//GEN-LAST:event_btnClearActionPerformed
 
+    private void btnProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductsActionPerformed
+        new DialogSellings(parent, true, tblSellings).setVisible(true);
+    }//GEN-LAST:event_btnProductsActionPerformed
+
+    private void btnPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlusActionPerformed
+        productController.Amount(parent, tblSellings, true);
+    }//GEN-LAST:event_btnPlusActionPerformed
+
+    private void btnLessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLessActionPerformed
+        productController.Amount(parent, tblSellings, false);
+    }//GEN-LAST:event_btnLessActionPerformed
+
     private void eventField(JTextField txtCedula) {
         txtCedula.addKeyListener(new KeyAdapter() {
             @Override
@@ -313,9 +371,10 @@ public class Sellings extends CustomJPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAmount;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnLess;
+    private javax.swing.JButton btnPlus;
     private javax.swing.JButton btnProducts;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnSell;

@@ -98,6 +98,7 @@ public class Sales extends JFrame {
         mAccount.add(itemControls);
 
         itemLogout.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        itemLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconLogout20.png"))); // NOI18N
         itemLogout.setText("Cerrar Sesión");
         mAccount.add(itemLogout);
 
