@@ -169,8 +169,8 @@ public class ProductController {
                 count++,
                 "PD" + product.getProductId(),
                 product.getDescription(),
-                product.getPrice(),
-                product.getPurchase(),
+                product.getPrice() + "$",
+                product.getPurchase() + "$",
                 product.getAmount(),
                 (categoryName != null) ? categoryName.getName() : null,
                 supplierName.getName(),
@@ -218,7 +218,7 @@ public class ProductController {
 
         double valueTotal = purchasePrice * currentValue;
         table.setValueAt(currentValue, selectedRow, 2);
-        table.setValueAt(decimalFormat.format(valueTotal), selectedRow, 4);
+        table.setValueAt(decimalFormat.format(valueTotal) + "$", selectedRow, 4);
     }
 
     public List<Product> loadSellings(JTable tblProducts) {
@@ -232,7 +232,7 @@ public class ProductController {
             row = new Object[]{
                 "PD" + product.getProductId(),
                 product.getDescription(),
-                product.getPurchase(),
+                product.getPurchase() + "$",
                 product.getAmount()
             };
 

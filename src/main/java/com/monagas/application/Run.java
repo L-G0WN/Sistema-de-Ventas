@@ -11,7 +11,7 @@ public class Run {
     private static final DataInitializer initializer = new DataInitializer();
 
     public static void main(String args[]) {
-        try {
+        try {          
             initializer.initializeData();
             FlatLaf.registerCustomDefaultsSource("theme");
             FlatLightLaf.setup();

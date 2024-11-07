@@ -5,6 +5,7 @@ import com.monagas.entities.login.User;
 import com.monagas.entities.sales.Client;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 import java.io.Serializable;
 import jakarta.persistence.Query;
 import jakarta.persistence.Persistence;
@@ -156,6 +157,25 @@ public class ClientService implements Serializable {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public Long createIfNotExist(String type, String cedula, Client client) throws Exception {
+        EntityManager em = getEntityManager();
+        try {
+            String query = "SELECT c.clientId FROM Client c WHERE c.type = :type AND c.cedula = :cedula";
+            Long existingClientId = em.createQuery(query, Long.class)
+                    .setParameter("type", type)
+                    .setParameter("cedula", cedula)
+                    .getSingleResult();
+            return existingClientId;
+        } catch (NoResultException e) {
+            create(client);
+            return client.getClientId();
+        } catch (Exception ex) {
+            throw new Exception("Error al buscar o crear el cliente: " + ex.getMessage(), ex);
         } finally {
             em.close();
         }

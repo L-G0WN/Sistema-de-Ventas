@@ -150,4 +150,34 @@ public class ProductService implements Serializable {
             em.close();
         }
     }
+
+    public void newAmount(Long id, int amount) throws Exception {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            Product product = em.find(Product.class, id);
+            if (product == null) {
+                throw new Exception("Producto con ID " + id + " no encontrado.");
+            }
+
+            if (product.getAmount() < amount) {
+                throw new Exception("No hay suficiente stock para el producto con ID " + id);
+            }
+
+            product.setAmount(product.getAmount() - amount);
+
+            em.merge(product);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new Exception("Error al actualizar la cantidad del producto: " + ex.getMessage(), ex);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
 }

@@ -28,7 +28,7 @@ public class DialogSellings extends JDialog {
         TableSelectedEvent event = (int row) -> {
             String id = tblProducts.getValueAt(row, 0).toString();
             String description = tblProducts.getValueAt(row, 1).toString();
-            double price = Double.parseDouble(tblProducts.getValueAt(row, 2).toString());
+            double price = Double.parseDouble(tblProducts.getValueAt(row, 2).toString().replace("$", ""));
             int amount = Integer.parseInt(tblProducts.getValueAt(row, 3).toString());
 
             alreadyExist = false;
@@ -45,7 +45,7 @@ public class DialogSellings extends JDialog {
             if (!alreadyExist) {
                 if (amount > 0) {
                     DefaultTableModel model = (DefaultTableModel) tblSellings.getModel();
-                    model.addRow(new Object[]{id, description, 1, price, price});
+                    model.addRow(new Object[]{id, description, 1, price + "$", price + "$"});
                 } else {
                     JOptionPane.showMessageDialog(parent,
                             "No hay stock disponible para este producto seleccionado.",

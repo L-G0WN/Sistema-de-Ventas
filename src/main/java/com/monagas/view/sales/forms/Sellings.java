@@ -3,6 +3,7 @@ package com.monagas.view.sales.forms;
 import com.monagas.api.CurrencyApi;
 import com.monagas.controllers.sales.ClientController;
 import com.monagas.controllers.sales.ProductController;
+import com.monagas.controllers.sales.SellingController;
 import com.monagas.view.sales.components.CustomJPanel;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
@@ -22,6 +23,7 @@ public class Sellings extends CustomJPanel {
 
     private final ClientController clientController = new ClientController();
     private final ProductController productController = new ProductController();
+    private final SellingController sellingController = new SellingController();
 
     private final CurrencyApi currency = new CurrencyApi();
 
@@ -409,11 +411,18 @@ public class Sellings extends CustomJPanel {
     }//GEN-LAST:event_btnLessActionPerformed
 
     private void btnSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSellActionPerformed
-        // TODO add your handling code here:
+        double total = Double.parseDouble(lbTotal.getText().replace("Monto : ", "").replace(",", ".").replace("$", ""));
+
+        sellingController.createSelling(parent, tblSellings, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, total, btnClear);
+        refreshData();
     }//GEN-LAST:event_btnSellActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tblSellings.getModel();
+        model.setRowCount(0);
+
+        refreshData();
+        btnClear.doClick();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
@@ -426,14 +435,14 @@ public class Sellings extends CustomJPanel {
 
         if (tblSellings.getRowCount() > 0) {
             for (int i = 0; i < tblSellings.getRowCount(); i++) {
-                value += Double.parseDouble(tblSellings.getValueAt(i, 4).toString().replace(",", "."));
+                value += Double.parseDouble(tblSellings.getValueAt(i, 4).toString().replace(",", ".").replace("$", ""));
             }
 
-            lbTotal.setText("Monto : " + decimalFormat.format(value) + " $");
+            lbTotal.setText("Monto : " + decimalFormat.format(value) + "$");
             currency.convertCurrency(value, lbBs);
             lbTotalProducts.setText("Cantidad de Productos : " + tblSellings.getRowCount());
         } else {
-            lbTotal.setText("Monto : " + 0 + " $");
+            lbTotal.setText("Monto : " + 0 + "$");
             lbBs.setText("Monto en Bs. : " + 0 + " Bs.");
             lbTotalProducts.setText("Cantidad de Productos : " + 0);
         }
