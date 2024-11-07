@@ -96,7 +96,7 @@ public class SellingController {
                     DefaultTableModel model = (DefaultTableModel) table.getModel();
                     model.setRowCount(0);
                     button.doClick();
-                    
+
                     // FACTURA
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(
@@ -123,37 +123,29 @@ public class SellingController {
         return selling;
     }
 
-//    public List<Selling> loadSellings(JTable table) {
-//        DefaultTableModel model = (DefaultTableModel) table.getModel();
-//        model.setRowCount(0);
-//
-//        List<Selling> sellings = sellingService.findSellingEntities();
-//        int count = 1;
-//
-//        Object[] row;
-//
-//        for (Selling selling : sellings) {
-//            User registeredBy = userService.findUserById(selling.getRegisteredBy().getUserId());
-//            Object[] x3 = selling.getSellingProducts().toArray();
-//            
-//            row = new Object[]{
-//                count++,
-//                "V" + selling.getSellingId();
-//                product.getDescription(),
-//                product.getPrice() + "$",
-//                product.getPurchase() + "$",
-//                product.getAmount(),
-//                (categoryName != null) ? categoryName.getName() : null,
-//                supplierName.getName(),
-//                product.getCreatedAt(),
-//                registeredBy.getFirstname() + " " + registeredBy.getLastname(),
-//                product.getUpdatedAt(),
-//                (updatedBy != null) ? updatedBy.getFirstname() + " " + updatedBy.getLastname() : null
-//            };
-//
-//            model.addRow(row);
-//        }
-//
-//        return sellings;
-//    }
+    public List<Selling> loadSellings(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+
+        List<Selling> sellings = sellingService.findSellingEntities();
+
+        Object[] row;
+
+        for (Selling selling : sellings) {
+            User registeredBy = userService.findUserById(selling.getRegisteredBy().getUserId());
+            Client client = clientService.findClientById(selling.getClient().getClientId());
+
+            row = new Object[]{
+                "V" + selling.getSellingId(),
+                selling.getCreatedAt(),
+                client.getType() + client.getCedula(),
+                client.getFirstname() + " " + client.getLastname(),
+                selling.getTotal() + "$",
+                registeredBy.getFirstname() + " " + registeredBy.getLastname()
+            };
+            model.addRow(row);
+        }
+
+        return sellings;
+    }
 }

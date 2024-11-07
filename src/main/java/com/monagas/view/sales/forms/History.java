@@ -1,17 +1,30 @@
 package com.monagas.view.sales.forms;
 
+import com.monagas.controllers.sales.SellingController;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
+import com.monagas.view.sales.renderer.cell.PanelView.TableActionCellEditor;
+import com.monagas.view.sales.renderer.cell.PanelView.TableActionCellRender;
+import com.monagas.view.sales.renderer.cell.PanelView.TableViewEvent;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
 import javax.swing.JPanel;
 
 public class History extends JPanel {
 
+    private final SellingController controller = new SellingController();
+
     public History(Frame parent) {
         initComponents();
 
         FlatStyle.setStyle(spHistory, tblHistory);
+        
+        TableViewEvent event = (int row) -> {
+            //Long id = Long.valueOf(tblClients.getValueAt(row, 1).toString().substring(1));
+        };
+
+        tblHistory.getColumnModel().getColumn(tblHistory.getColumnCount() - 1).setCellRenderer(new TableActionCellRender());
+        tblHistory.getColumnModel().getColumn(tblHistory.getColumnCount() - 1).setCellEditor(new TableActionCellEditor(event));
     }
 
     @SuppressWarnings("unchecked")
@@ -22,6 +35,12 @@ public class History extends JPanel {
         tblHistory = new CustomJTable();
         txtSearch = new CustomJTextField(tblHistory);
 
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
+
         tblHistory.setAutoCreateRowSorter(true);
         tblHistory.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tblHistory.setModel(new javax.swing.table.DefaultTableModel(
@@ -29,14 +48,14 @@ public class History extends JPanel {
 
             },
             new String [] {
-                "CODIGO DE VENTA", "FECHA DE VENTA", "CEDULA", "NOMBRE Y APELLIDO", "PRODUCTOS", "VENTA REALIZADA POR"
+                "CODIGO DE VENTA", "FECHA DE VENTA", "CEDULA", "NOMBRE Y APELLIDO", "MONTO TOTAL", "VENTA REALIZADA POR", "PRODUCTOS"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Long.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -85,6 +104,10 @@ public class History extends JPanel {
                     .addContainerGap()))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        controller.loadSellings(tblHistory);
+    }//GEN-LAST:event_formComponentShown
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane spHistory;

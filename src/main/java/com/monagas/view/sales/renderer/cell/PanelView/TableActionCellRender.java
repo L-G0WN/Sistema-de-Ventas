@@ -1,4 +1,4 @@
-package com.monagas.view.sales.renderer.cell.PanelRemove;
+package com.monagas.view.sales.renderer.cell.PanelView;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -10,12 +10,12 @@ public class TableActionCellRender extends DefaultTableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable jtable, Object o, boolean isSeleted, boolean bln1, int row, int column) {
         Component com = super.getTableCellRendererComponent(jtable, o, isSeleted, bln1, row, column);
-        PanelRemove remove = new PanelRemove();
+        PanelView view = new PanelView();
         if (isSeleted == false && row % 2 == 0) {
-            remove.setBackground(Color.WHITE);
+            view.setBackground(Color.WHITE);
         } else {
-            remove.setBackground(com.getBackground());
+            view.setBackground(com.getBackground());
         }
-        return remove;
+        return view;
     }
 }
