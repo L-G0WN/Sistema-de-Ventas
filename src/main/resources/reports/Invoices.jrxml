@@ -28,9 +28,18 @@
     sp.purchase_bs,
     sp.subTotal_bs,
     p.product_id,
-    p.description
+    p.description,
+    cl.firstname,
+    cl.lastname,
+    cl.type,
+    cl.cedula,
+    cl.code,
+    cl.phone,
+    cl.address
 FROM 
     commerce cc, Sellings s
+ JOIN
+ 	clients cl ON s.client_id = cl.client_id
 JOIN 
     selling_products sp ON s.selling_id = sp.selling_id 
 JOIN 
@@ -129,61 +138,128 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="description"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="products"/>
 	</field>
+	<field name="COLUMN_19" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="firstname"/>
+		<property name="com.jaspersoft.studio.field.label" value="firstname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
+	</field>
+	<field name="COLUMN_20" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="lastname"/>
+		<property name="com.jaspersoft.studio.field.label" value="lastname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
+	</field>
+	<field name="COLUMN_21" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="type"/>
+		<property name="com.jaspersoft.studio.field.label" value="type"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
+	</field>
+	<field name="cedula" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="cedula"/>
+		<property name="com.jaspersoft.studio.field.label" value="cedula"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
+	</field>
+	<field name="code" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="code"/>
+		<property name="com.jaspersoft.studio.field.label" value="code"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
+	</field>
+	<field name="phone" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="phone"/>
+		<property name="com.jaspersoft.studio.field.label" value="phone"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
+	</field>
+	<field name="address" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="address"/>
+		<property name="com.jaspersoft.studio.field.label" value="address"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
+	</field>
 	<background splitType="Stretch"/>
-	<title height="118">
-		<element kind="staticText" uuid="1b171925-87c7-4f4f-8173-c47dc971816c" x="0" y="37" width="54" height="15" fontSize="8.0" vTextAlign="Middle">
+	<title height="134">
+		<element kind="staticText" uuid="1b171925-87c7-4f4f-8173-c47dc971816c" x="0" y="28" width="30" height="10" fontSize="6.0" vTextAlign="Middle">
 			<text><![CDATA[Vendedor : ]]></text>
-		</element>
-		<element kind="staticText" uuid="2d85b36f-9659-417f-b132-795d77176580" x="30" y="70" width="100" height="15" fontSize="6.0" hTextAlign="Center" vTextAlign="Middle">
-			<text><![CDATA[DETALLES DE FACTURA]]></text>
-		</element>
-		<element kind="textField" uuid="de5d2ad7-3671-4ebd-b891-c518400367bf" x="54" y="37" width="106" height="15" fontSize="8.0" hTextAlign="Right" vTextAlign="Middle">
-			<expression><![CDATA[$F{firstname} + " " + $F{lastname}]]></expression>
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
-		<element kind="line" uuid="25fca7b4-f437-4820-9cc8-8fde70d3ae78" x="1" y="115" width="159" height="1">
+		<element kind="staticText" uuid="2d85b36f-9659-417f-b132-795d77176580" x="31" y="78" width="100" height="15" fontSize="6.0" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[FACTURA]]></text>
+		</element>
+		<element kind="textField" uuid="de5d2ad7-3671-4ebd-b891-c518400367bf" x="30" y="28" width="130" height="10" fontSize="6.0" hTextAlign="Left" vTextAlign="Middle">
+			<expression><![CDATA[$F{firstname} + " " + $F{lastname}]]></expression>
+		</element>
+		<element kind="line" uuid="25fca7b4-f437-4820-9cc8-8fde70d3ae78" x="1" y="130" width="159" height="1">
 			<pen lineStyle="Dashed"/>
 		</element>
-		<element kind="staticText" uuid="c21e1827-f851-4416-b884-9882500862aa" x="0" y="50" width="40" height="15" fontSize="8.0" vTextAlign="Middle">
-			<text><![CDATA[Fecha : ]]></text>
-		</element>
-		<element kind="textField" uuid="9bc99e2e-9efd-4454-bdbc-970ebd89f375" x="31" y="50" width="100" height="15" fontSize="8.0" pattern="M/d/yy" vTextAlign="Middle">
+		<element kind="textField" uuid="9bc99e2e-9efd-4454-bdbc-970ebd89f375" x="22" y="103" width="58" height="10" fontSize="6.0" pattern="M/d/yy" vTextAlign="Middle">
 			<expression><![CDATA[new java.util.Date()]]></expression>
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
-		<element kind="staticText" uuid="d39c5092-a9b9-43c3-9d1d-ea1b5840ca90" x="103" y="50" width="28" height="15" fontSize="8.0" vTextAlign="Middle">
-			<text><![CDATA[Hora : ]]></text>
-		</element>
-		<element kind="textField" uuid="093d6849-5189-4744-bfb1-5c91d7a9bd8b" x="128" y="50" width="32" height="15" fontSize="8.0" pattern="HH:mm:ss " vTextAlign="Middle">
+		<element kind="textField" uuid="093d6849-5189-4744-bfb1-5c91d7a9bd8b" x="132" y="103" width="28" height="10" fontSize="6.0" pattern="HH:mm:ss " hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[new java.util.Date()]]></expression>
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
-		<element kind="staticText" uuid="0a6df1be-91a5-43e7-a9e0-ffae1757f1c9" x="80" y="103" width="28" height="10" fontSize="5.0" hTextAlign="Center" vTextAlign="Middle">
+		<element kind="staticText" uuid="0a6df1be-91a5-43e7-a9e0-ffae1757f1c9" x="80" y="119" width="28" height="10" fontSize="5.0" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[CANTIDAD]]></text>
 		</element>
-		<element kind="staticText" uuid="995dd4cd-f283-4421-b976-0d340b9704ef" x="108" y="103" width="26" height="10" fontSize="5.0" hTextAlign="Center" vTextAlign="Middle">
+		<element kind="staticText" uuid="995dd4cd-f283-4421-b976-0d340b9704ef" x="108" y="119" width="26" height="10" fontSize="5.0" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[PRECIO]]></text>
 		</element>
-		<element kind="staticText" uuid="9be96fb9-19b4-451f-85a0-7659b80f37c1" x="134" y="103" width="26" height="10" fontSize="5.0" hTextAlign="Center" vTextAlign="Middle">
+		<element kind="staticText" uuid="9be96fb9-19b4-451f-85a0-7659b80f37c1" x="134" y="119" width="26" height="10" fontSize="5.0" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[SUBTOTAL]]></text>
 		</element>
-		<element kind="line" uuid="abfaaa01-3ed5-44bc-af14-70f19db0e9a5" x="1" y="100" width="159" height="1">
+		<element kind="line" uuid="abfaaa01-3ed5-44bc-af14-70f19db0e9a5" x="1" y="116" width="159" height="1">
 			<pen lineStyle="Dashed"/>
 		</element>
-		<element kind="staticText" uuid="7fa1ac1b-c2ce-4d8a-a4a9-2b1bd6f9adbb" x="0" y="103" width="54" height="10" fontSize="5.0" vTextAlign="Middle">
+		<element kind="staticText" uuid="7fa1ac1b-c2ce-4d8a-a4a9-2b1bd6f9adbb" x="0" y="119" width="54" height="10" fontSize="5.0" vTextAlign="Middle">
 			<text><![CDATA[DESCRIPCIÓN]]></text>
 		</element>
-		<element kind="staticText" uuid="3e1fbdfa-aa40-4f65-afc3-e5b150f084f1" x="0" y="85" width="40" height="15" fontSize="8.0" hTextAlign="Left" vTextAlign="Middle">
+		<element kind="staticText" uuid="3e1fbdfa-aa40-4f65-afc3-e5b150f084f1" x="0" y="93" width="40" height="10" fontSize="6.0" hTextAlign="Left" vTextAlign="Middle">
 			<text><![CDATA[Factura : ]]></text>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
-		<element kind="textField" uuid="dbf32894-84d5-4831-8699-1ed75be46567" x="100" y="85" width="60" height="15" fontSize="8.0" hTextAlign="Right" vTextAlign="Middle">
+		<element kind="textField" uuid="dbf32894-84d5-4831-8699-1ed75be46567" x="100" y="93" width="60" height="10" fontSize="6.0" hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[$F{selling_id}]]></expression>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
-		<element kind="textField" uuid="5cd0cd83-0f10-407a-95de-dba371425dcd" x="0" y="0" width="160" height="14" fontSize="8.0" hTextAlign="Center" vTextAlign="Middle">
+		<element kind="textField" uuid="5cd0cd83-0f10-407a-95de-dba371425dcd" x="0" y="0" width="160" height="14" fontSize="6.0" hTextAlign="Center" vTextAlign="Middle">
 			<expression><![CDATA[$F{name}]]></expression>
 		</element>
-		<element kind="textField" uuid="7296d534-24ef-47e8-b8a8-a7a82f1afab3" x="0" y="14" width="160" height="14" fontSize="8.0" hTextAlign="Center" vTextAlign="Middle">
+		<element kind="textField" uuid="7296d534-24ef-47e8-b8a8-a7a82f1afab3" x="0" y="14" width="160" height="14" fontSize="6.0" hTextAlign="Center" vTextAlign="Middle">
 			<expression><![CDATA[$F{type} + $F{rif}]]></expression>
+		</element>
+		<element kind="staticText" uuid="6861d05a-7b2b-4aef-9dcc-d4cfb68d5a9b" x="0" y="38" width="30" height="10" fontSize="6.0" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Cliente :]]></text>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="staticText" uuid="ea2fc77e-96f6-43d7-9823-55b408b0f91e" x="0" y="48" width="30" height="10" fontSize="6.0" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Cedula :]]></text>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="staticText" uuid="5d099c5b-5425-43a5-bfef-776e4466459c" x="0" y="58" width="40" height="10" fontSize="6.0" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Teléfono :]]></text>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="staticText" uuid="5ed5d5b4-c9e7-4ed2-b673-cf70f36f3e8d" x="0" y="68" width="40" height="10" fontSize="6.0" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Dirección :]]></text>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="textField" uuid="aacf2207-4b9c-4ecb-9700-5b7c4e74af5d" x="24" y="38" width="136" height="10" fontSize="6.0" vTextAlign="Middle">
+			<expression><![CDATA[$F{COLUMN_19} + " " + $F{COLUMN_20}]]></expression>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="textField" uuid="12a1983a-2b9e-4519-831c-e16d6ead12ff" x="24" y="48" width="136" height="10" fontSize="6.0" vTextAlign="Middle">
+			<expression><![CDATA[$F{COLUMN_21} + $F{cedula}]]></expression>
+		</element>
+		<element kind="textField" uuid="78178b34-df48-4d67-bc03-79bda03a8827" x="30" y="58" width="130" height="10" fontSize="6.0" vTextAlign="Middle">
+			<expression><![CDATA[$F{code} + "-" + $F{phone}]]></expression>
+		</element>
+		<element kind="textField" uuid="cf9fe7a3-25f0-4669-a9bf-9631d8579be3" x="30" y="68" width="130" height="10" fontSize="6.0" blankWhenNull="true" vTextAlign="Middle">
+			<expression><![CDATA[$F{address}]]></expression>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="staticText" uuid="82a42110-6642-484c-9df4-72e4247963fb" x="0" y="103" width="24" height="10" fontSize="6.0" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Fecha : ]]></text>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="staticText" uuid="45318546-75d0-4783-82b4-d5b819efdec4" x="118" y="103" width="24" height="10" fontSize="6.0" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Hora : ]]></text>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
 	</title>
 	<detail>
@@ -226,7 +302,7 @@ WHERE
 			</element>
 		</band>
 	</detail>
-	<summary height="39">
+	<summary height="41">
 		<element kind="staticText" uuid="67b073b8-b4a9-44ca-b026-c36afb173729" x="0" y="15" width="60" height="14" fontSize="6.0" hTextAlign="Left" vTextAlign="Top">
 			<text><![CDATA[Total Divisa >]]></text>
 		</element>
