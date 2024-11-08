@@ -62,7 +62,7 @@ public class Sales extends JFrame {
     }
 
     private void loadCurrency() {
-        currency.updateCurrencyInfo(lbCurrentPrice);
+        currency.updateCurrencyInfo(this, lbCurrentPrice);
     }
 
     @SuppressWarnings("unchecked")

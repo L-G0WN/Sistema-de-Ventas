@@ -203,6 +203,7 @@ public class ProductController {
         Product product = productService.findProductById(id);
         int currentValue = Integer.parseInt(table.getValueAt(selectedRow, 2).toString());
         double purchasePrice = product.getPurchase();
+        double purchaseBs = Double.parseDouble(table.getValueAt(selectedRow, 5).toString().replace(",", "."));
 
         if (isPlusOrNot) {
             if (currentValue >= product.getAmount()) {
@@ -217,8 +218,10 @@ public class ProductController {
         }
 
         double valueTotal = purchasePrice * currentValue;
+        double valueTotalBs = purchaseBs * currentValue;
         table.setValueAt(currentValue, selectedRow, 2);
-        table.setValueAt(decimalFormat.format(valueTotal) + "$", selectedRow, 4);
+        table.setValueAt(decimalFormat.format(valueTotal), selectedRow, 4);
+        table.setValueAt(decimalFormat.format(valueTotalBs), selectedRow, 6);
     }
 
     public List<Product> loadSellings(JTable tblProducts) {

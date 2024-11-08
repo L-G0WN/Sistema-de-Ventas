@@ -1,22 +1,21 @@
 package com.monagas.api;
 
+import java.awt.Frame;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import org.json.JSONObject;
 
-public class CurrencyApi extends JFrame {
+public class CurrencyApi {
 
     private double currentPrice = 0.0;
     private double currentConvert = 0.0;
 
-    public void updateCurrencyInfo(JLabel price) {
+    public void updateCurrencyInfo(Frame parent, JLabel price) {
         String urlString = "https://pydolarve.org/api/v1/dollar?page=bcv";
 
         try {
@@ -46,14 +45,14 @@ public class CurrencyApi extends JFrame {
             }
 
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this,
+            JOptionPane.showMessageDialog(parent,
                     "No se ha podido cargar la información del precio actual:\n" + e.getMessage(),
                     "Sistema de Ventas - Error",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public void convertCurrency(double amount, JLabel result) {
+    public void convertCurrency(Frame parent, double amount, JLabel result) {
         String urlString = "https://pydolarve.org/api/v1/dollar?page=bcv";
 
         try {
@@ -83,10 +82,47 @@ public class CurrencyApi extends JFrame {
             }
 
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this,
+            JOptionPane.showMessageDialog(parent,
                     "No se ha podido cargar la información del precio actual:\n" + e.getMessage(),
                     "Sistema de Ventas - Error",
                     JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public Double convertPrice(Frame parent, double amount) {
+        String urlString = "https://pydolarve.org/api/v1/dollar?page=bcv";
+
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                StringBuilder response;
+                try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                    response = new StringBuilder();
+                    String inputLine;
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                }
+
+                JSONObject jsonResponse = new JSONObject(response.toString());
+                JSONObject data = jsonResponse.getJSONObject("monitors");
+                JSONObject currency = data.getJSONObject("usd");
+
+                currentConvert = currency.getDouble("price");
+
+                double value = amount * currentConvert;
+                return value;
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(parent,
+                    "No se ha podido cargar la información del precio actual:\n" + e.getMessage(),
+                    "Sistema de Ventas - Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
     }
 }

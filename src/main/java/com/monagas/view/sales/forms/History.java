@@ -48,14 +48,14 @@ public class History extends JPanel {
 
             },
             new String [] {
-                "CODIGO DE VENTA", "FECHA DE VENTA", "CEDULA", "NOMBRE Y APELLIDO", "MONTO TOTAL", "VENTA REALIZADA POR", "PRODUCTOS"
+                "CODIGO", "FECHA DE VENTA", "CEDULA", "NOMBRE Y APELLIDO", "MONTO TOTAL $", "MONTO TOTAL BS", "VENTA REALIZADA POR", "PRODUCTOS"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Long.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -66,6 +66,7 @@ public class History extends JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tblHistory.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tblHistory.setGridColor(new java.awt.Color(102, 102, 102));
         tblHistory.setIntercellSpacing(new java.awt.Dimension(0, 1));
         tblHistory.setName("Clients"); // NOI18N
@@ -76,6 +77,9 @@ public class History extends JPanel {
         tblHistory.setShowGrid(true);
         tblHistory.getTableHeader().setReorderingAllowed(false);
         spHistory.setViewportView(tblHistory);
+        if (tblHistory.getColumnModel().getColumnCount() > 0) {
+            tblHistory.getColumnModel().getColumn(0).setPreferredWidth(80);
+        }
 
         txtSearch.setName("Clients"); // NOI18N
 

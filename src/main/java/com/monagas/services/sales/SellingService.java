@@ -5,6 +5,7 @@ import com.monagas.entities.login.User;
 import com.monagas.entities.sales.Client;
 import com.monagas.entities.sales.Product;
 import com.monagas.entities.sales.Selling;
+import com.monagas.view.sales.print.InvoiceReport;
 import java.io.Serializable;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -31,7 +32,7 @@ public class SellingService implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void createSelling(Client client, List<Product> products, Double total, List<Integer> amounts, List<Double> purchases, List<Double> subTotals) throws Exception {
+    public void createSelling(Client client, List<Product> products, Double total, Double totalBs, Integer amountTotal, List<Integer> amounts, List<Double> purchases, List<Double> subTotals, List<Double> purchasesBs, List<Double> subTotalsBs) throws Exception {
         User currentUser = CurrentUser.getInstance().getUser();
         if (currentUser == null) {
             throw new Exception("Usuario no autenticado.");
@@ -49,7 +50,9 @@ public class SellingService implements Serializable {
             }
 
             Selling selling = new Selling();
+            selling.setAmountTotal(amountTotal);
             selling.setTotal(total);
+            selling.setTotalBs(totalBs);
             selling.setClient(existingClient);
             selling.setRegisteredBy(currentUser);
 
@@ -58,11 +61,18 @@ public class SellingService implements Serializable {
                 Integer amount = amounts.get(i);
                 Double purchase = purchases.get(i);
                 Double subTotal = subTotals.get(i);
-                selling.addSellingProduct(product, amount, purchase, subTotal);
+                Double purchaseBs = purchasesBs.get(i);
+                Double subTotalBs = subTotalsBs.get(i);
+                selling.addSellingProduct(product, amount, purchase, subTotal, purchaseBs, subTotalBs);
             }
 
             em.persist(selling);
             em.getTransaction().commit();
+
+            Long sellingId = selling.getSellingId();
+
+            InvoiceReport invoiceReport = new InvoiceReport();
+            invoiceReport.generateInvoice(sellingId);
         } catch (Exception ex) {
             if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();

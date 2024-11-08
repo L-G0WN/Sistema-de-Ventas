@@ -1,5 +1,6 @@
 package com.monagas.controllers.sales;
 
+import com.monagas.api.CurrencyApi;
 import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
 import com.monagas.entities.sales.Client;
@@ -36,7 +37,9 @@ public class SellingController {
             JComboBox cbCode,
             JTextField txtPhone,
             JTextField txtAddress,
+            Integer amountTotal,
             Double total,
+            Double totalBs,
             JButton button) {
         String type = cbType.getSelectedItem().toString();
         String cedula = txtCedula.getText();
@@ -68,20 +71,26 @@ public class SellingController {
                     List<Integer> amounts = new ArrayList<>();
                     List<Double> purchases = new ArrayList<>();
                     List<Double> subTotals = new ArrayList<>();
-
+                    List<Double> purchasesBs = new ArrayList<>();
+                    List<Double> subTotalsBs = new ArrayList<>();
+                    
                     for (int row = 0; row < table.getRowCount(); row++) {
                         Long productId = Long.valueOf(table.getValueAt(row, 0).toString().substring(2));
                         Integer amount = Integer.valueOf(table.getValueAt(row, 2).toString());
-                        Double purchasePrice = Double.valueOf(table.getValueAt(row, 3).toString().replace(",", ".").replace("$", ""));
-                        Double subTotal = Double.valueOf(table.getValueAt(row, 4).toString().replace(",", ".").replace("$", ""));
-
+                        Double purchasePrice = Double.valueOf(table.getValueAt(row, 3).toString().replace(",", "."));
+                        Double subTotal = Double.valueOf(table.getValueAt(row, 4).toString().replace(",", "."));
+                        Double purchasePriceBs = Double.valueOf(table.getValueAt(row, 5).toString().replace(",", "."));
+                        Double subTotalBs = Double.valueOf(table.getValueAt(row, 6).toString().replace(",", "."));
+                        
                         Product product = productService.findProductById(productId);
                         if (product != null) {
                             products.add(product);
                             amounts.add(amount);
                             purchases.add(purchasePrice);
                             subTotals.add(subTotal);
-
+                            purchasesBs.add(purchasePriceBs);
+                            subTotalsBs.add(subTotalBs);
+                            
                             productService.newAmount(productId, amount);
                         } else {
                             JOptionPane.showMessageDialog(
@@ -92,12 +101,10 @@ public class SellingController {
                         }
                     }
 
-                    sellingService.createSelling(client, products, total, amounts, purchases, subTotals);
+                    sellingService.createSelling(client, products, total, totalBs, amountTotal, amounts, purchases, subTotals, purchasesBs, subTotalsBs);
                     DefaultTableModel model = (DefaultTableModel) table.getModel();
                     model.setRowCount(0);
                     button.doClick();
-
-                    // FACTURA
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(
                             parent,
@@ -140,7 +147,8 @@ public class SellingController {
                 selling.getCreatedAt(),
                 client.getType() + client.getCedula(),
                 client.getFirstname() + " " + client.getLastname(),
-                selling.getTotal() + "$",
+                selling.getTotal(),
+                selling.getTotalBs(),
                 registeredBy.getFirstname() + " " + registeredBy.getLastname()
             };
             model.addRow(row);

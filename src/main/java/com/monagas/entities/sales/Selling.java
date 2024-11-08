@@ -37,8 +37,14 @@ public class Selling implements Serializable {
     @OneToMany(mappedBy = "selling", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SellingProduct> sellingProducts = new ArrayList<>();
 
+    @Column(name = "amount_total", updatable = false, nullable = false)
+    private Integer amountTotal;
+
     @Column(name = "total", updatable = false, nullable = false)
     private Double total;
+
+    @Column(name = "total_bs", updatable = false, nullable = false)
+    private Double totalBs;
 
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "client_id", updatable = false, nullable = false)
@@ -52,13 +58,15 @@ public class Selling implements Serializable {
     @Column(name = "created_at", updatable = false, nullable = false)
     private Date createdAt;
 
-    public void addSellingProduct(Product product, Integer amount, Double purchase, Double subTotal) {
+    public void addSellingProduct(Product product, Integer amount, Double purchase, Double subTotal, Double purchaseBs, Double subTotalBs) {
         SellingProduct sellingProduct = new SellingProduct();
         sellingProduct.setSelling(this);
         sellingProduct.setProduct(product);
         sellingProduct.setAmount(amount);
         sellingProduct.setPurchase(purchase);
         sellingProduct.setSubTotal(subTotal);
+        sellingProduct.setPurchaseBs(purchaseBs);
+        sellingProduct.setSubTotalBs(subTotalBs);
         this.sellingProducts.add(sellingProduct);
     }
 }
@@ -92,4 +100,10 @@ class SellingProduct implements Serializable {
 
     @Column(name = "subTotal", nullable = false)
     private Double subTotal;
+
+    @Column(name = "purchase_bs", nullable = false)
+    private Double purchaseBs;
+
+    @Column(name = "subTotal_bs", nullable = false)
+    private Double subTotalBs;
 }

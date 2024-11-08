@@ -9,6 +9,7 @@
     <class>com.monagas.entities.sales.Product</class>
     <class>com.monagas.entities.sales.Selling</class>
     <class>com.monagas.entities.sales.SellingProduct</class>
+    <class>com.monagas.entities.sales.Commerce</class>
     <properties>
       <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Sistema_de_Ventas"/>
       <property name="jakarta.persistence.jdbc.user" value="root"/>

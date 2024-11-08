@@ -11,6 +11,7 @@ import com.monagas.view.sales.forms.dialogs.DialogSellings;
 import com.monagas.view.sales.renderer.cell.PanelRemove.TableActionCellEditor;
 import com.monagas.view.sales.renderer.cell.PanelRemove.TableActionCellRender;
 import com.monagas.view.sales.renderer.cell.PanelRemove.TableRemoveEvent;
+import com.monagas.view.sales.print.InvoiceReport;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
 import java.awt.event.KeyAdapter;
@@ -89,14 +90,14 @@ public class Sellings extends CustomJPanel {
 
             },
             new String [] {
-                "CODIGO", "PRODUCTO", "CANTIDAD", "PRECIO", "SUBTOTAL", ""
+                "COD.", "PRODUCTO", "CANT.", "P.V. $", "SUBTOTAL $", "P.V. BS", "SUBTOTAL BS", ""
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
+                false, false, false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -118,19 +119,21 @@ public class Sellings extends CustomJPanel {
         tblSellings.getTableHeader().setReorderingAllowed(false);
         spSellings.setViewportView(tblSellings);
         if (tblSellings.getColumnModel().getColumnCount() > 0) {
-            tblSellings.getColumnModel().getColumn(0).setPreferredWidth(80);
-            tblSellings.getColumnModel().getColumn(1).setPreferredWidth(270);
-            tblSellings.getColumnModel().getColumn(2).setPreferredWidth(90);
-            tblSellings.getColumnModel().getColumn(3).setPreferredWidth(70);
-            tblSellings.getColumnModel().getColumn(4).setPreferredWidth(80);
-            tblSellings.getColumnModel().getColumn(5).setPreferredWidth(50);
+            tblSellings.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tblSellings.getColumnModel().getColumn(1).setPreferredWidth(265);
+            tblSellings.getColumnModel().getColumn(2).setPreferredWidth(70);
+            tblSellings.getColumnModel().getColumn(3).setPreferredWidth(80);
+            tblSellings.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tblSellings.getColumnModel().getColumn(5).setPreferredWidth(80);
+            tblSellings.getColumnModel().getColumn(6).setPreferredWidth(105);
+            tblSellings.getColumnModel().getColumn(7).setPreferredWidth(50);
         }
 
         javax.swing.GroupLayout panelProductsLayout = new javax.swing.GroupLayout(panelProducts);
         panelProducts.setLayout(panelProductsLayout);
         panelProductsLayout.setHorizontalGroup(
             panelProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(spSellings, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
+            .addComponent(spSellings, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
         );
         panelProductsLayout.setVerticalGroup(
             panelProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -279,38 +282,36 @@ public class Sellings extends CustomJPanel {
         panelSellingLayout.setHorizontalGroup(
             panelSellingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSellingLayout.createSequentialGroup()
-                .addGroup(panelSellingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addComponent(lbTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSellingLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelSellingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnProducts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSell, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelSellingLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lbTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(panelSellingLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(panelSellingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btnProducts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSell, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCancel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(panelSellingLayout.createSequentialGroup()
-                                .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelSellingLayout.createSequentialGroup()
-                                .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtLastname, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtFirstname, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelSellingLayout.createSequentialGroup()
-                                .addComponent(cbCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtAddress, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelSellingLayout.createSequentialGroup()
-                                .addComponent(btnPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnLess, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSearch)
-                        .addGap(0, 15, Short.MAX_VALUE)))
+                        .addGap(2, 2, 2))
+                    .addGroup(panelSellingLayout.createSequentialGroup()
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLastname, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtFirstname, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelSellingLayout.createSequentialGroup()
+                        .addComponent(cbCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtAddress, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelSellingLayout.createSequentialGroup()
+                        .addComponent(btnPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnLess, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         panelSellingLayout.setVerticalGroup(
@@ -411,9 +412,11 @@ public class Sellings extends CustomJPanel {
     }//GEN-LAST:event_btnLessActionPerformed
 
     private void btnSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSellActionPerformed
+        int amountTotal = Integer.parseInt(lbTotalProducts.getText().replace("Cantidad de Productos : ", ""));
         double total = Double.parseDouble(lbTotal.getText().replace("Monto : ", "").replace(",", ".").replace("$", ""));
+        double totalBs = Double.parseDouble(lbBs.getText().replace("Monto en Bs. : ", "").replace(",", ".").replace(" Bs.", ""));
 
-        sellingController.createSelling(parent, tblSellings, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, total, btnClear);
+        sellingController.createSelling(parent, tblSellings, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear);
         refreshData();
     }//GEN-LAST:event_btnSellActionPerformed
 
@@ -439,7 +442,7 @@ public class Sellings extends CustomJPanel {
             }
 
             lbTotal.setText("Monto : " + decimalFormat.format(value) + "$");
-            currency.convertCurrency(value, lbBs);
+            currency.convertCurrency(parent, value, lbBs);
             lbTotalProducts.setText("Cantidad de Productos : " + tblSellings.getRowCount());
         } else {
             lbTotal.setText("Monto : " + 0 + "$");

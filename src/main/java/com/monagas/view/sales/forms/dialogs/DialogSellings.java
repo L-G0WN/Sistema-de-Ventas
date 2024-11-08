@@ -1,5 +1,6 @@
 package com.monagas.view.sales.forms.dialogs;
 
+import com.monagas.api.CurrencyApi;
 import com.monagas.controllers.sales.ProductController;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
@@ -8,6 +9,7 @@ import com.monagas.view.sales.renderer.cell.PanelSelected.TableActionCellRender;
 import com.monagas.view.sales.renderer.cell.PanelSelected.TableSelectedEvent;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
+import java.text.DecimalFormat;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -17,7 +19,11 @@ public class DialogSellings extends JDialog {
 
     private final ProductController controller = new ProductController();
 
+    private final CurrencyApi currency = new CurrencyApi();
+
     private boolean alreadyExist;
+
+    private final DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
     public DialogSellings(Frame parent, boolean modal, JTable tblSellings) {
         super(parent, modal);
@@ -30,7 +36,9 @@ public class DialogSellings extends JDialog {
             String description = tblProducts.getValueAt(row, 1).toString();
             double price = Double.parseDouble(tblProducts.getValueAt(row, 2).toString().replace("$", ""));
             int amount = Integer.parseInt(tblProducts.getValueAt(row, 3).toString());
-
+            
+            Double priceBs = currency.convertPrice(parent, price);
+            
             alreadyExist = false;
 
             if (tblSellings.getRowCount() > 0) {
@@ -45,7 +53,7 @@ public class DialogSellings extends JDialog {
             if (!alreadyExist) {
                 if (amount > 0) {
                     DefaultTableModel model = (DefaultTableModel) tblSellings.getModel();
-                    model.addRow(new Object[]{id, description, 1, price + "$", price + "$"});
+                    model.addRow(new Object[]{id, description, 1, price, price, decimalFormat.format(priceBs), decimalFormat.format(priceBs)});
                 } else {
                     JOptionPane.showMessageDialog(parent,
                             "No hay stock disponible para este producto seleccionado.",

@@ -58,6 +58,16 @@
             <artifactId>jasperreports</artifactId>
             <version>7.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-excel-poi</artifactId>
+            <version>7.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>3.0.0-beta2</version>
+        </dependency>
     </dependencies>
     
     <properties>
