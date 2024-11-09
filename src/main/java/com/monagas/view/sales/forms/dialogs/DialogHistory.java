@@ -56,14 +56,13 @@ public class DialogHistory extends JDialog {
             }
         });
         tblProducts.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tblProducts.setGridColor(new java.awt.Color(102, 102, 102));
         tblProducts.setIntercellSpacing(new java.awt.Dimension(0, 1));
         tblProducts.setRowHeight(30);
         tblProducts.setSelectionBackground(new java.awt.Color(230, 230, 230));
         tblProducts.setSelectionForeground(new java.awt.Color(51, 51, 51));
         tblProducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblProducts.setShowGrid(true);
-        tblProducts.setShowHorizontalLines(true);
-        tblProducts.setShowVerticalLines(true);
         tblProducts.getTableHeader().setReorderingAllowed(false);
         spProducts.setViewportView(tblProducts);
         if (tblProducts.getColumnModel().getColumnCount() > 0) {
