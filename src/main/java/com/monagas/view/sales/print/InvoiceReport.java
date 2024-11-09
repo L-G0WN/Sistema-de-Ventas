@@ -30,8 +30,11 @@ public class InvoiceReport {
             JasperReport jasperReport = JasperCompileManager.compileReport(absolutePath);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
 
-            JasperViewer.viewReport(jasperPrint, false);
-            
+            JasperViewer JV = new JasperViewer(jasperPrint, false);
+            JV.setTitle("Sistema de Ventas - Factura");
+            JV.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/images/iconFrame20.png")).getImage());
+            JV.setVisible(true);
+
         } catch (SQLException | JRException e) {
             JOptionPane.showMessageDialog(null,
                     "Error al generar el informe:\n" + e.getMessage(),
