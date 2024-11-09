@@ -3,6 +3,7 @@ package com.monagas.view.sales.forms;
 import com.monagas.controllers.sales.SellingController;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
+import com.monagas.view.sales.forms.dialogs.DialogHistory;
 import com.monagas.view.sales.renderer.cell.PanelView.TableActionCellEditor;
 import com.monagas.view.sales.renderer.cell.PanelView.TableActionCellRender;
 import com.monagas.view.sales.renderer.cell.PanelView.TableViewEvent;
@@ -20,7 +21,8 @@ public class History extends JPanel {
         FlatStyle.setStyle(spHistory, tblHistory);
         
         TableViewEvent event = (int row) -> {
-            //Long id = Long.valueOf(tblClients.getValueAt(row, 1).toString().substring(1));
+            Long id = Long.valueOf(tblHistory.getValueAt(row, 0).toString().substring(1));
+            new DialogHistory(parent, true, id).setVisible(true);
         };
 
         tblHistory.getColumnModel().getColumn(tblHistory.getColumnCount() - 1).setCellRenderer(new TableActionCellRender());

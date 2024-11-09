@@ -182,11 +182,11 @@ WHERE
 		<element kind="staticText" uuid="2d85b36f-9659-417f-b132-795d77176580" x="31" y="78" width="100" height="15" fontSize="6.0" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[FACTURA]]></text>
 		</element>
-		<element kind="textField" uuid="de5d2ad7-3671-4ebd-b891-c518400367bf" x="30" y="28" width="130" height="10" fontSize="6.0" hTextAlign="Left" vTextAlign="Middle">
+		<element kind="textField" uuid="de5d2ad7-3671-4ebd-b891-c518400367bf" x="31" y="28" width="129" height="10" fontSize="6.0" hTextAlign="Left" vTextAlign="Middle">
 			<expression><![CDATA[$F{firstname} + " " + $F{lastname}]]></expression>
 		</element>
 		<element kind="line" uuid="25fca7b4-f437-4820-9cc8-8fde70d3ae78" x="1" y="130" width="159" height="1">
-			<pen lineStyle="Dashed"/>
+			<pen lineWidth="0.5" lineStyle="Dashed"/>
 		</element>
 		<element kind="textField" uuid="9bc99e2e-9efd-4454-bdbc-970ebd89f375" x="22" y="103" width="58" height="10" fontSize="6.0" pattern="M/d/yy" vTextAlign="Middle">
 			<expression><![CDATA[new java.util.Date()]]></expression>
@@ -204,7 +204,7 @@ WHERE
 			<text><![CDATA[SUBTOTAL]]></text>
 		</element>
 		<element kind="line" uuid="abfaaa01-3ed5-44bc-af14-70f19db0e9a5" x="1" y="116" width="159" height="1">
-			<pen lineStyle="Dashed"/>
+			<pen lineWidth="0.5" lineStyle="Dashed"/>
 		</element>
 		<element kind="staticText" uuid="7fa1ac1b-c2ce-4d8a-a4a9-2b1bd6f9adbb" x="0" y="119" width="54" height="10" fontSize="5.0" vTextAlign="Middle">
 			<text><![CDATA[DESCRIPCIÓN]]></text>
@@ -303,26 +303,26 @@ WHERE
 		</band>
 	</detail>
 	<summary height="41">
-		<element kind="staticText" uuid="67b073b8-b4a9-44ca-b026-c36afb173729" x="0" y="15" width="60" height="14" fontSize="6.0" hTextAlign="Left" vTextAlign="Top">
-			<text><![CDATA[Total Divisa >]]></text>
+		<element kind="staticText" uuid="67b073b8-b4a9-44ca-b026-c36afb173729" x="0" y="14" width="60" height="14" fontSize="6.0" hTextAlign="Left" vTextAlign="Top">
+			<text><![CDATA[Total Divisa :]]></text>
 		</element>
-		<element kind="textField" uuid="afb9977a-5858-4b83-bb40-ff934d02393f" x="60" y="15" width="100" height="14" fontSize="6.0" hTextAlign="Right" vTextAlign="Top">
+		<element kind="textField" uuid="afb9977a-5858-4b83-bb40-ff934d02393f" x="60" y="14" width="100" height="14" fontSize="6.0" hTextAlign="Right" vTextAlign="Top">
 			<expression><![CDATA[$F{total} + " $"]]></expression>
 		</element>
-		<element kind="textField" uuid="62a66188-5b01-4a45-89fb-576d82cdf316" x="60" y="25" width="100" height="14" fontSize="6.0" hTextAlign="Right" vTextAlign="Top">
+		<element kind="textField" uuid="62a66188-5b01-4a45-89fb-576d82cdf316" x="60" y="24" width="100" height="14" fontSize="6.0" hTextAlign="Right" vTextAlign="Top">
 			<expression><![CDATA[$F{total_bs} + " Bs."]]></expression>
 		</element>
-		<element kind="staticText" uuid="243b80e9-0be6-442e-aca3-68e64f8b8789" x="0" y="25" width="60" height="14" fontSize="6.0" hTextAlign="Left" vTextAlign="Top">
-			<text><![CDATA[Total Bs. >]]></text>
+		<element kind="staticText" uuid="243b80e9-0be6-442e-aca3-68e64f8b8789" x="0" y="24" width="60" height="14" fontSize="6.0" hTextAlign="Left" vTextAlign="Top">
+			<text><![CDATA[Total Bs. :]]></text>
 		</element>
-		<element kind="textField" uuid="48c30880-dd23-4bf0-86c7-96a654b38556" x="80" y="5" width="80" height="14" fontSize="6.0" hTextAlign="Right" vTextAlign="Top">
+		<element kind="textField" uuid="48c30880-dd23-4bf0-86c7-96a654b38556" x="80" y="4" width="80" height="14" fontSize="6.0" hTextAlign="Right" vTextAlign="Top">
 			<expression><![CDATA[$F{amount_total}]]></expression>
 		</element>
-		<element kind="staticText" uuid="8ad64184-048e-4b8b-83c3-935b135733c7" x="0" y="5" width="80" height="14" fontSize="6.0" hTextAlign="Left" vTextAlign="Top">
-			<text><![CDATA[Cantidad Prod. >]]></text>
+		<element kind="staticText" uuid="8ad64184-048e-4b8b-83c3-935b135733c7" x="0" y="4" width="80" height="14" fontSize="6.0" hTextAlign="Left" vTextAlign="Top">
+			<text><![CDATA[Cantidad Prod. :]]></text>
 		</element>
 		<element kind="line" uuid="419d1f21-9b26-4cbf-a613-509fd12a38fd" x="1" y="1" width="159" height="1">
-			<pen lineStyle="Dashed"/>
+			<pen lineWidth="0.5" lineStyle="Dashed"/>
 		</element>
 	</summary>
 </jasperReport>

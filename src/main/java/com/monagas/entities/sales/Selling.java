@@ -34,7 +34,7 @@ public class Selling implements Serializable {
     @Column(name = "selling_id")
     private Long sellingId;
 
-    @OneToMany(mappedBy = "selling", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sellingId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SellingProduct> sellingProducts = new ArrayList<>();
 
     @Column(name = "amount_total", updatable = false, nullable = false)
@@ -60,7 +60,7 @@ public class Selling implements Serializable {
 
     public void addSellingProduct(Product product, Integer amount, Double purchase, Double subTotal, Double purchaseBs, Double subTotalBs) {
         SellingProduct sellingProduct = new SellingProduct();
-        sellingProduct.setSelling(this);
+        sellingProduct.setSellingId(this);
         sellingProduct.setProduct(product);
         sellingProduct.setAmount(amount);
         sellingProduct.setPurchase(purchase);
@@ -69,41 +69,4 @@ public class Selling implements Serializable {
         sellingProduct.setSubTotalBs(subTotalBs);
         this.sellingProducts.add(sellingProduct);
     }
-}
-
-@Entity
-@Table(name = "selling_products")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-class SellingProduct implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "selling_product_id")
-    private Long sellingProductId;
-
-    @ManyToOne
-    @JoinColumn(name = "selling_id", referencedColumnName = "selling_id", nullable = false)
-    private Selling selling;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = false)
-    private Product product;
-
-    @Column(name = "amount", nullable = false)
-    private Integer amount;
-
-    @Column(name = "purchase", nullable = false)
-    private Double purchase;
-
-    @Column(name = "subTotal", nullable = false)
-    private Double subTotal;
-
-    @Column(name = "purchase_bs", nullable = false)
-    private Double purchaseBs;
-
-    @Column(name = "subTotal_bs", nullable = false)
-    private Double subTotalBs;
 }

@@ -5,10 +5,12 @@ import com.monagas.entities.login.User;
 import com.monagas.entities.sales.Client;
 import com.monagas.entities.sales.Product;
 import com.monagas.entities.sales.Selling;
+import com.monagas.entities.sales.SellingProduct;
 import com.monagas.view.sales.print.InvoiceReport;
 import java.io.Serializable;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -107,6 +109,18 @@ public class SellingService implements Serializable {
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<SellingProduct> findSellingProductsById(Long id) {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<SellingProduct> query = em.createQuery(
+                    "SELECT sp FROM SellingProduct sp WHERE sp.sellingId = :sellingId", SellingProduct.class);
+            query.setParameter("sellingId", em.getReference(Selling.class, id));
+            return query.getResultList();
         } finally {
             em.close();
         }
