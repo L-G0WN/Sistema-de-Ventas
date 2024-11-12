@@ -3,15 +3,14 @@ package com.monagas.view.sales.forms;
 import com.monagas.api.CurrencyApi;
 import com.monagas.controllers.sales.ClientController;
 import com.monagas.controllers.sales.ProductController;
-import com.monagas.controllers.sales.SellingController;
 import com.monagas.view.sales.components.CustomJPanel;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
+import com.monagas.view.sales.forms.dialogs.DialogMethod;
 import com.monagas.view.sales.forms.dialogs.DialogSellings;
 import com.monagas.view.sales.renderer.cell.PanelRemove.TableActionCellEditor;
 import com.monagas.view.sales.renderer.cell.PanelRemove.TableActionCellRender;
 import com.monagas.view.sales.renderer.cell.PanelRemove.TableRemoveEvent;
-import com.monagas.view.sales.print.InvoiceReport;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
 import java.awt.event.KeyAdapter;
@@ -24,12 +23,11 @@ public class Sellings extends CustomJPanel {
 
     private final ClientController clientController = new ClientController();
     private final ProductController productController = new ProductController();
-    private final SellingController sellingController = new SellingController();
 
     private final CurrencyApi currency = new CurrencyApi();
 
-    private final Frame parent;
-
+    private final Frame parent;    
+    
     public Sellings(Frame parent) {
         this.parent = parent;
         initComponents();
@@ -416,8 +414,7 @@ public class Sellings extends CustomJPanel {
         double total = Double.parseDouble(lbTotal.getText().replace("Monto : ", "").replace(",", ".").replace("$", ""));
         double totalBs = Double.parseDouble(lbBs.getText().replace("Monto en Bs. : ", "").replace(",", ".").replace(" Bs.", ""));
 
-        sellingController.createSelling(parent, tblSellings, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear);
-        refreshData();
+        new DialogMethod(parent, false, tblSellings, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, lbTotal, lbBs, lbTotalProducts).setVisible(true);
     }//GEN-LAST:event_btnSellActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -432,7 +429,7 @@ public class Sellings extends CustomJPanel {
         refreshData();
     }//GEN-LAST:event_formComponentShown
 
-    private void refreshData() {
+    public void refreshData() {
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
         double value = 0;
 

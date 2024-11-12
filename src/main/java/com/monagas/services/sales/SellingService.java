@@ -34,7 +34,7 @@ public class SellingService implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void createSelling(Client client, List<Product> products, Double total, Double totalBs, Integer amountTotal, List<Integer> amounts, List<Double> purchases, List<Double> subTotals, List<Double> purchasesBs, List<Double> subTotalsBs) throws Exception {
+    public void createSelling(Client client, List<Product> products, Double total, Double totalBs, Integer amountTotal, List<Integer> amounts, List<Double> purchases, List<Double> subTotals, List<Double> purchasesBs, List<Double> subTotalsBs, String method) throws Exception {
         User currentUser = CurrentUser.getInstance().getUser();
         if (currentUser == null) {
             throw new Exception("Usuario no autenticado.");
@@ -55,6 +55,7 @@ public class SellingService implements Serializable {
             selling.setAmountTotal(amountTotal);
             selling.setTotal(total);
             selling.setTotalBs(totalBs);
+            selling.setMethod(method);
             selling.setClient(existingClient);
             selling.setRegisteredBy(currentUser);
 

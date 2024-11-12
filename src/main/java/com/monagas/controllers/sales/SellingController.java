@@ -40,7 +40,8 @@ public class SellingController {
             Integer amountTotal,
             Double total,
             Double totalBs,
-            JButton button) {
+            JButton button,
+            String method) {
         String type = cbType.getSelectedItem().toString();
         String cedula = txtCedula.getText();
         String firstname = txtFirstname.getText().toUpperCase();
@@ -101,7 +102,7 @@ public class SellingController {
                         }
                     }
 
-                    sellingService.createSelling(client, products, total, totalBs, amountTotal, amounts, purchases, subTotals, purchasesBs, subTotalsBs);
+                    sellingService.createSelling(client, products, total, totalBs, amountTotal, amounts, purchases, subTotals, purchasesBs, subTotalsBs, method);
                     DefaultTableModel model = (DefaultTableModel) table.getModel();
                     model.setRowCount(0);
                     button.doClick();
@@ -149,6 +150,7 @@ public class SellingController {
                 client.getFirstname() + " " + client.getLastname(),
                 selling.getTotal(),
                 selling.getTotalBs(),
+                selling.getMethod(),
                 registeredBy.getFirstname() + " " + registeredBy.getLastname()
             };
             model.addRow(row);

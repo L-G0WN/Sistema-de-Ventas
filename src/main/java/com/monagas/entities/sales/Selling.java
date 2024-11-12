@@ -46,6 +46,9 @@ public class Selling implements Serializable {
     @Column(name = "total_bs", updatable = false, nullable = false)
     private Double totalBs;
 
+    @Column(name = "method", updatable = false, nullable = false)
+    private String method;
+    
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "client_id", updatable = false, nullable = false)
     private Client client;
