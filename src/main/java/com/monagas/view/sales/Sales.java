@@ -184,9 +184,9 @@ public class Sales extends JFrame {
     }//GEN-LAST:event_itemControlsActionPerformed
 
     private void itemLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemLogoutActionPerformed
-         CurrentUser.getInstance().clear();
-         this.dispose();
-         new Login().setVisible(true);
+        CurrentUser.getInstance().clear();
+        this.dispose();
+        new Login().setVisible(true);
     }//GEN-LAST:event_itemLogoutActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

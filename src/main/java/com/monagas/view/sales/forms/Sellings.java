@@ -3,6 +3,7 @@ package com.monagas.view.sales.forms;
 import com.monagas.api.CurrencyApi;
 import com.monagas.controllers.sales.ClientController;
 import com.monagas.controllers.sales.ProductController;
+import com.monagas.controllers.sales.SellingController;
 import com.monagas.view.sales.components.CustomJPanel;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
@@ -17,6 +18,7 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,6 +26,7 @@ public class Sellings extends CustomJPanel {
 
     private final ClientController clientController = new ClientController();
     private final ProductController productController = new ProductController();
+    private final SellingController sellingController = new SellingController();
 
     private final CurrencyApi currency = new CurrencyApi();
 
@@ -47,9 +50,12 @@ public class Sellings extends CustomJPanel {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
             if (e.getID() == KeyEvent.KEY_PRESSED) {
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_F1 -> btnSell.doClick();
-                    case KeyEvent.VK_F2 -> btnCancel.doClick();
-                    case KeyEvent.VK_F3 -> btnProducts.doClick();
+                    case KeyEvent.VK_F1 ->
+                        btnSell.doClick();
+                    case KeyEvent.VK_F2 ->
+                        btnCancel.doClick();
+                    case KeyEvent.VK_F3 ->
+                        btnProducts.doClick();
                     default -> {
                     }
                 }
@@ -424,11 +430,18 @@ public class Sellings extends CustomJPanel {
     }//GEN-LAST:event_btnLessActionPerformed
 
     private void btnSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSellActionPerformed
-        int amountTotal = Integer.parseInt(lbTotalProducts.getText().replace("Cantidad de Productos : ", ""));
-        double total = Double.parseDouble(lbTotal.getText().replace("Monto : ", "").replace(",", ".").replace("$", ""));
-        double totalBs = Double.parseDouble(lbBs.getText().replace("Monto en Bs. : ", "").replace(",", ".").replace(" Bs.", ""));
+        if (sellingController.commerceExist() != 0) {
+            int amountTotal = Integer.parseInt(lbTotalProducts.getText().replace("Cantidad de Productos : ", ""));
+            double total = Double.parseDouble(lbTotal.getText().replace("Monto : ", "").replace(",", ".").replace("$", ""));
+            double totalBs = Double.parseDouble(lbBs.getText().replace("Monto en Bs. : ", "").replace(",", ".").replace(" Bs.", ""));
 
-        new DialogMethod(parent, false, tblSellings, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, lbTotal, lbBs, lbTotalProducts).setVisible(true);
+            new DialogMethod(parent, false, tblSellings, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, lbTotal, lbBs, lbTotalProducts).setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(parent,
+                    "No hay información del comercio para realizar la factura.",
+                    "Sistema de Ventas - Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnSellActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed

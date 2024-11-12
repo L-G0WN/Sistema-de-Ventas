@@ -67,7 +67,7 @@ public class SellingController {
                 try {
                     clientService.createIfNotExist(type, cedula, client);
                     client.setClientId(clientService.findIdByCedula(type, cedula));
-
+                    
                     List<Product> products = new ArrayList<>();
                     List<Integer> amounts = new ArrayList<>();
                     List<Double> purchases = new ArrayList<>();
@@ -181,5 +181,9 @@ public class SellingController {
         }
 
         return products;
+    }
+    
+    public Long commerceExist() {
+        return sellingService.getCommerceCount();
     }
 }
