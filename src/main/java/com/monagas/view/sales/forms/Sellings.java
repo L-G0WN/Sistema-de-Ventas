@@ -13,6 +13,7 @@ import com.monagas.view.sales.renderer.cell.PanelRemove.TableActionCellRender;
 import com.monagas.view.sales.renderer.cell.PanelRemove.TableRemoveEvent;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
@@ -26,8 +27,8 @@ public class Sellings extends CustomJPanel {
 
     private final CurrencyApi currency = new CurrencyApi();
 
-    private final Frame parent;    
-    
+    private final Frame parent;
+
     public Sellings(Frame parent) {
         this.parent = parent;
         initComponents();
@@ -42,6 +43,19 @@ public class Sellings extends CustomJPanel {
 
         tblSellings.getColumnModel().getColumn(tblSellings.getColumnCount() - 1).setCellRenderer(new TableActionCellRender());
         tblSellings.getColumnModel().getColumn(tblSellings.getColumnCount() - 1).setCellEditor(new TableActionCellEditor(event));
+
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
+            if (e.getID() == KeyEvent.KEY_PRESSED) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_F1 -> btnSell.doClick();
+                    case KeyEvent.VK_F2 -> btnCancel.doClick();
+                    case KeyEvent.VK_F3 -> btnProducts.doClick();
+                    default -> {
+                    }
+                }
+            }
+            return false;
+        });
 
         eventField(txtCedula);
     }
