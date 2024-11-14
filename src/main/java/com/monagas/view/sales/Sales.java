@@ -9,6 +9,7 @@ import com.monagas.view.sales.forms.History;
 import com.monagas.view.sales.forms.Products;
 import com.monagas.view.sales.forms.Sellings;
 import com.monagas.view.sales.forms.Suppliers;
+import com.monagas.view.sales.forms.dialogs.DialogSettings;
 import com.monagas.view.sales.util.ApplicationUtil;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,8 +52,6 @@ public class Sales extends JFrame {
 
     private void currentUser() {
         String type = (currentUser.getAccountType() == 1) ? "Administrador: " : "Empleado: ";
-        itemCommerce.setVisible(currentUser.getAccountType() == 1);
-        itemControls.setVisible(currentUser.getAccountType() == 1);
 
         mAccount.setText(type + currentUser.getFirstname() + " " + currentUser.getLastname());
     }
@@ -76,9 +75,7 @@ public class Sales extends JFrame {
         lbTime = new javax.swing.JLabel();
         MenuBar = new javax.swing.JMenuBar();
         mAccount = new javax.swing.JMenu();
-        itemAccount = new javax.swing.JMenuItem();
-        itemCommerce = new javax.swing.JMenuItem();
-        itemControls = new javax.swing.JMenuItem();
+        itemSettings = new javax.swing.JMenuItem();
         itemLogout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -97,38 +94,18 @@ public class Sales extends JFrame {
         mAccount.setText("Username");
         mAccount.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        itemAccount.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        itemAccount.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconAccount20.png"))); // NOI18N
-        itemAccount.setText("Mi Cuenta");
-        itemAccount.addActionListener(new java.awt.event.ActionListener() {
+        itemSettings.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        itemSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconSettings16.png"))); // NOI18N
+        itemSettings.setText("Ajustes de Cuenta");
+        itemSettings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAccountActionPerformed(evt);
+                itemSettingsActionPerformed(evt);
             }
         });
-        mAccount.add(itemAccount);
-
-        itemCommerce.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        itemCommerce.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconCommerce20.png"))); // NOI18N
-        itemCommerce.setText("Información del Comercio");
-        itemCommerce.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemCommerceActionPerformed(evt);
-            }
-        });
-        mAccount.add(itemCommerce);
-
-        itemControls.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        itemControls.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconControls20.png"))); // NOI18N
-        itemControls.setText("Control de Usuarios");
-        itemControls.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemControlsActionPerformed(evt);
-            }
-        });
-        mAccount.add(itemControls);
+        mAccount.add(itemSettings);
 
         itemLogout.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        itemLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconLogout20.png"))); // NOI18N
+        itemLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconLogout16.png"))); // NOI18N
         itemLogout.setText("Cerrar Sesión");
         itemLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,17 +148,9 @@ public class Sales extends JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void itemAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAccountActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itemAccountActionPerformed
-
-    private void itemCommerceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCommerceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itemCommerceActionPerformed
-
-    private void itemControlsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemControlsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itemControlsActionPerformed
+    private void itemSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSettingsActionPerformed
+        new DialogSettings(this, true).setVisible(true);
+    }//GEN-LAST:event_itemSettingsActionPerformed
 
     private void itemLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemLogoutActionPerformed
         CurrentUser.getInstance().clear();
@@ -191,10 +160,8 @@ public class Sales extends JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MenuBar;
-    private javax.swing.JMenuItem itemAccount;
-    private javax.swing.JMenuItem itemCommerce;
-    private javax.swing.JMenuItem itemControls;
     private javax.swing.JMenuItem itemLogout;
+    private javax.swing.JMenuItem itemSettings;
     private javax.swing.JLabel lbCurrentPrice;
     private javax.swing.JLabel lbTime;
     public static javax.swing.JMenu mAccount;
