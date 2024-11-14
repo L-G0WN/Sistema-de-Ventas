@@ -1,39 +1,41 @@
 package com.monagas.view.sales.forms.dialogs;
 
-import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
+import com.monagas.view.sales.forms.About;
 import com.monagas.view.sales.forms.Account;
 import com.monagas.view.sales.forms.Commerce;
 import com.monagas.view.sales.forms.Controls;
 import java.awt.Frame;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JMenu;
 
 public class DialogSettings extends JDialog {
 
-    private final User currentUser = CurrentUser.getInstance().getUser();
-
-    public DialogSettings(Frame parent, boolean modal) {
+    public DialogSettings(Frame parent, boolean modal, User currentUser, JMenu mAccount) {
         super(parent, modal);
         initComponents();
 
         tpWindows.putClientProperty("JTabbedPane.tabType", "card");
         tpWindows.putClientProperty("JTabbedPane.hasFullBorder", true);
 
-        loadTaps(parent);
+        loadTaps(parent, currentUser, mAccount);
     }
 
-    private void loadTaps(Frame parent) {
+    private void loadTaps(Frame parent, User currentUser, JMenu mAccount) {
         ImageIcon iconAccount = new ImageIcon(getClass().getResource("/images/iconAccount20.png"));
         ImageIcon iconCommerce = new ImageIcon(getClass().getResource("/images/iconCommerce20.png"));
         ImageIcon iconControls = new ImageIcon(getClass().getResource("/images/iconControls20.png"));
+        ImageIcon iconAbout = new ImageIcon(getClass().getResource("/images/iconAbout20.png"));
 
         if (currentUser.getAccountType() == 1) {
-            tpWindows.addTab("Mi Cuenta", iconAccount, new Account(parent));
-            tpWindows.addTab("Comercio", iconCommerce, new Commerce(parent));
+            tpWindows.addTab("Mi Cuenta", iconAccount, new Account(parent, currentUser, mAccount));
+            tpWindows.addTab("Comercio", iconCommerce, new Commerce(parent, currentUser));
             tpWindows.addTab("Control de Usuarios", iconControls, new Controls(parent));
+            tpWindows.addTab("Sobre Nosotros", iconAbout, new About());
         } else {
-            tpWindows.addTab("Mi Cuenta", iconAccount, new Account(parent));
+            tpWindows.addTab("Mi Cuenta", iconAccount, new Account(parent, currentUser, mAccount));
+            tpWindows.addTab("Sobre Nosotros", iconAbout, new About());
         }
     }
 
@@ -46,19 +48,21 @@ public class DialogSettings extends JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Ajustes de Cuenta");
 
+        tpWindows.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tpWindows, javax.swing.GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE)
+                .addComponent(tpWindows, javax.swing.GroupLayout.DEFAULT_SIZE, 838, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tpWindows, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+                .addComponent(tpWindows, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

@@ -2,6 +2,7 @@ package com.monagas.controllers.login;
 
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
+import com.monagas.entities.login.User;
 import com.monagas.services.login.UserService;
 import com.monagas.view.login.Login;
 import com.monagas.view.login.components.CredentialManager;
@@ -14,6 +15,7 @@ import java.util.Optional;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -61,6 +63,61 @@ public class UserController {
             JOptionPane.showMessageDialog(
                     parent,
                     "Por favor, complete todos los campos vacíos.",
+                    "Sistema de Ventas - Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    public void edit(Frame parent, User currentUser, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbQuestions, JTextField txtAnswer, JMenu mAccount) {
+        String firstname = txtFirstname.getText();
+        String lastname = txtLastname.getText();
+        String username = txtUsername.getText();
+        String password = new String(txtPassword.getPassword());
+        String question = cbQuestions.getSelectedItem().toString();
+        String answer = txtAnswer.getText();
+
+        User user = currentUser;
+
+        if (!firstname.isEmpty() && !lastname.isEmpty()) {
+            try {
+                if (userService.verifyPassword(currentUser.getUsername(), password)) {
+                    user.setFirstname(firstname);
+                    user.setLastname(lastname);
+
+                    if (!username.isEmpty()) {
+                        user.setUsername(username);
+                    }
+
+                    if (!answer.isEmpty()) {
+                        user.setQuestion(question);
+                        user.setAnswer(answer);
+                    }
+
+                    userService.edit(user);
+                    txtUsername.setText("");
+                    txtPassword.setText("");
+                    cbQuestions.setSelectedIndex(0);
+                    txtAnswer.setText("");
+
+                    mAccount.setText((user.getAccountType() == 1 ? " Administrador : " : "Empleado : ") + user.getFirstname() + " " + user.getLastname());
+
+                    JOptionPane.showMessageDialog(
+                            parent,
+                            "Se han realizado los cambios correctamente.",
+                            "Sistema de Ventas - Información",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
+                        parent,
+                        ex.getMessage(),
+                        "Sistema de Ventas - Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    parent,
+                    "Por favor, complete los campos requeridos para actualizar la información.",
                     "Sistema de Ventas - Advertencia",
                     JOptionPane.WARNING_MESSAGE);
         }

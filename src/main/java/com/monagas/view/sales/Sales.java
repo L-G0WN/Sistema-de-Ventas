@@ -149,7 +149,7 @@ public class Sales extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSettingsActionPerformed
-        new DialogSettings(this, true).setVisible(true);
+        new DialogSettings(this, true, currentUser, mAccount).setVisible(true);
     }//GEN-LAST:event_itemSettingsActionPerformed
 
     private void itemLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemLogoutActionPerformed

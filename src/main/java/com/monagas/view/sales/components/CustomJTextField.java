@@ -44,6 +44,8 @@ public class CustomJTextField extends JTextField {
         TYPE_MESSAGES.put("Price", "P.C.");
         TYPE_MESSAGES.put("Purchase", "P.V.");
         TYPE_MESSAGES.put("Amount", "Stock/Cantidad");
+        TYPE_MESSAGES.put("Username", "Usuario");
+        TYPE_MESSAGES.put("Answer", "Respuesta");
     }
 
     public CustomJTextField(String type) {
