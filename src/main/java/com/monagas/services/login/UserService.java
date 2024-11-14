@@ -56,11 +56,11 @@ public class UserService implements Serializable {
                 throw new Exception("El usuario no se ha encontrado.");
             }
 
-            if (doesUserExist(em, user.getUsername())) {
-                if (existingUsername.getUsername().equalsIgnoreCase("Ventas")) {
-                    throw new Exception("El usuario \"Ventas\" no se puede cambiar ya que es un usuario único en el sistema.");
-                }
+            if (existingUsername.getUsername().equals("Ventas")) {
+                throw new Exception("El usuario \"Ventas\" no se puede cambiar ya que es un usuario único en el sistema.");
+            }
 
+            if (doesUserExist(em, user.getUsername())) {
                 if (!existingUsername.getUsername().equals(user.getUsername())) {
                     throw new Exception("El usuario \"" + user.getUsername() + "\" ya se encuentra registrado.");
                 }
