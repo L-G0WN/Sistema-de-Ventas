@@ -57,7 +57,7 @@ public class UserService implements Serializable {
             }
 
             if (doesUserExist(em, user.getUsername())) {
-                if (user.getUsername().equalsIgnoreCase("Ventas")) {
+                if (existingUsername.getUsername().equalsIgnoreCase("Ventas")) {
                     throw new Exception("El usuario \"Ventas\" no se puede cambiar ya que es un usuario único en el sistema.");
                 }
 
