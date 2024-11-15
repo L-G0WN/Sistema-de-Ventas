@@ -17,65 +17,61 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="cbQuestion" alignment="0" max="32767" attributes="0"/>
                   <Component id="lbQuestions" alignment="1" max="32767" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="btnRegister" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnUpdate" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="txtAnswer" max="32767" attributes="0"/>
-                  <Group type="102" attributes="0">
+                  <Component id="txtAnswer" min="-2" pref="364" max="-2" attributes="0"/>
+                  <Component id="cbQuestion" alignment="0" min="-2" pref="364" max="-2" attributes="0"/>
+                  <Component id="lbAnswer" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lbAnswer" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lbFirstname" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbUsername" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="txtFirstname" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="txtUsername" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="lbLastname" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtPassword" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lbPassword" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtLastname" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
-                              </Group>
+                          <Component id="lbFirstname" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbUsername" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="txtFirstname" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtUsername" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="cbAccount" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="lbAccount" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="86" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="lbLastname" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtPassword" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lbPassword" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtLastname" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cbAccount1" min="-2" pref="175" max="-2" attributes="0"/>
-                          <Component id="lbAccount1" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="btnRegister" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnUpdate" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="cbAccount" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lbAccount" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="86" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lbAccount1" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbAccount1" min="-2" pref="175" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="btnDelete" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="79" max="32767" attributes="0"/>
-                      <Component id="txtSearch" min="-2" pref="210" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
+                      <Component id="txtSearch" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="spDelete" pref="0" max="32767" attributes="0"/>
+                  <Component id="spDelete" pref="450" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -109,22 +105,20 @@
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="cbQuestion" min="-2" pref="30" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="lbAnswer" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="txtAnswer" min="-2" pref="30" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lbAccount" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbAccount1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="cbAccount" min="-2" pref="30" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="cbAccount1" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="lbAnswer" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="txtAnswer" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lbAccount" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbAccount1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="cbAccount" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="cbAccount1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="18" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnUpdate" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="btnRegister" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -136,7 +130,7 @@
                           <Component id="txtSearch" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="spDelete" pref="0" max="32767" attributes="0"/>
+                      <Component id="spDelete" pref="309" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="138" max="32767" attributes="0"/>

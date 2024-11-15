@@ -1,12 +1,21 @@
 package com.monagas.view.sales.forms;
 
+import com.monagas.controllers.sales.CommerceController;
+import com.monagas.view.sales.components.CustomJTextField;
 import java.awt.Frame;
 import javax.swing.JPanel;
 
 public class Commerce extends JPanel {
 
+    private final CommerceController commerceController = new CommerceController();
+    
+    private final Frame parent;
+    
     public Commerce(Frame parent) {
+        this.parent = parent;
         initComponents();
+        
+        commerceController.findCommerce(txtName, txtRif, cbType);
     }
 
     @SuppressWarnings("unchecked")
@@ -14,11 +23,11 @@ public class Commerce extends JPanel {
     private void initComponents() {
 
         lbName = new javax.swing.JLabel();
-        txtName = new javax.swing.JTextField();
+        txtName = new CustomJTextField("Commerce");
         lbType = new javax.swing.JLabel();
         cbType = new javax.swing.JComboBox<>();
         lbRif = new javax.swing.JLabel();
-        txtRif = new javax.swing.JTextField();
+        txtRif = new CustomJTextField("Rif");
         btnUpdate = new javax.swing.JButton();
 
         lbName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -93,7 +102,7 @@ public class Commerce extends JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+        commerceController.loadCommerce(parent, txtName, txtRif, cbType);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -24,6 +24,9 @@
                   <Image iconType="3" name="/images/iconSettings16.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ajustes de Cuenta"/>
+                <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                  <Insets value="[8, 6, 8, 6]"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemSettingsActionPerformed"/>
@@ -38,6 +41,9 @@
                   <Image iconType="3" name="/images/iconLogout16.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cerrar Sesi&#xf3;n"/>
+                <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                  <Insets value="[8, 6, 8, 6]"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemLogoutActionPerformed"/>

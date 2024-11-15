@@ -36,7 +36,7 @@ public class CustomJTextField extends JTextField {
         TYPE_MESSAGES.put("Lastname", "Apellido");
         TYPE_MESSAGES.put("Cedula", "Cedula");
         TYPE_MESSAGES.put("Code", "Codigo");
-        TYPE_MESSAGES.put("Rif", "Rif");
+        TYPE_MESSAGES.put("Rif", "RIF");
         TYPE_MESSAGES.put("Phone", "Número de teléfono");
         TYPE_MESSAGES.put("Email", "Correo Electrónico (Opcional)");
         TYPE_MESSAGES.put("Address", "Dirección principal (Opcional)");
@@ -44,8 +44,11 @@ public class CustomJTextField extends JTextField {
         TYPE_MESSAGES.put("Price", "P.C.");
         TYPE_MESSAGES.put("Purchase", "P.V.");
         TYPE_MESSAGES.put("Amount", "Stock/Cantidad");
-        TYPE_MESSAGES.put("Username", "Usuario");
-        TYPE_MESSAGES.put("Answer", "Respuesta");
+        TYPE_MESSAGES.put("Username", "Usuario (Opcional)");
+        TYPE_MESSAGES.put("Username2", "Usuario");
+        TYPE_MESSAGES.put("Answer", "Respuesta (Opcional)");
+        TYPE_MESSAGES.put("Answer2", "Respuesta");
+        TYPE_MESSAGES.put("Commerce", "Ingresa el nombre del comercio");
     }
 
     public CustomJTextField(String type) {
@@ -60,7 +63,7 @@ public class CustomJTextField extends JTextField {
                 char c = e.getKeyChar();
 
                 if (getName() != null) {
-                    if (getName().equals("Username")) {
+                    if (getName().equals("Username") || getName().equals("Username2") || getName().equals("Commerce")) {
                         if (getText().length() >= MAX_LENGTH) {
                             e.consume();
                         }
@@ -126,7 +129,7 @@ public class CustomJTextField extends JTextField {
                         }
                     }
 
-                    if (getName().equals("Address")) {
+                    if (getName().equals("Address") || getName().equals("Answer") || getName().equals("Answer2")) {
                         if (getText().length() >= MAX_LENGTH_ADDRESS) {
                             e.consume();
                         }

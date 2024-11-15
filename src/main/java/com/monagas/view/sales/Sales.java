@@ -97,6 +97,7 @@ public class Sales extends JFrame {
         itemSettings.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconSettings16.png"))); // NOI18N
         itemSettings.setText("Ajustes de Cuenta");
+        itemSettings.setMargin(new java.awt.Insets(8, 6, 8, 6));
         itemSettings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemSettingsActionPerformed(evt);
@@ -107,6 +108,7 @@ public class Sales extends JFrame {
         itemLogout.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconLogout16.png"))); // NOI18N
         itemLogout.setText("Cerrar Sesión");
+        itemLogout.setMargin(new java.awt.Insets(8, 6, 8, 6));
         itemLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemLogoutActionPerformed(evt);
