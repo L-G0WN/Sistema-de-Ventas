@@ -30,7 +30,7 @@ public class DialogSettings extends JDialog {
 
         if (currentUser.getAccountType() == 1) {
             tpWindows.addTab("Mi Cuenta", iconAccount, new Account(parent, currentUser, mAccount));
-            tpWindows.addTab("Comercio", iconCommerce, new Commerce(parent, currentUser));
+            tpWindows.addTab("Comercio", iconCommerce, new Commerce(parent));
             tpWindows.addTab("Control de Usuarios", iconControls, new Controls(parent));
             tpWindows.addTab("Sobre Nosotros", iconAbout, new About());
         } else {

@@ -84,6 +84,10 @@ public class UserController {
                     user.setFirstname(firstname);
                     user.setLastname(lastname);
 
+                    if (currentUser.getUsername().equals("Ventas") && !username.isEmpty() && !username.equals(currentUser.getUsername())) {
+                        throw new Exception("El usuario \"Ventas\" no se puede cambiar.");
+                    }
+
                     if (!username.isEmpty()) {
                         user.setUsername(username);
                     }
@@ -99,7 +103,7 @@ public class UserController {
                     cbQuestions.setSelectedIndex(0);
                     txtAnswer.setText("");
 
-                    mAccount.setText((user.getAccountType() == 1 ? " Administrador : " : "Empleado : ") + user.getFirstname() + " " + user.getLastname());
+                    mAccount.setText((user.getAccountType() == 1 ? " Administrador: " : "Empleado: ") + user.getFirstname() + " " + user.getLastname());
 
                     JOptionPane.showMessageDialog(
                             parent,

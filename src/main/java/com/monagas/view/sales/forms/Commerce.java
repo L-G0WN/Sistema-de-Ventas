@@ -1,12 +1,11 @@
 package com.monagas.view.sales.forms;
 
-import com.monagas.entities.login.User;
 import java.awt.Frame;
 import javax.swing.JPanel;
 
 public class Commerce extends JPanel {
 
-    public Commerce(Frame parent, User currentUser) {
+    public Commerce(Frame parent) {
         initComponents();
     }
 
