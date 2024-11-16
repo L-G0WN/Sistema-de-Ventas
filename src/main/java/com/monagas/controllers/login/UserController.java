@@ -11,6 +11,7 @@ import com.monagas.view.login.forms.FormVerify;
 import com.monagas.view.login.forms.button.ButtonCancel;
 import com.monagas.view.sales.Sales;
 import java.awt.Frame;
+import java.util.List;
 import java.util.Optional;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -18,8 +19,10 @@ import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
 
 public class UserController {
 
@@ -68,7 +71,100 @@ public class UserController {
         }
     }
 
-    public void edit(Frame parent, User currentUser, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbQuestions, JTextField txtAnswer, JMenu mAccount) {
+    public void createUser(Frame parent, JTable table, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbQuestions, JTextField txtAnswer, JComboBox cbStatus) {
+        String firstname = txtFirstname.getText();
+        String lastname = txtLastname.getText();
+        String username = txtUsername.getText();
+        String password = new String(txtPassword.getPassword());
+        String question = cbQuestions.getSelectedItem().toString();
+        String answer = txtAnswer.getText();
+        boolean status = cbStatus.getSelectedIndex() == 0;
+
+        User user = new User();
+
+        if (!firstname.isEmpty()
+                && !lastname.isEmpty()
+                && !username.isEmpty()
+                && !password.isEmpty()
+                && !answer.isEmpty()) {
+            user.setFirstname(firstname);
+            user.setLastname(lastname);
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setQuestion(question);
+            user.setAnswer(answer);
+            user.setAccountType(0);
+            user.setEnabled(status);
+
+            try {
+                userService.create(user);
+                loadUsers(table);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
+                        parent,
+                        ex.getMessage(),
+                        "Sistema de Ventas - Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    parent,
+                    "Por favor, complete todos los campos requeridos para registrar al usuario.",
+                    "Sistema de Ventas - Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    public void editUser(Frame parent, JTable table, Long id, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbQuestions, JTextField txtAnswer, JComboBox cbStatus) {
+        String firstname = txtFirstname.getText();
+        String lastname = txtLastname.getText();
+        String username = txtUsername.getText();
+        String password = new String(txtPassword.getPassword());
+        String question = cbQuestions.getSelectedItem().toString();
+        String answer = txtAnswer.getText();
+        boolean status = cbStatus.getSelectedIndex() == 0;
+
+        User user = userService.findUserById(id);
+
+        if (!firstname.isEmpty()
+                && !lastname.isEmpty()
+                && !username.isEmpty()
+                && !password.isEmpty()
+                && !answer.isEmpty()) {
+            user.setFirstname(firstname);
+            user.setLastname(lastname);
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setQuestion(question);
+            user.setAnswer(answer);
+            user.setEnabled(status);
+
+            try {
+                userService.edit(user);
+                loadUsers(table);
+
+                JOptionPane.showMessageDialog(
+                        parent,
+                        "Se han realizado los cambios correctamente.",
+                        "Sistema de Ventas - Información",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
+                        parent,
+                        ex.getMessage(),
+                        "Sistema de Ventas - Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    parent,
+                    "Por favor, complete los campos requeridos para actualizar la información.",
+                    "Sistema de Ventas - Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    public void editAccount(Frame parent, User currentUser, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbQuestions, JTextField txtAnswer, JMenu mAccount) {
         String firstname = txtFirstname.getText();
         String lastname = txtLastname.getText();
         String username = txtUsername.getText();
@@ -125,6 +221,56 @@ public class UserController {
                     "Sistema de Ventas - Advertencia",
                     JOptionPane.WARNING_MESSAGE);
         }
+    }
+
+    public void deleteUser(Frame parent, JTable table, Long id) {
+        try {
+            boolean isDeleted = userService.destroy(id);
+
+            if (isDeleted) {
+                loadUsers(table);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    parent,
+                    ex.getMessage(),
+                    "Sistema de Ventas - Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public User loadUserById(Long id, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbQuestions, JTextField txtAnswer, JComboBox cbStatus) {
+        User user = userService.findUserById(id);
+
+        txtFirstname.setText(user.getFirstname());
+        txtLastname.setText(user.getLastname());
+        txtUsername.setText(user.getUsername());
+        txtPassword.setText(user.getPassword());
+        cbQuestions.setSelectedItem(user.getQuestion());
+        txtAnswer.setText(user.getAnswer());
+        cbStatus.setSelectedItem(user.isEnabled() ? "Activado" : "Desactivado");
+
+        return user;
+    }
+
+    public List<User> loadUsers(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+
+        List<User> users = userService.findUsersEntities();
+
+        for (User user : users) {
+            if (user.getAccountType() == 0) {
+                model.addRow(new Object[]{
+                    "U" + user.getUserId(),
+                    user.getUsername(),
+                    user.getFirstname() + " " + user.getLastname(),
+                    (user.isEnabled() ? "Activado" : "Desactivado")
+                });
+            }
+        }
+
+        return users;
     }
 
     public void findUserByUsername(Login parent, JTextField txtUserContinue, JButton btnContinue, JButton Cancel) {

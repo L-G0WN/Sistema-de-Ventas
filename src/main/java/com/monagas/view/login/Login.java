@@ -19,7 +19,7 @@ public class Login extends JFrame {
     private void initComponents() {
         setTitle("Sistema de Ventas");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(new Dimension(400, 400));
+        setSize(new Dimension(400, 430));
         setLocationRelativeTo(null);
         setResizable(false);
         setIconImage(new ImageIcon(getClass().getResource("/images/iconFrame20.png")).getImage());

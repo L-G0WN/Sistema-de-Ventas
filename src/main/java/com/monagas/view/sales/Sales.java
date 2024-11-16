@@ -94,6 +94,7 @@ public class Sales extends JFrame {
         mAccount.setText("Username");
         mAccount.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
+        itemSettings.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemSettings.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconSettings16.png"))); // NOI18N
         itemSettings.setText("Ajustes de Cuenta");
@@ -105,6 +106,7 @@ public class Sales extends JFrame {
         });
         mAccount.add(itemSettings);
 
+        itemLogout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemLogout.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         itemLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconLogout16.png"))); // NOI18N
         itemLogout.setText("Cerrar Sesión");

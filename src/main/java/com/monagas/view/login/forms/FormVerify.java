@@ -5,6 +5,7 @@ import com.monagas.controllers.login.UserController;
 import com.monagas.view.login.Login;
 import com.monagas.view.login.components.FocusablePanel;
 import com.monagas.view.login.forms.button.ButtonCancel;
+import com.monagas.view.login.forms.labels.LabelLogo;
 import com.monagas.view.login.forms.labels.LabelRecovery;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -63,7 +64,8 @@ public class FormVerify extends JPanel implements FocusablePanel {
         btnVerify.addActionListener(e -> {
             ActionPerformedVerify();
         });
-
+        
+        add(new LabelLogo(), "gapright 40");
         add(LabelRecovery.restoreLabel(), "gapy 5");
         add(LabelRecovery.descriptionLabel(), "gapbottom 10");
         add(new JLabel("Pregunta de Seguridad"), "gapy 5");

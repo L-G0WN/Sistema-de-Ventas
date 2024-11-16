@@ -8,6 +8,7 @@ import com.monagas.view.login.Login;
 import com.monagas.view.login.components.CredentialManager;
 import com.monagas.view.login.components.FocusablePanel;
 import com.monagas.view.login.forms.labels.LabelLogin;
+import com.monagas.view.login.forms.labels.LabelLogo;
 import java.awt.Cursor;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -90,6 +91,7 @@ public class FormMain extends JPanel implements FocusablePanel {
         lbForget.putClientProperty(FlatClientProperties.STYLE, ""
                 + "[light]foreground:lighten(@foreground,30%);");
 
+        add(new LabelLogo(), "gapright 40");
         add(LabelLogin.welcomeLabel(), "gapy 5");
         add(LabelLogin.descriptionLabel(), "gapbottom 10");
         add(new JLabel("Nombre de Usuario"), "gapy 5");

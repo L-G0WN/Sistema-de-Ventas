@@ -1,16 +1,23 @@
 package com.monagas.view.sales.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.monagas.controllers.login.UserController;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Controls extends JPanel {
 
+    private final UserController controller = new UserController();
+
+    private final Frame parent;
+
     public Controls(Frame parent) {
+        this.parent = parent;
         initComponents();
 
         FlatStyle.setStyle(spDelete, tblDelete);
@@ -18,6 +25,8 @@ public class Controls extends JPanel {
         txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ingresa tu contraseña");
         txtPassword.putClientProperty(FlatClientProperties.STYLE, ""
                 + "showRevealButton:true");
+
+        controller.loadUsers(tblDelete);
     }
 
     @SuppressWarnings("unchecked")
@@ -29,13 +38,13 @@ public class Controls extends JPanel {
         lbLastname = new javax.swing.JLabel();
         txtLastname = new CustomJTextField("Lastname");
         lbUsername = new javax.swing.JLabel();
-        txtUsername = new CustomJTextField("Username");
+        txtUsername = new CustomJTextField("Username2");
         lbPassword = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
         lbQuestions = new javax.swing.JLabel();
         cbQuestion = new javax.swing.JComboBox<>();
         lbAnswer = new javax.swing.JLabel();
-        txtAnswer = new CustomJTextField("Answer");
+        txtAnswer = new CustomJTextField("Answer2");
         lbAccount = new javax.swing.JLabel();
         cbAccount = new javax.swing.JComboBox<>();
         btnRegister = new javax.swing.JButton();
@@ -44,8 +53,8 @@ public class Controls extends JPanel {
         spDelete = new javax.swing.JScrollPane();
         tblDelete = new CustomJTable();
         txtSearch = new CustomJTextField(tblDelete);
-        cbAccount1 = new javax.swing.JComboBox<>();
-        lbAccount1 = new javax.swing.JLabel();
+        lbStatus = new javax.swing.JLabel();
+        cbStatus = new javax.swing.JComboBox<>();
 
         lbFirstname.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbFirstname.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -114,14 +123,14 @@ public class Controls extends JPanel {
 
             },
             new String [] {
-                "CODIGO", "USUARIO", "NOMBRE Y APELLIDO", "VENTAS REALIZADAS", "ESTADO"
+                "CODIGO", "USUARIO", "NOMBRE Y APELLIDO", "ESTADO"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -135,6 +144,8 @@ public class Controls extends JPanel {
         tblDelete.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tblDelete.setGridColor(new java.awt.Color(102, 102, 102));
         tblDelete.setIntercellSpacing(new java.awt.Dimension(0, 1));
+        tblDelete.setName("Controls"); // NOI18N
+        tblDelete.setRowHeight(30);
         tblDelete.setSelectionBackground(new java.awt.Color(230, 230, 230));
         tblDelete.setSelectionForeground(new java.awt.Color(51, 51, 51));
         tblDelete.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -148,14 +159,15 @@ public class Controls extends JPanel {
         spDelete.setViewportView(tblDelete);
         if (tblDelete.getColumnModel().getColumnCount() > 0) {
             tblDelete.getColumnModel().getColumn(0).setPreferredWidth(80);
-            tblDelete.getColumnModel().getColumn(4).setPreferredWidth(80);
+            tblDelete.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tblDelete.getColumnModel().getColumn(3).setPreferredWidth(90);
         }
 
-        cbAccount1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activado", "Desactivado" }));
+        lbStatus.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbStatus.setText("Estado de Cuenta");
 
-        lbAccount1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lbAccount1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbAccount1.setText("Estado de Cuenta");
+        cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activado", "Desactivado" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -194,8 +206,8 @@ public class Controls extends JPanel {
                                     .addGap(0, 86, Short.MAX_VALUE)))
                             .addGap(12, 12, 12)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lbAccount1)
-                                .addComponent(cbAccount1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(lbStatus)
+                                .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -237,11 +249,11 @@ public class Controls extends JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbAccount)
-                            .addComponent(lbAccount1))
+                            .addComponent(lbStatus))
                         .addGap(0, 0, 0)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbAccount1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -257,35 +269,87 @@ public class Controls extends JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
-
+        controller.createUser(parent, tblDelete, txtFirstname, txtLastname, txtUsername, txtPassword, cbQuestion, txtAnswer, cbStatus);
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if (tblDelete.getRowCount() > 0) {
+            int row = tblDelete.getSelectedRow();
 
+            if (row != -1) {
+                int confirm = JOptionPane.showConfirmDialog(parent,
+                        "¿Estás seguro de eliminar este usuario?",
+                        "Sistema de Ventas",
+                        JOptionPane.OK_CANCEL_OPTION);
+
+                if (confirm == 0) {
+                    Long id = Long.valueOf(tblDelete.getValueAt(row, 0).toString().substring(1));
+                    controller.deleteUser(parent, tblDelete, id);
+                }
+            } else {
+                JOptionPane.showMessageDialog(
+                        parent,
+                        "Por favor, Seleccione algún usuario para eliminar.",
+                        "Sistema de Ventas - Advertencia",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    parent,
+                    "No hay usuarios registrados en el sistema.",
+                    "Sistema de Ventas - Información",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void tblDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDeleteMouseClicked
-
-    }//GEN-LAST:event_tblDeleteMouseClicked
-
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        if (tblDelete.getRowCount() > 0) {
+            int row = tblDelete.getSelectedRow();
 
+            if (row != -1) {
+                Long id = Long.valueOf(tblDelete.getValueAt(row, 0).toString().substring(1));
+                controller.editUser(parent, tblDelete, id, txtFirstname, txtLastname, txtUsername, txtPassword, cbQuestion, txtAnswer, cbStatus);
+            } else {
+                JOptionPane.showMessageDialog(
+                        parent,
+                        "Por favor, Seleccione algún usuario para realizar los cambios.",
+                        "Sistema de Ventas - Advertencia",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    parent,
+                    "No hay usuarios registrados en el sistema.",
+                    "Sistema de Ventas - Información",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void tblDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDeleteMouseClicked
+        if (tblDelete.getRowCount() > 0) {
+            int row = tblDelete.getSelectedRow();
+
+            if (row != -1) {
+                Long id = Long.valueOf(tblDelete.getValueAt(row, 0).toString().substring(1));
+                controller.loadUserById(id, txtFirstname, txtLastname, txtUsername, txtPassword, cbQuestion, txtAnswer, cbStatus);
+            }
+        }
+    }//GEN-LAST:event_tblDeleteMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnRegister;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbAccount;
-    private javax.swing.JComboBox<String> cbAccount1;
     private javax.swing.JComboBox<String> cbQuestion;
+    private javax.swing.JComboBox<String> cbStatus;
     private javax.swing.JLabel lbAccount;
-    private javax.swing.JLabel lbAccount1;
     private javax.swing.JLabel lbAnswer;
     private javax.swing.JLabel lbFirstname;
     private javax.swing.JLabel lbLastname;
     private javax.swing.JLabel lbPassword;
     private javax.swing.JLabel lbQuestions;
+    private javax.swing.JLabel lbStatus;
     private javax.swing.JLabel lbUsername;
     private javax.swing.JScrollPane spDelete;
     private javax.swing.JTable tblDelete;

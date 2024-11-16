@@ -202,8 +202,14 @@ public class CustomJTextField extends JTextField {
 
         int[] columns = new int[]{2, 3};
 
-        if (table.getName() != null && table.getName().equals("Products2")) {
-            columns = new int[]{0, 1};
+        if (table.getName() != null) {
+            if (table.getName().equals("Products2")) {
+                columns = new int[]{0, 1};
+            }
+            
+            if (table.getName().equals("Controls")) {
+                columns = new int[]{1, 2};
+            }
         }
 
         SorterFilter.setRowFilter(RowFilter.regexFilter("(?iu)" + getText(), columns));

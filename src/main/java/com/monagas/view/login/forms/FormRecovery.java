@@ -6,6 +6,7 @@ import com.monagas.view.login.Login;
 import com.monagas.view.login.components.FocusablePanel;
 import com.monagas.view.login.forms.button.ButtonCancel;
 import com.monagas.view.login.components.PasswordStrengthStatus;
+import com.monagas.view.login.forms.labels.LabelLogo;
 import com.monagas.view.login.forms.labels.LabelRecovery;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -77,6 +78,7 @@ public class FormRecovery extends JPanel implements FocusablePanel {
             ActionPerformedChangePassword();
         });
 
+        add(new LabelLogo(), "gapright 40");
         add(LabelRecovery.restoreLabel(), "gapy 5");
         add(LabelRecovery.descriptionLabel(), "gapbottom 10");
         add(new JLabel("Nueva Contraseña"), "gapy 5");

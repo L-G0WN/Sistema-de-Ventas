@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 public class Account extends JPanel {
 
-    private final UserController usercontroller = new UserController();
+    private final UserController controller = new UserController();
 
     private final User currentUser;
 
@@ -182,7 +182,7 @@ public class Account extends JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        usercontroller.edit(parent, currentUser, txtFirstname, txtLastname, txtUsername, txtPassword, cbQuestion, txtAnswer, mAccount);
+        controller.editAccount(parent, currentUser, txtFirstname, txtLastname, txtUsername, txtPassword, cbQuestion, txtAnswer, mAccount);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

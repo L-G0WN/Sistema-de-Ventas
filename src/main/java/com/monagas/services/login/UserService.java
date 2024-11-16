@@ -31,13 +31,23 @@ public class UserService implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(User user) {
+    public void create(User user) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+
+            if (doesUserExist(em, user.getUsername())) {
+                throw new Exception("El usuario \"" + user.getUsername() + "\" ya se encuentra registrado.");
+            }
+
             em.persist(user);
             em.getTransaction().commit();
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new Exception(ex.getMessage(), ex);
         } finally {
             if (em != null) {
                 em.close();
@@ -76,7 +86,7 @@ public class UserService implements Serializable {
         }
     }
 
-    public boolean destroy(Long id) {
+    public boolean destroy(Long id) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -84,7 +94,15 @@ public class UserService implements Serializable {
 
             User user = em.find(User.class, id);
             if (user == null) {
-                return false;
+                throw new Exception("Usuario no encontrado.");
+            }
+
+            long count = (long) em.createQuery("SELECT COUNT(s) FROM Selling s WHERE s.registeredBy.id = :userId")
+                    .setParameter("userId", id)
+                    .getSingleResult();
+
+            if (count > 0) {
+                throw new Exception("No se puede eliminar el usuario porque hay ventas asociados a ella.");
             }
 
             em.remove(user);
@@ -94,14 +112,14 @@ public class UserService implements Serializable {
             if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            return false;
+            throw new Exception(ex.getMessage(), ex);
         } finally {
             if (em != null) {
                 em.close();
             }
         }
     }
-
+    
     private boolean doesUserExist(EntityManager em, String username) {
         String query = "SELECT COUNT(u) FROM User u WHERE u.username = :username";
         Long count = em.createQuery(query, Long.class)
