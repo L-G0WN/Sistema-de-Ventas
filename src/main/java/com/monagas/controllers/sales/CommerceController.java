@@ -17,13 +17,13 @@ public class CommerceController {
         String rif = txtRif.getText();
 
         Commerce commerce = new Commerce();
-        
+
         if (!name.isEmpty() && !rif.isEmpty()) {
             commerce.setCommerceId(1L);
             commerce.setName(name);
             commerce.setType(type);
             commerce.setRif(rif);
-            
+
             try {
                 commerceService.create(commerce);
             } catch (Exception ex) {
@@ -41,10 +41,12 @@ public class CommerceController {
     }
 
     public void findCommerce(JTextField txtName, JTextField txtRif, JComboBox cbType) {
-        Commerce commerce = commerceService.findCommerceById(1L);
-        
-        txtName.setText(commerce.getName());
-        txtRif.setText(commerce.getRif());
-        cbType.setSelectedItem(commerce.getType());
+        Commerce commerce = (commerceService.getCommerceCount() > 0) ? commerceService.findCommerceById(1L) : null;
+
+        if (commerce != null) {
+            txtName.setText(commerce.getName());
+            txtRif.setText(commerce.getRif());
+            cbType.setSelectedItem(commerce.getType());
+        }
     }
 }

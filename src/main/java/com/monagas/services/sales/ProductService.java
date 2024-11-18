@@ -82,7 +82,15 @@ public class ProductService implements Serializable {
 
             Product product = em.find(Product.class, id);
             if (product == null) {
-                throw new Exception("Marca no encontrada.");
+                throw new Exception("Producto no encontrado.");
+            }
+
+            long count = (long) em.createQuery("SELECT COUNT(sp) FROM SellingProduct sp WHERE sp.product.id = :productId")
+                    .setParameter("productId", id)
+                    .getSingleResult();
+
+            if (count > 0) {
+                throw new Exception("No se puede eliminar el producto porque hay ventas asociados a ella.");
             }
 
             em.remove(product);

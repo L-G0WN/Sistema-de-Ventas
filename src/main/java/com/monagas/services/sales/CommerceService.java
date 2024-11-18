@@ -4,6 +4,10 @@ import com.monagas.entities.sales.Commerce;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import java.io.Serializable;
 
 public class CommerceService implements Serializable {
@@ -69,6 +73,21 @@ public class CommerceService implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return em.find(Commerce.class, id);
+        } finally {
+            em.close();
+        }
+    }
+
+    public Long getCommerceCount() {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+            Root<Commerce> rt = cq.from(Commerce.class);
+            cq.select(cb.count(rt));
+
+            Query q = em.createQuery(cq);
+            return (Long) q.getSingleResult();
         } finally {
             em.close();
         }

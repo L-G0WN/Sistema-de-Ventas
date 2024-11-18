@@ -1,12 +1,12 @@
 package com.monagas.view.sales.print;
 
-import java.awt.Frame;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -18,21 +18,25 @@ import net.sf.jasperreports.view.JasperViewer;
 public class InvoiceReport {
 
     public void generateInvoice(Long sellingId) {
+        JasperReport JR;
+        JasperPrint JP;
+        JasperViewer JV;
+
         InputStream absolutePath = this.getClass().getResourceAsStream("/reports/Invoices.jrxml");
         Connection connection = null;
-
+        
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Sistema_de_Ventas", "root", "gafo1212");
 
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("s_id", sellingId);
 
-            JasperReport jasperReport = JasperCompileManager.compileReport(absolutePath);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+            JR = JasperCompileManager.compileReport(absolutePath);
+            JP = JasperFillManager.fillReport(JR, parameters, connection);
 
-            JasperViewer JV = new JasperViewer(jasperPrint, false);
+            JV = new JasperViewer(JP, false);
             JV.setTitle("Sistema de Ventas - Factura");
-            JV.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/images/iconFrame20.png")).getImage());
+            JV.setIconImage(new ImageIcon(getClass().getResource("/images/iconFrame20.png")).getImage());
             JV.setVisible(true);
 
         } catch (SQLException | JRException e) {

@@ -111,6 +111,14 @@ public class ClientService implements Serializable {
                 throw new Exception("Cliente no encontrado.");
             }
 
+            long count = (long) em.createQuery("SELECT COUNT(s) FROM Selling s WHERE s.client.id = :clientId")
+                    .setParameter("clientId", id)
+                    .getSingleResult();
+
+            if (count > 0) {
+                throw new Exception("No se puede eliminar el cliente porque hay ventas asociados a ella.");
+            }
+
             em.remove(client);
             em.getTransaction().commit();
             return true;
