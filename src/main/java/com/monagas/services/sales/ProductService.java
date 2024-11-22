@@ -1,11 +1,10 @@
 package com.monagas.services.sales;
 
 import com.monagas.entities.sales.Product;
+import com.monagas.services.EntityManagerFactoryProvider;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import java.io.Serializable;
 import jakarta.persistence.Query;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -14,26 +13,17 @@ import java.util.List;
 
 public class ProductService implements Serializable {
 
-    public ProductService(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-
-    public ProductService() {
-        emf = Persistence.createEntityManagerFactory("Sistema_de_VentasPU");
-    }
-
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+    private EntityManager getEntityManager() {
+        return EntityManagerFactoryProvider.getEntityManagerFactory().createEntityManager();
     }
 
     public void create(Product product) throws Exception {
         EntityManager em = null;
-
+        
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+
             em.persist(product);
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -50,7 +40,7 @@ public class ProductService implements Serializable {
 
     public void edit(Product product) throws Exception {
         EntityManager em = null;
-
+        
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -76,6 +66,7 @@ public class ProductService implements Serializable {
 
     public boolean destroy(Long id) throws Exception {
         EntityManager em = null;
+        
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -90,7 +81,7 @@ public class ProductService implements Serializable {
                     .getSingleResult();
 
             if (count > 0) {
-                throw new Exception("No se puede eliminar el producto porque hay ventas asociados a ella.");
+                throw new Exception("No se puede eliminar el producto porque hay ventas asociadas a ella.");
             }
 
             em.remove(product);
@@ -117,8 +108,12 @@ public class ProductService implements Serializable {
     }
 
     private List<Product> findProductEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+        EntityManager em = null;
+
         try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Product> cq = cb.createQuery(Product.class);
             Root<Product> rt = cq.from(Product.class);
@@ -129,39 +124,76 @@ public class ProductService implements Serializable {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
             }
-            return q.getResultList();
+            List<Product> resultList = q.getResultList();
+            em.getTransaction().commit();
+            return resultList;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al encontrar las entidades de producto", ex);
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     public Product findProductById(Long id) {
-        EntityManager em = getEntityManager();
+        EntityManager em = null;
+
         try {
-            return em.find(Product.class, id);
+            em = getEntityManager();
+            em.getTransaction().begin();
+
+            Product product = em.find(Product.class, id);
+            em.getTransaction().commit();
+            return product;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al encontrar el producto por ID", ex);
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     public Long getProductCount() {
-        EntityManager em = getEntityManager();
+        EntityManager em = null;
+
         try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Long> cq = cb.createQuery(Long.class);
             Root<Product> rt = cq.from(Product.class);
             cq.select(cb.count(rt));
 
             Query q = em.createQuery(cq);
-            return (Long) q.getSingleResult();
+            Long count = (Long) q.getSingleResult();
+            em.getTransaction().commit();
+            return count;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al obtener el conteo de productos", ex);
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     public void newAmount(Long id, int amount) throws Exception {
-        EntityManager em = getEntityManager();
+        EntityManager em = null;
+
         try {
+            em = getEntityManager();
             em.getTransaction().begin();
 
             Product product = em.find(Product.class, id);
@@ -174,7 +206,6 @@ public class ProductService implements Serializable {
             }
 
             product.setAmount(product.getAmount() - amount);
-
             em.merge(product);
             em.getTransaction().commit();
         } catch (Exception ex) {

@@ -194,7 +194,7 @@ WHERE
 		<element kind="line" uuid="25fca7b4-f437-4820-9cc8-8fde70d3ae78" x="1" y="124" width="159" height="1">
 			<pen lineWidth="0.5" lineStyle="Dashed"/>
 		</element>
-		<element kind="textField" uuid="9bc99e2e-9efd-4454-bdbc-970ebd89f375" x="22" y="97" width="58" height="10" fontSize="6.0" pattern="M/d/yy" vTextAlign="Middle">
+		<element kind="textField" uuid="9bc99e2e-9efd-4454-bdbc-970ebd89f375" x="22" y="97" width="58" height="10" fontSize="6.0" pattern="d/M/yyyy" vTextAlign="Middle">
 			<expression><![CDATA[new java.util.Date()]]></expression>
 		</element>
 		<element kind="textField" uuid="093d6849-5189-4744-bfb1-5c91d7a9bd8b" x="132" y="97" width="28" height="10" fontSize="6.0" pattern="HH:mm:ss " hTextAlign="Right" vTextAlign="Middle">

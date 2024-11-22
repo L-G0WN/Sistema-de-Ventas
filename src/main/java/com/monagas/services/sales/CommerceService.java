@@ -1,9 +1,8 @@
 package com.monagas.services.sales;
 
 import com.monagas.entities.sales.Commerce;
+import com.monagas.services.EntityManagerFactoryProvider;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -12,22 +11,13 @@ import java.io.Serializable;
 
 public class CommerceService implements Serializable {
 
-    public CommerceService(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-
-    public CommerceService() {
-        emf = Persistence.createEntityManagerFactory("Sistema_de_VentasPU");
-    }
-
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+    private EntityManager getEntityManager() {
+        return EntityManagerFactoryProvider.getEntityManagerFactory().createEntityManager();
     }
 
     public void create(Commerce commerce) throws Exception {
         EntityManager em = null;
+
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -70,26 +60,51 @@ public class CommerceService implements Serializable {
     }
 
     public Commerce findCommerceById(Long id) {
-        EntityManager em = getEntityManager();
+        EntityManager em = null;
+
         try {
-            return em.find(Commerce.class, id);
+            em = getEntityManager();
+            em.getTransaction().begin();
+
+            Commerce commerce = em.find(Commerce.class, id);
+            em.getTransaction().commit();
+            return commerce;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al encontrar el comercio por ID", ex);
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     public Long getCommerceCount() {
-        EntityManager em = getEntityManager();
+        EntityManager em = null;
+
         try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Long> cq = cb.createQuery(Long.class);
             Root<Commerce> rt = cq.from(Commerce.class);
             cq.select(cb.count(rt));
-
             Query q = em.createQuery(cq);
-            return (Long) q.getSingleResult();
+            Long count = (Long) q.getSingleResult();
+            em.getTransaction().commit();
+            return count;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al obtener el conteo de comercios", ex);
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 }

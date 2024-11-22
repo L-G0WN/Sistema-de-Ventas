@@ -141,7 +141,6 @@ public class Controls extends JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tblDelete.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tblDelete.setGridColor(new java.awt.Color(102, 102, 102));
         tblDelete.setIntercellSpacing(new java.awt.Dimension(0, 1));
         tblDelete.setName("Controls"); // NOI18N
@@ -160,7 +159,8 @@ public class Controls extends JPanel {
         if (tblDelete.getColumnModel().getColumnCount() > 0) {
             tblDelete.getColumnModel().getColumn(0).setPreferredWidth(80);
             tblDelete.getColumnModel().getColumn(1).setPreferredWidth(100);
-            tblDelete.getColumnModel().getColumn(3).setPreferredWidth(90);
+            tblDelete.getColumnModel().getColumn(2).setPreferredWidth(200);
+            tblDelete.getColumnModel().getColumn(3).setPreferredWidth(95);
         }
 
         lbStatus.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N

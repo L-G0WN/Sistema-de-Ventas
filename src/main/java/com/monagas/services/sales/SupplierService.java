@@ -3,11 +3,10 @@ package com.monagas.services.sales;
 import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
 import com.monagas.entities.sales.Supplier;
+import com.monagas.services.EntityManagerFactoryProvider;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import java.io.Serializable;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -17,18 +16,8 @@ import java.util.List;
 
 public class SupplierService implements Serializable {
 
-    public SupplierService(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-
-    public SupplierService() {
-        emf = Persistence.createEntityManagerFactory("Sistema_de_VentasPU");
-    }
-
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+    private EntityManager getEntityManager() {
+        return EntityManagerFactoryProvider.getEntityManagerFactory().createEntityManager();
     }
 
     public void create(Supplier supplier) throws Exception {
@@ -74,7 +63,7 @@ public class SupplierService implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-
+            
             Supplier existingSupplier = em.find(Supplier.class, supplier.getSupplierId());
             if (existingSupplier == null) {
                 throw new Exception("Proveedor no encontrado.");
@@ -102,10 +91,11 @@ public class SupplierService implements Serializable {
 
     public boolean destroy(Long id) throws Exception {
         EntityManager em = null;
+
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-
+            
             Supplier supplier = em.find(Supplier.class, id);
             if (supplier == null) {
                 throw new Exception("Proveedor no encontrado.");
@@ -123,7 +113,7 @@ public class SupplierService implements Serializable {
             em.getTransaction().commit();
             return true;
         } catch (Exception ex) {
-            if (em != null && em.getTransaction().isActive()) {
+            if (em != null &&  em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
             throw new Exception(ex.getMessage(), ex);
@@ -152,8 +142,12 @@ public class SupplierService implements Serializable {
     }
 
     private List<Supplier> findSupplierEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+        EntityManager em = null;
+
         try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Supplier> cq = cb.createQuery(Supplier.class);
             Root<Supplier> rt = cq.from(Supplier.class);
@@ -164,46 +158,97 @@ public class SupplierService implements Serializable {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
             }
-            return q.getResultList();
+            List<Supplier> resultList = q.getResultList();
+            em.getTransaction().commit();
+            return resultList;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al encontrar las entidades de proveedor", ex);
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     public Supplier findSupplierById(Long id) {
-        EntityManager em = getEntityManager();
+        EntityManager em = null;
+
         try {
-            return em.find(Supplier.class, id);
+            em = getEntityManager();
+            em.getTransaction().begin();
+
+            Supplier supplier = em.find(Supplier.class, id);
+            em.getTransaction().commit();
+            return supplier;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al encontrar el proveedor por ID", ex);
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     public Supplier findSupplierByName(String name) {
-        EntityManager em = getEntityManager();
+        EntityManager em = null;
+
         try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
             TypedQuery<Supplier> query = em.createQuery("SELECT s FROM Supplier s WHERE s.name = :name", Supplier.class);
             query.setParameter("name", name);
-            return query.getSingleResult();
+            Supplier supplier = query.getSingleResult();
+            em.getTransaction().commit();
+            return supplier;
         } catch (NoResultException e) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             return null;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al encontrar el proveedor por nombre", ex);
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     public Long getSupplierCount() {
-        EntityManager em = getEntityManager();
+        EntityManager em = null;
+
         try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Long> cq = cb.createQuery(Long.class);
             Root<Supplier> rt = cq.from(Supplier.class);
             cq.select(cb.count(rt));
 
             Query q = em.createQuery(cq);
-            return (Long) q.getSingleResult();
+            Long count = (Long) q.getSingleResult();
+            em.getTransaction().commit();
+            return count;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al obtener el conteo de proveedores", ex);
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 }

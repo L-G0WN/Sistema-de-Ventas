@@ -2,13 +2,11 @@ package com.monagas.services.login;
 
 import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
+import com.monagas.services.EntityManagerFactoryProvider;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import java.io.Serializable;
 import jakarta.persistence.Query;
-import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -17,22 +15,13 @@ import java.util.List;
 
 public class UserService implements Serializable {
 
-    public UserService(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-
-    public UserService() {
-        emf = Persistence.createEntityManagerFactory("Sistema_de_VentasPU");
-    }
-
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+    private EntityManager getEntityManager() {
+        return EntityManagerFactoryProvider.getEntityManagerFactory().createEntityManager();
     }
 
     public void create(User user) throws Exception {
         EntityManager em = null;
+
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -57,6 +46,7 @@ public class UserService implements Serializable {
 
     public void edit(User user) throws Exception {
         EntityManager em = null;
+
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -88,6 +78,7 @@ public class UserService implements Serializable {
 
     public boolean destroy(Long id) throws Exception {
         EntityManager em = null;
+
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -119,7 +110,7 @@ public class UserService implements Serializable {
             }
         }
     }
-    
+
     private boolean doesUserExist(EntityManager em, String username) {
         String query = "SELECT COUNT(u) FROM User u WHERE u.username = :username";
         Long count = em.createQuery(query, Long.class)
@@ -137,8 +128,12 @@ public class UserService implements Serializable {
     }
 
     private List<User> findUsersEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+        EntityManager em = null;
+
         try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<User> cq = cb.createQuery(User.class);
             Root<User> rt = cq.from(User.class);
@@ -149,53 +144,108 @@ public class UserService implements Serializable {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
             }
-            return q.getResultList();
+
+            List<User> resultList = q.getResultList();
+            em.getTransaction().commit();
+            return resultList;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al encontrar las entidades de usuario", ex);
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     public User findUserById(Long id) {
-        EntityManager em = getEntityManager();
+        EntityManager em = null;
+
         try {
-            return em.find(User.class, id);
+            em = getEntityManager();
+            em.getTransaction().begin();
+
+            User user = em.find(User.class, id);
+            em.getTransaction().commit();
+            return user;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al encontrar el usuario por ID", ex);
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     public User findUserByUsername(String username) {
-        EntityManager em = getEntityManager();
+        EntityManager em = null;
+
         try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
             TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
             query.setParameter("username", username);
-            return query.getSingleResult();
+            User user = query.getSingleResult();
+            em.getTransaction().commit();
+            return user;
         } catch (NoResultException e) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             return null;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al encontrar el usuario por nombre de usuario", ex);
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     public Long getUsersCount() {
-        EntityManager em = getEntityManager();
+        EntityManager em = null;
+
         try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Long> cq = cb.createQuery(Long.class);
             Root<User> rt = cq.from(User.class);
             cq.select(cb.count(rt));
 
             Query q = em.createQuery(cq);
-            return (Long) q.getSingleResult();
+            Long count = (Long) q.getSingleResult();
+            em.getTransaction().commit();
+            return count;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al obtener el conteo de usuarios", ex);
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     public void login(String username, String password) throws Exception {
         EntityManager em = null;
+
         try {
             em = getEntityManager();
+            em.getTransaction().begin();
+
             TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
             query.setParameter("username", username);
             List<User> users = query.getResultList();
@@ -207,6 +257,7 @@ public class UserService implements Serializable {
                 }
                 if (user.getPassword().equals(password)) {
                     CurrentUser.getInstance().setUser(user);
+                    em.getTransaction().commit();
                 } else {
                     throw new Exception("Contraseña incorrecta.");
                 }
@@ -214,6 +265,9 @@ public class UserService implements Serializable {
                 throw new Exception("Usuario no encontrado.");
             }
         } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new Exception(ex.getMessage(), ex);
         } finally {
             if (em != null) {
@@ -224,10 +278,12 @@ public class UserService implements Serializable {
 
     public boolean verify(String username, String question, String answer) throws Exception {
         EntityManager em = null;
+
         try {
             em = getEntityManager();
-            User user = findUserByUsername(username);
+            em.getTransaction().begin();
 
+            User user = findUserByUsername(username);
             if (user == null) {
                 throw new Exception("Usuario no encontrado.");
             }
@@ -240,8 +296,12 @@ public class UserService implements Serializable {
                 throw new Exception("La pregunta o la respuesta son incorrectas.");
             }
 
+            em.getTransaction().commit();
             return true;
         } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new Exception(ex.getMessage(), ex);
         } finally {
             if (em != null) {
@@ -252,10 +312,10 @@ public class UserService implements Serializable {
 
     public boolean changePassword(String username, String password) throws Exception {
         EntityManager em = null;
+
         try {
             em = getEntityManager();
-            EntityTransaction transaction = em.getTransaction();
-            transaction.begin();
+            em.getTransaction().begin();
 
             User user = findUserByUsername(username);
             if (user == null) {
@@ -269,7 +329,7 @@ public class UserService implements Serializable {
             user.setPassword(password);
             em.merge(user);
 
-            transaction.commit();
+            em.getTransaction().commit();
             return true;
         } catch (Exception ex) {
             if (em != null && em.getTransaction().isActive()) {
@@ -285,20 +345,26 @@ public class UserService implements Serializable {
 
     public boolean verifyPassword(String username, String password) throws Exception {
         EntityManager em = null;
+
         try {
             em = getEntityManager();
-            User user = findUserByUsername(username);
+            em.getTransaction().begin();
 
+            User user = findUserByUsername(username);
             if (user == null) {
                 throw new Exception("Usuario no encontrado.");
             }
 
             if (!user.getPassword().equals(password)) {
-                throw new Exception("La contraseña no coinciden, por favor, verifique e intente nuevamente.");
+                throw new Exception("La contraseña no coincide, por favor, verifique e intente nuevamente.");
             }
 
+            em.getTransaction().commit();
             return true;
         } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new Exception(ex.getMessage(), ex);
         } finally {
             if (em != null) {

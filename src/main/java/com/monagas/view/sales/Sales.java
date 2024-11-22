@@ -3,6 +3,7 @@ package com.monagas.view.sales;
 import com.monagas.api.CurrencyApi;
 import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
+import com.monagas.services.EntityManagerFactoryProvider;
 import com.monagas.view.login.Login;
 import com.monagas.view.sales.forms.Clients;
 import com.monagas.view.sales.forms.History;
@@ -10,7 +11,6 @@ import com.monagas.view.sales.forms.Products;
 import com.monagas.view.sales.forms.Sellings;
 import com.monagas.view.sales.forms.Suppliers;
 import com.monagas.view.sales.forms.dialogs.DialogSettings;
-import com.monagas.view.sales.util.ApplicationUtil;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFrame;
@@ -79,9 +79,14 @@ public class Sales extends JFrame {
         itemLogout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Sistema de Ventas v" + ApplicationUtil.getVersion());
+        setTitle("Sistema de Ventas");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/images/iconFrame20.png")).getImage());
         setMinimumSize(new java.awt.Dimension(1024, 600));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         tpWindows.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
@@ -161,6 +166,10 @@ public class Sales extends JFrame {
         this.dispose();
         new Login().setVisible(true);
     }//GEN-LAST:event_itemLogoutActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        EntityManagerFactoryProvider.closeEntityManagerFactory();
+    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MenuBar;

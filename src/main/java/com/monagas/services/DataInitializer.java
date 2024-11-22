@@ -1,19 +1,18 @@
 package com.monagas.services;
 
 import com.monagas.entities.login.User;
-import com.monagas.services.login.UserService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
 public class DataInitializer {
 
-    private final UserService userService = new UserService();
-
     public void initializeData() {
-        EntityManager em = userService.getEntityManager();
-        em.getTransaction().begin();
+        EntityManager em = null;
 
         try {
+            em = EntityManagerFactoryProvider.getEntityManagerFactory().createEntityManager();
+            em.getTransaction().begin();
+
             TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
             query.setParameter("username", "Ventas");
             User existingAdmin = query.getResultStream().findFirst().orElse(null);
@@ -34,11 +33,14 @@ public class DataInitializer {
             } else {
                 em.getTransaction().rollback();
             }
-
         } catch (Exception e) {
-            em.getTransaction().rollback();
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 }
