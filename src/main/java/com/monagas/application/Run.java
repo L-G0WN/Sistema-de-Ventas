@@ -12,12 +12,12 @@ public class Run {
     private static final DataInitializer initializer = new DataInitializer();
 
     public static void main(String[] args) {
-        EntityManagerFactoryProvider.createEntityManagerFactory();
-
         try {
             initializer.initializeData();
             FlatLaf.registerCustomDefaultsSource("theme");
             FlatLightLaf.setup();
+
+            EntityManagerFactoryProvider.createEntityManagerFactory();
 
             java.awt.EventQueue.invokeLater(() -> new Login().setVisible(true));
         } catch (Exception ex) {
