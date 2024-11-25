@@ -32,10 +32,9 @@ public class Sales extends JFrame {
         currentUser();
 
         Timer timer = new Timer(1000, e -> updateDateTime());
+        Timer timerCurrency = new Timer(1000, e -> loadCurrency());
         timer.start();
-
-        updateDateTime();
-        loadCurrency();
+        timerCurrency.start();
     }
 
     private void loadTaps() {
