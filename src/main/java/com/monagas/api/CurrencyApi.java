@@ -54,6 +54,8 @@ public class CurrencyApi {
             String lastUpdate = currency.getString("last_update");
 
             price.setText("Precio del Dolar : " + currentPrice + " Bs. - Última actualización: " + lastUpdate);
+        } else {
+            price.setText("No sé ha podido obtener el precio actual.");
         }
     }
 
@@ -68,6 +70,8 @@ public class CurrencyApi {
 
             double value = amount * currentConvert;
             result.setText(String.format("Monto en Bs. : %.2f Bs.", value));
+        } else {
+            result.setText("No sé ha podido obtener el precio actual.");
         }
     }
 
