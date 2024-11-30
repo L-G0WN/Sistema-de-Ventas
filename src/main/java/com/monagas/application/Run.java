@@ -13,11 +13,11 @@ public class Run {
 
     public static void main(String[] args) {
         try {
-            initializer.initializeData();
             FlatLaf.registerCustomDefaultsSource("theme");
             FlatLightLaf.setup();
 
             EntityManagerFactoryProvider.createEntityManagerFactory();
+            initializer.initializeData();
 
             java.awt.EventQueue.invokeLater(() -> new Login().setVisible(true));
         } catch (Exception ex) {
