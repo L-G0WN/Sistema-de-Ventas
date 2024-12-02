@@ -12,9 +12,9 @@
     <class>com.monagas.entities.sales.Commerce</class>
     <properties>
       <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Sistema_de_Ventas"/>
-      <property name="jakarta.persistence.jdbc.user" value="root"/>
+      <property name="jakarta.persistence.jdbc.user" value="seller"/>
       <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-      <property name="jakarta.persistence.jdbc.password" value="gafo1212"/>
+      <property name="jakarta.persistence.jdbc.password" value=""/>
       <property name="hibernate.show_sql" value="false"/>
       <property name="hibernate.format_sql" value="false"/>
       <property name="hibernate.use_sql_comments" value="false"/>

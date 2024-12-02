@@ -26,7 +26,7 @@ public class InvoiceReport {
         Connection connection = null;
 
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Sistema_de_Ventas", "root", "gafo1212");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Sistema_de_Ventas", "seller", "");
 
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("s_id", sellingId);
