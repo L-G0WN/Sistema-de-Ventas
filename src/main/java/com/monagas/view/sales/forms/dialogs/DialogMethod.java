@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 
 public class DialogMethod extends JDialog {
 
-    private final SellingController sellingController = new SellingController();
+    private final SellingController controller = new SellingController();
 
     private final Frame parent;
     private final JTable table;
@@ -157,7 +157,7 @@ public class DialogMethod extends JDialog {
                 AbstractButton button = buttons.nextElement();
 
                 if (button.isSelected()) {
-                    sellingController.createSelling(parent, table, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, button.getText());
+                    controller.createSelling(parent, table, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, button.getText());
                 }
             }
 

@@ -93,7 +93,6 @@ public class Sales extends JFrame {
 
         lbTime.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         lbTime.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lbTime.setText("DATE");
 
         mAccount.setText("Username");
         mAccount.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N

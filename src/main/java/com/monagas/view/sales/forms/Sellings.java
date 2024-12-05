@@ -433,9 +433,18 @@ public class Sellings extends CustomJPanel {
         if (sellingController.commerceExist() != 0) {
             int amountTotal = Integer.parseInt(lbTotalProducts.getText().replace("Cantidad de Productos : ", ""));
             double total = Double.parseDouble(lbTotal.getText().replace("Monto : ", "").replace(",", ".").replace("$", ""));
-            double totalBs = Double.parseDouble(lbBs.getText().replace("Monto en Bs. : ", "").replace(",", ".").replace(" Bs.", ""));
+            String Bs = lbBs.getText().replace("Monto en Bs. : ", "").replace(",", ".").replace(" Bs.", "");
+            double totalBs = (Bs.equals("Error al obtener la información del dolar.")) ? 0.0 : Double.parseDouble(Bs);
 
-            new DialogMethod(parent, false, tblSellings, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, lbTotal, lbBs, lbTotalProducts).setVisible(true);
+            if (!txtCedula.getText().isEmpty() && !txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !txtPhone.getText().isEmpty()) {
+                new DialogMethod(parent, false, tblSellings, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, lbTotal, lbBs, lbTotalProducts).setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(
+                        parent,
+                        "Por favor, complete los datos del cliente requeridos para la facturación.",
+                        "Sistema de Ventas - Advertencia",
+                        JOptionPane.WARNING_MESSAGE);
+            }
         } else {
             JOptionPane.showMessageDialog(parent,
                     "No hay información del comercio para realizar la factura.",

@@ -55,7 +55,7 @@ public class CurrencyApi {
 
             price.setText("Precio del Dolar : " + currentPrice + " Bs. - Última actualización: " + lastUpdate);
         } else {
-            price.setText("No sé ha podido obtener el precio actual.");
+            price.setText("Error al obtener la información del dolar.");
         }
     }
 
@@ -71,7 +71,7 @@ public class CurrencyApi {
             double value = amount * currentConvert;
             result.setText(String.format("Monto en Bs. : %.2f Bs.", value));
         } else {
-            result.setText("No sé ha podido obtener el precio actual.");
+            result.setText("Monto en Bs. : Error al obtener la información del dolar.");
         }
     }
 
@@ -85,6 +85,6 @@ public class CurrencyApi {
             currentConvert = currency.getDouble("price");
             return amount * currentConvert;
         }
-        return null;
+        return 0.0;
     }
 }
