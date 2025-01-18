@@ -11,9 +11,11 @@ import com.monagas.view.sales.forms.Products;
 import com.monagas.view.sales.forms.Sellings;
 import com.monagas.view.sales.forms.Suppliers;
 import com.monagas.view.sales.forms.dialogs.DialogSettings;
+import com.monagas.view.sales.print.JasperReports;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class Sales extends JFrame {
@@ -46,6 +48,7 @@ public class Sales extends JFrame {
             tpWindows.addTab("Proveedores", new Suppliers(this));
         } else {
             tpWindows.addTab("Ventas", new Sellings(this));
+            itemHistory.setVisible(false);
         }
     }
 
@@ -75,6 +78,7 @@ public class Sales extends JFrame {
         MenuBar = new javax.swing.JMenuBar();
         mAccount = new javax.swing.JMenu();
         itemSettings = new javax.swing.JMenuItem();
+        itemHistory = new javax.swing.JMenuItem();
         itemLogout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -108,6 +112,18 @@ public class Sales extends JFrame {
             }
         });
         mAccount.add(itemSettings);
+
+        itemHistory.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemHistory.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        itemHistory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconHistory16.png"))); // NOI18N
+        itemHistory.setText("Expotar Historial de Ventas");
+        itemHistory.setMargin(new java.awt.Insets(8, 6, 8, 6));
+        itemHistory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemHistoryActionPerformed(evt);
+            }
+        });
+        mAccount.add(itemHistory);
 
         itemLogout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemLogout.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -169,8 +185,21 @@ public class Sales extends JFrame {
         EntityManagerFactoryProvider.closeEntityManagerFactory();
     }//GEN-LAST:event_formWindowClosing
 
+    private void itemHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemHistoryActionPerformed
+        JasperReports jr = new JasperReports();
+        try {
+            jr.generateHistory();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Error al generar el historial de ventas:\n" + ex.getMessage(),
+                    "Sistema de Ventas - Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_itemHistoryActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JMenuItem itemHistory;
     private javax.swing.JMenuItem itemLogout;
     private javax.swing.JMenuItem itemSettings;
     private javax.swing.JLabel lbCurrentPrice;
