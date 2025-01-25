@@ -78,7 +78,7 @@ public class FormMain extends JPanel implements FocusablePanel {
 
         loadStoredCredentials();
 
-        btnForget = new JButton("<html><a href='#'>Restablecer</a></html>");
+        btnForget = new JButton("<html><a href='#'>Restablecer Contraseña</a></html>");
         btnForget.setContentAreaFilled(false);
         btnForget.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnForget.putClientProperty(FlatClientProperties.STYLE, ""
@@ -100,8 +100,8 @@ public class FormMain extends JPanel implements FocusablePanel {
         add(txtPassword);
         add(cbRememberMe, "gapy 5");
         add(btnLogin, "gapy 10");
-        add(lbForget, "split 2, gapy 10, gapleft 25");
-        add(btnForget, "gapright 40, gaptop 10");
+        add(lbForget, "split 2");
+        add(btnForget);
     }
 
     private void loadStoredCredentials() {
