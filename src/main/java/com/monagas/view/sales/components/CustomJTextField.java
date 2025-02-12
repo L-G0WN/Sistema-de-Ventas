@@ -43,6 +43,7 @@ public class CustomJTextField extends JTextField {
         TYPE_MESSAGES.put("Description", "Descripción del Producto");
         TYPE_MESSAGES.put("Price", "P.C.");
         TYPE_MESSAGES.put("Purchase", "P.V.");
+        TYPE_MESSAGES.put("Dolar", "Precio del Dólar");
         TYPE_MESSAGES.put("Amount", "Stock/Cantidad");
         TYPE_MESSAGES.put("Username", "Usuario (Opcional)");
         TYPE_MESSAGES.put("Username2", "Usuario");
@@ -141,7 +142,7 @@ public class CustomJTextField extends JTextField {
                         }
                     }
 
-                    if (getName().equals("Price") || getName().equals("Purchase")) {
+                    if (getName().equals("Price") || getName().equals("Purchase") || getName().equals("Dolar")) {
                         if (!Character.isDigit(c) && c != '.' || getText().length() >= MAX_LENGTH_MONEY) {
                             e.consume();
                         }

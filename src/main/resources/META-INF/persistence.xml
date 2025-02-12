@@ -6,6 +6,7 @@
     <class>com.monagas.entities.sales.Client</class>
     <class>com.monagas.entities.sales.Supplier</class>
     <class>com.monagas.entities.sales.Category</class>
+    <class>com.monagas.entities.sales.Currency</class>
     <class>com.monagas.entities.sales.Product</class>
     <class>com.monagas.entities.sales.Selling</class>
     <class>com.monagas.entities.sales.SellingProduct</class>

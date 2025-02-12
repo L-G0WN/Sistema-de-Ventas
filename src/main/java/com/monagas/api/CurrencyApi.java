@@ -1,5 +1,7 @@
 package com.monagas.api;
 
+import com.monagas.entities.sales.Currency;
+import com.monagas.services.sales.CurrencyService;
 import java.awt.Frame;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,6 +16,8 @@ public class CurrencyApi {
 
     private double currentPrice;
     private double currentConvert;
+
+    private final CurrencyService currencyService = new CurrencyService();
 
     private JSONObject fetchCurrencyData(Frame parent) {
         try {
@@ -44,46 +48,71 @@ public class CurrencyApi {
     }
 
     public void updateCurrencyInfo(Frame parent, JLabel price) {
-        JSONObject jsonResponse = fetchCurrencyData(parent);
+        Currency currencyApp = (currencyService.getCurrencyCount() > 0) ? currencyService.findCurrencyById(1L) : null;
 
-        if (jsonResponse != null) {
-            JSONObject data = jsonResponse.getJSONObject("monitors");
-            JSONObject currency = data.getJSONObject("usd");
+        if (currencyApp != null) {
+            if (currencyApp.getStatus()) {
+                JSONObject jsonResponse = fetchCurrencyData(parent);
 
-            currentPrice = currency.getDouble("price");
-            String lastUpdate = currency.getString("last_update");
+                if (jsonResponse != null) {
+                    JSONObject data = jsonResponse.getJSONObject("monitors");
+                    JSONObject currency = data.getJSONObject("usd");
 
-            price.setText("Precio del Dolar : " + currentPrice + " Bs. - Última actualización: " + lastUpdate);
-        } else {
-            price.setText("Error al obtener la información del dolar.");
+                    currentPrice = currency.getDouble("price");
+                    String lastUpdate = currency.getString("last_update");
+
+                    price.setText("Precio del Dolar : " + currentPrice + " Bs. - Última actualización: " + lastUpdate);
+                } else {
+                    price.setText("Error al obtener la información del dolar.");
+                }
+            } else {
+                price.setText("Precio del Dolar : " + currencyApp.getPrice() + " Bs. - Precio Manual");
+            }
         }
     }
 
     public void convertCurrency(Frame parent, double amount, JLabel result) {
-        JSONObject jsonResponse = fetchCurrencyData(parent);
+        Currency currencyApp = (currencyService.getCurrencyCount() > 0) ? currencyService.findCurrencyById(1L) : null;
 
-        if (jsonResponse != null) {
-            JSONObject data = jsonResponse.getJSONObject("monitors");
-            JSONObject currency = data.getJSONObject("usd");
+        if (currencyApp != null) {
+            if (currencyApp.getStatus()) {
+                JSONObject jsonResponse = fetchCurrencyData(parent);
 
-            currentConvert = currency.getDouble("price");
+                if (jsonResponse != null) {
+                    JSONObject data = jsonResponse.getJSONObject("monitors");
+                    JSONObject currency = data.getJSONObject("usd");
 
-            double value = amount * currentConvert;
-            result.setText(String.format("Monto en Bs. : %.2f Bs.", value));
-        } else {
-            result.setText("Monto en Bs. : Error al obtener la información del dolar.");
+                    currentConvert = currency.getDouble("price");
+
+                    double value = amount * currentConvert;
+                    result.setText(String.format("Monto en Bs. : %.2f Bs.", value));
+                } else {
+                    result.setText("Monto en Bs. : Error al obtener la información del dolar.");
+                }
+            } else {
+                double value = amount * currencyApp.getPrice();
+                result.setText("Monto en Bs. : " + value + " Bs.");
+            }
         }
     }
 
     public Double convertPrice(Frame parent, double amount) {
-        JSONObject jsonResponse = fetchCurrencyData(parent);
+        Currency currencyApp = (currencyService.getCurrencyCount() > 0) ? currencyService.findCurrencyById(1L) : null;
 
-        if (jsonResponse != null) {
-            JSONObject data = jsonResponse.getJSONObject("monitors");
-            JSONObject currency = data.getJSONObject("usd");
+        if (currencyApp != null) {
+            if (currencyApp.getStatus()) {
+                JSONObject jsonResponse = fetchCurrencyData(parent);
 
-            currentConvert = currency.getDouble("price");
-            return amount * currentConvert;
+                if (jsonResponse != null) {
+                    JSONObject data = jsonResponse.getJSONObject("monitors");
+                    JSONObject currency = data.getJSONObject("usd");
+
+                    currentConvert = currency.getDouble("price");
+                    return amount * currentConvert;
+                }
+            } else {
+                return amount * currencyApp.getPrice();
+            }
         }
         return 0.0;
     }

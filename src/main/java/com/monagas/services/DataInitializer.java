@@ -1,12 +1,18 @@
 package com.monagas.services;
 
 import com.monagas.entities.login.User;
+import com.monagas.entities.sales.Currency;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
 public class DataInitializer {
 
     public void initializeData() {
+        initializeAdministrator();
+        initializeCurrency();
+    }
+
+    private void initializeAdministrator() {
         EntityManager em = null;
 
         try {
@@ -29,6 +35,38 @@ public class DataInitializer {
                 admin.setEnabled(true);
 
                 em.persist(admin);
+                em.getTransaction().commit();
+            } else {
+                em.getTransaction().rollback();
+            }
+        } catch (Exception e) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    private void initializeCurrency() {
+        EntityManager em = null;
+
+        try {
+            em = EntityManagerFactoryProvider.getEntityManagerFactory().createEntityManager();
+            em.getTransaction().begin();
+
+            TypedQuery<Currency> query = em.createQuery("SELECT c FROM Currency c WHERE c.currencyId = :id", Currency.class);
+            query.setParameter("id", 1L);
+            Currency existingCurrency = query.getResultStream().findFirst().orElse(null);
+
+            if (existingCurrency == null) {
+                Currency currency = new Currency();
+                currency.setCurrencyId(1L);
+                currency.setStatus(true);
+
+                em.persist(currency);
                 em.getTransaction().commit();
             } else {
                 em.getTransaction().rollback();
