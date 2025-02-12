@@ -91,7 +91,7 @@ public class CurrencyApi {
                 }
             } else {
                 double value = amount * currencyApp.getPrice();
-                result.setText("Monto en Bs. : " + value + " Bs.");
+                result.setText(String.format("Monto en Bs. : %.2f Bs.", value));
             }
         }
     }
