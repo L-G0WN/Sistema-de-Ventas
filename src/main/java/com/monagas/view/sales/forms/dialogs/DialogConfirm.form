@@ -90,7 +90,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="&#xbf;EST&#xc1;S SEGURO DE CONTINUAR CON EST&#xc1; ACCI&#xd3;N?"/>
+            <Property name="text" type="java.lang.String" value="&#xbf;EST&#xc1;S SEGURO DE CONTINUAR CON ESTA ACCI&#xd3;N?"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnCancel">

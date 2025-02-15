@@ -48,7 +48,7 @@ public class DialogConfirm extends javax.swing.JDialog {
         lbTitle.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbTitle.setForeground(new java.awt.Color(255, 255, 255));
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbTitle.setText("¿ESTÁS SEGURO DE CONTINUAR CON ESTÁ ACCIÓN?");
+        lbTitle.setText("¿ESTÁS SEGURO DE CONTINUAR CON ESTA ACCIÓN?");
 
         btnCancel.setBackground(new java.awt.Color(232, 213, 42));
         btnCancel.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N

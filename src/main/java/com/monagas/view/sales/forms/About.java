@@ -9,19 +9,16 @@ public class About extends JPanel {
 
         StringBuilder message = new StringBuilder();
         message.append("<html>");
-        message.append("El proyecto fue diseñado en colaboración con el establecimiento comercial Inversiones ");
-        message.append("Roselyn Barreto F.P.<br>que se dedica a la venta de víveres, productos de la cesta básica y");
-        message.append("alimentos en general. La ubicación del<br>establecimiento es en el sector 17 de");
-        message.append("diciembre II de la ciudad de El Tigre, seleccionada debido a la necesidad<br> de ");
-        message.append("crecimiento y avance en la actividad económica del propietario.<br>");
-        message.append("<br>");
-        message.append("Proyecto Socio Tecnológico - Equipo de Investigación<br>");
-        message.append("Colmenares, Aura 28.631.962<br>");
-        message.append("Hernández, Neily 31.278.782<br>");
-        message.append("López, Rosmeld 30.953.128<br>");
-        message.append("Mata, Christina 30.602.309<br>");
-        message.append("Unseyn, Juan 30.659.432<br>");
-        message.append("IF02-T2F2 - UPTJAA");
+        message.append("<strong>Acerca de la Aplicación</strong><br>");
+        message.append("El Sistema de Información de Ventas nació de la necesidad de pequeñas y medianas<br>empresas de contar con una herramienta accesible y eficiente para gestionar sus ventas.<br><br>");
+        message.append("<strong>Nombre de la Aplicación:</strong> Sistema de Ventas<br>");
+        message.append("<strong>Versión:</strong> 0.6.5<br>");
+        message.append("<strong>Desarrollado en:</strong> NetBeans IDE 22<br>");
+        message.append("<strong>Lenguaje de Programación:</strong> Java 17 (64 bits)<br><br>");
+        message.append("<strong>Requisitos del Sistema</strong><br>");
+        message.append("<strong>Sistema Operativo:</strong> Windows 7, 8, 10, o 11 64 bits<br>");
+        message.append("<strong>Memoria RAM:</strong> Mínimo 1 GB (recomendado 2 GB)<br>");
+        message.append("<strong>Espacio en Disco:</strong> 200 MB disponibles");
         message.append("</html>");
         lbAbout.setText(message.toString());
     }

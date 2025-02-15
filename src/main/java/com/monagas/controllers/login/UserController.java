@@ -72,8 +72,8 @@ public class UserController {
     }
 
     public void createUser(Frame parent, JTable table, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbQuestions, JTextField txtAnswer, JComboBox cbStatus) {
-        String firstname = txtFirstname.getText();
-        String lastname = txtLastname.getText();
+        String firstname = txtFirstname.getText().toUpperCase();
+        String lastname = txtLastname.getText().toUpperCase();
         String username = txtUsername.getText();
         String password = new String(txtPassword.getPassword());
         String question = cbQuestions.getSelectedItem().toString();
@@ -116,8 +116,8 @@ public class UserController {
     }
 
     public void editUser(Frame parent, JTable table, Long id, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbQuestions, JTextField txtAnswer, JComboBox cbStatus) {
-        String firstname = txtFirstname.getText();
-        String lastname = txtLastname.getText();
+        String firstname = txtFirstname.getText().toUpperCase();
+        String lastname = txtLastname.getText().toUpperCase();
         String username = txtUsername.getText();
         String password = new String(txtPassword.getPassword());
         String question = cbQuestions.getSelectedItem().toString();
@@ -165,8 +165,8 @@ public class UserController {
     }
 
     public void editAccount(Frame parent, User currentUser, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbQuestions, JTextField txtAnswer, JMenu mAccount) {
-        String firstname = txtFirstname.getText();
-        String lastname = txtLastname.getText();
+        String firstname = txtFirstname.getText().toUpperCase();
+        String lastname = txtLastname.getText().toUpperCase();
         String username = txtUsername.getText();
         String password = new String(txtPassword.getPassword());
         String question = cbQuestions.getSelectedItem().toString();
@@ -273,6 +273,18 @@ public class UserController {
         return users;
     }
 
+    public List<User> loadUsers(JComboBox<String> combo) {
+        List<User> users = userService.findUsersEntities();
+
+        for (User user : users) {
+            if (user.getAccountType() == 0) {
+                combo.addItem(user.getUserId() + " - " + user.getFirstname() + " " + user.getLastname());
+            }
+        }
+
+        return users;
+    }
+
     public void findUserByUsername(Login parent, JTextField txtUserContinue, JButton btnContinue, JButton Cancel) {
         String username = txtUserContinue.getText();
 
@@ -313,9 +325,9 @@ public class UserController {
         }
     }
 
-    public void verify(Login parent, String username, JComboBox cbQuestions, JTextField txtAnswer, JButton btnVerify, JButton Cancel) {
+    public void verify(Login parent, String username, JComboBox cbQuestions, JPasswordField txtAnswer, JButton btnVerify, JButton Cancel) {
         String question = cbQuestions.getSelectedItem().toString();
-        String answer = txtAnswer.getText();
+        String answer = new String(txtAnswer.getPassword());
 
         if (!answer.isEmpty()) {
             try {

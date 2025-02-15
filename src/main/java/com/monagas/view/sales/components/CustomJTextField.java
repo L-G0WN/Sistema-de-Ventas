@@ -34,8 +34,8 @@ public class CustomJTextField extends JTextField {
         TYPE_MESSAGES.put("Name", "Nombre");
         TYPE_MESSAGES.put("Firstname", "Nombre");
         TYPE_MESSAGES.put("Lastname", "Apellido");
-        TYPE_MESSAGES.put("Cedula", "Cedula");
-        TYPE_MESSAGES.put("Code", "Codigo");
+        TYPE_MESSAGES.put("Cedula", "Cédula");
+        TYPE_MESSAGES.put("Code", "Código");
         TYPE_MESSAGES.put("Rif", "RIF");
         TYPE_MESSAGES.put("Phone", "Número de teléfono");
         TYPE_MESSAGES.put("Email", "Correo Electrónico (Opcional)");

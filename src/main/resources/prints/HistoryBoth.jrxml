@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 6.20.2  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="History" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c4a98e58-c6ba-48d6-b30e-3c557c82a8d7">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HistoryBoth" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c4a98e58-c6ba-48d6-b30e-3c557c82a8d7">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sistema de Ventas"/>
 	<subDataset name="Dataset1" uuid="4983b7a5-ffc5-459b-bfe9-5e43c7bfdfe7">
@@ -81,19 +81,26 @@ clients c ON c.client_id = s.client_id]]>
 			<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
 		</field>
 	</subDataset>
+	<parameter name="created_at" class="java.lang.String"/>
+	<parameter name="registered_by" class="java.lang.Long"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT
 s.*,
 u.firstname,
 u.lastname,
 c.firstname,
-c.lastname
+c.lastname,
+cc.*
 FROM
 SELLINGS s
 JOIN 
 users u ON u.user_id = s.registered_by
 JOIN
-clients c ON c.client_id = s.client_id]]>
+clients c ON c.client_id = s.client_id
+JOIN
+	commerce cc
+WHERE
+	s.registered_by = $P{registered_by} AND s.created_at = $P{created_at}]]>
 	</queryString>
 	<field name="selling_id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="selling_id"/>
@@ -155,6 +162,26 @@ clients c ON c.client_id = s.client_id]]>
 		<property name="com.jaspersoft.studio.field.label" value="lastname"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
 	</field>
+	<field name="commerce_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="commerce_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="commerce_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="commerce"/>
+	</field>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="name"/>
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="commerce"/>
+	</field>
+	<field name="rif" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="rif"/>
+		<property name="com.jaspersoft.studio.field.label" value="rif"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="commerce"/>
+	</field>
+	<field name="type" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="type"/>
+		<property name="com.jaspersoft.studio.field.label" value="type"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="commerce"/>
+	</field>
 	<variable name="total2" class="java.lang.Double" resetType="Page" calculation="Sum">
 		<variableExpression><![CDATA[$F{total}]]></variableExpression>
 	</variable>
@@ -165,27 +192,9 @@ clients c ON c.client_id = s.client_id]]>
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="83">
-			<image>
-				<reportElement x="20" y="10" width="50" height="50" uuid="2f5d4c7d-d015-4391-956b-5282157d05a6"/>
-                                <imageExpression><![CDATA[this.getClass().getResourceAsStream("/images/iconFrame20.png")]]></imageExpression>
-			</image>
+		<band height="98">
 			<staticText>
-				<reportElement x="70" y="8" width="210" height="30" uuid="4d1bcb56-3926-48e8-b2a6-64f80d2baa44"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="22"/>
-				</textElement>
-				<text><![CDATA[Sistema de Ventas]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="70" y="30" width="210" height="30" uuid="0a2f1236-6f12-41c9-afd8-5fcb329c52ac"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16"/>
-				</textElement>
-				<text><![CDATA[Historial de Ventas]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="323" y="16" width="50" height="20" uuid="63b0be69-8ed6-4047-a711-ef2aa5719962">
+				<reportElement x="323" y="22" width="50" height="20" uuid="63b0be69-8ed6-4047-a711-ef2aa5719962">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -194,21 +203,21 @@ clients c ON c.client_id = s.client_id]]>
 				<text><![CDATA[Fecha :]]></text>
 			</staticText>
 			<textField pattern="d/M/yyyy">
-				<reportElement x="373" y="16" width="72" height="20" uuid="f5875746-257b-4ef2-9470-4ea45f265478"/>
+				<reportElement x="373" y="22" width="72" height="20" uuid="f5875746-257b-4ef2-9470-4ea45f265478"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField pattern="HH:mm:ss ">
-				<reportElement x="473" y="16" width="72" height="20" uuid="e9227614-1b0a-4f64-852f-f526d8c0fea5"/>
+				<reportElement x="473" y="22" width="72" height="20" uuid="e9227614-1b0a-4f64-852f-f526d8c0fea5"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="428" y="16" width="50" height="20" uuid="06000f5c-2c2d-434e-8994-55818cc70b9b">
+				<reportElement x="428" y="22" width="50" height="20" uuid="06000f5c-2c2d-434e-8994-55818cc70b9b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -217,7 +226,7 @@ clients c ON c.client_id = s.client_id]]>
 				<text><![CDATA[Hora :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="324" y="33" width="110" height="20" uuid="f31e1b36-4184-4acc-b6ef-044c70961341">
+				<reportElement x="324" y="39" width="110" height="20" uuid="f31e1b36-4184-4acc-b6ef-044c70961341">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -227,15 +236,15 @@ clients c ON c.client_id = s.client_id]]>
 				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="434" y="33" width="110" height="20" uuid="af1986d9-afbe-4da4-a9ac-77a454472ce6">
+				<reportElement x="434" y="39" width="110" height="20" uuid="af1986d9-afbe-4da4-a9ac-77a454472ce6">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[ " de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="66" width="30" height="17" forecolor="#FFFFFF" backcolor="#27B6E6" uuid="de62da1d-5716-4516-8205-d41b7aa7c3df"/>
+				<reportElement mode="Opaque" x="0" y="81" width="30" height="17" forecolor="#FFFFFF" backcolor="#1776CF" uuid="de62da1d-5716-4516-8205-d41b7aa7c3df"/>
 				<box bottomPadding="0">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -243,12 +252,12 @@ clients c ON c.client_id = s.client_id]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fact.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="30" y="66" width="30" height="17" forecolor="#FFFFFF" backcolor="#27B6E6" uuid="35e66b28-2dfc-4a4b-96d6-ac8738dad640"/>
+				<reportElement mode="Opaque" x="30" y="81" width="30" height="17" forecolor="#FFFFFF" backcolor="#1776CF" uuid="35e66b28-2dfc-4a4b-96d6-ac8738dad640"/>
 				<box bottomPadding="0">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -256,12 +265,12 @@ clients c ON c.client_id = s.client_id]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cant.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="60" y="66" width="104" height="17" forecolor="#FFFFFF" backcolor="#27B6E6" uuid="40e5af70-b80b-4f8e-9cc8-1b24fc091237"/>
+				<reportElement mode="Opaque" x="60" y="81" width="104" height="17" forecolor="#FFFFFF" backcolor="#1776CF" uuid="40e5af70-b80b-4f8e-9cc8-1b24fc091237"/>
 				<box bottomPadding="0">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -269,12 +278,12 @@ clients c ON c.client_id = s.client_id]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha de Compra]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="164" y="66" width="80" height="17" forecolor="#FFFFFF" backcolor="#27B6E6" uuid="7ab30acb-61b1-4cbe-9b20-108e34700971"/>
+				<reportElement mode="Opaque" x="164" y="81" width="80" height="17" forecolor="#FFFFFF" backcolor="#1776CF" uuid="7ab30acb-61b1-4cbe-9b20-108e34700971"/>
 				<box bottomPadding="0">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -282,12 +291,12 @@ clients c ON c.client_id = s.client_id]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Método de Pago]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="244" y="66" width="55" height="17" forecolor="#FFFFFF" backcolor="#27B6E6" uuid="3829de86-dd58-4cf8-9d58-756101236a48"/>
+				<reportElement mode="Opaque" x="244" y="81" width="55" height="17" forecolor="#FFFFFF" backcolor="#1776CF" uuid="3829de86-dd58-4cf8-9d58-756101236a48"/>
 				<box bottomPadding="0">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -295,12 +304,12 @@ clients c ON c.client_id = s.client_id]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total $]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="299" y="66" width="55" height="17" forecolor="#FFFFFF" backcolor="#27B6E6" uuid="596a5d1f-a726-4ad7-b87f-75e1127115a9"/>
+				<reportElement mode="Opaque" x="299" y="81" width="55" height="17" forecolor="#FFFFFF" backcolor="#1776CF" uuid="596a5d1f-a726-4ad7-b87f-75e1127115a9"/>
 				<box bottomPadding="0">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -308,12 +317,12 @@ clients c ON c.client_id = s.client_id]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total Bs.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="354" y="66" width="101" height="17" forecolor="#FFFFFF" backcolor="#27B6E6" uuid="1a923446-3f74-4672-9698-30a0b8d69045"/>
+				<reportElement mode="Opaque" x="354" y="81" width="101" height="17" forecolor="#FFFFFF" backcolor="#1776CF" uuid="1a923446-3f74-4672-9698-30a0b8d69045"/>
 				<box bottomPadding="0">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -321,12 +330,12 @@ clients c ON c.client_id = s.client_id]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cliente]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="455" y="66" width="100" height="17" forecolor="#FFFFFF" backcolor="#27B6E6" uuid="84f124c0-3ea7-4e5d-9b57-24ca72a35343"/>
+				<reportElement mode="Opaque" x="455" y="81" width="100" height="17" forecolor="#FFFFFF" backcolor="#1776CF" uuid="84f124c0-3ea7-4e5d-9b57-24ca72a35343"/>
 				<box bottomPadding="0">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -334,10 +343,69 @@ clients c ON c.client_id = s.client_id]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Venta Realizada Por]]></text>
 			</staticText>
+			<line>
+				<reportElement x="20" y="9" width="190" height="1" uuid="1b2970de-a52a-46c9-936d-19723d59a33b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="2.0" lineColor="#FC3A44"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="20" y="60" width="55" height="1" uuid="e952072b-aa42-4225-b085-2e99d6ee04d5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="2.0" lineColor="#FC3A44"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="158" y="59" width="55" height="1" uuid="fca6b33c-4cf7-4e80-a8f8-cf00ce0c8110">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="2.0" lineColor="#FC3A44"/>
+				</graphicElement>
+			</line>
+			<textField textAdjust="ScaleFont">
+				<reportElement x="75" y="52" width="83" height="15" forecolor="#FC3A44" uuid="0af3b2e2-a734-4646-be4f-5338ccf451a6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RIF "+ $F{type} + $F{rif}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont">
+				<reportElement x="68" y="30" width="138" height="22" forecolor="#FC3A44" uuid="5820c408-91f4-45ae-9152-187d532ea2b3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11"/>
+					<paragraph lineSpacingSize="1.0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont">
+				<reportElement x="68" y="12" width="138" height="28" forecolor="#FC3A44" uuid="eefe363f-fc47-4075-8956-f4aad7e6b9a6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="15" isBold="true"/>
+					<paragraph lineSpacingSize="1.0"/>
+				</textElement>
+				<textFieldExpression><![CDATA["INVERSIONES"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="26" y="15" width="42" height="40" uuid="41139ee6-ae59-4ffe-89cb-edb8adf1c2ef"/>
+				<imageExpression><![CDATA[this.getClass().getResourceAsStream("/images/shopping.png")]]></imageExpression>
+			</image>
 		</band>
 	</pageHeader>
 	<detail>
@@ -355,7 +423,7 @@ clients c ON c.client_id = s.client_id]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{selling_id}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField textAdjust="ScaleFont">
 				<reportElement x="30" y="0" width="30" height="20" uuid="025fb596-5506-4acf-8e59-dd2a619be378"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -392,7 +460,7 @@ clients c ON c.client_id = s.client_id]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{method}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField textAdjust="ScaleFont">
 				<reportElement x="244" y="0" width="55" height="20" uuid="ec73637a-1c3e-4085-96cf-6fe64bd82373">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -405,7 +473,7 @@ clients c ON c.client_id = s.client_id]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField textAdjust="ScaleFont">
 				<reportElement x="299" y="0" width="55" height="20" uuid="e0c200db-1fa9-49c7-9d08-64bd38088e00">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -418,21 +486,8 @@ clients c ON c.client_id = s.client_id]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{total_bs}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField textAdjust="ScaleFont">
 				<reportElement x="354" y="0" width="101" height="20" uuid="86766260-9d46-4e8b-aafe-9d2e80bfc9ee">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{firstname} + " " + $F{lastname}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="455" y="0" width="100" height="20" uuid="3bf3238e-c710-4917-9d12-d58c0a172503">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -444,12 +499,25 @@ clients c ON c.client_id = s.client_id]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{COLUMN_11} + " " + $F{COLUMN_12}]]></textFieldExpression>
 			</textField>
+			<textField textAdjust="ScaleFont">
+				<reportElement x="455" y="0" width="100" height="20" uuid="3bf3238e-c710-4917-9d12-d58c0a172503">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{firstname} + " " + $F{lastname}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="39">
+		<band height="40">
 			<textField pattern="#,##0.00">
-				<reportElement x="50" y="1" width="110" height="19" uuid="90adb459-e8ab-48c8-92e9-f1e1774cbd7e">
+				<reportElement x="50" y="2" width="110" height="19" uuid="90adb459-e8ab-48c8-92e9-f1e1774cbd7e">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -458,11 +526,13 @@ clients c ON c.client_id = s.client_id]]>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{total2}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="62" y="20" width="110" height="19" uuid="648f3486-4f15-4cca-acc6-23fd8b95a1a8">
+				<reportElement x="62" y="21" width="110" height="19" uuid="648f3486-4f15-4cca-acc6-23fd8b95a1a8">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -471,11 +541,13 @@ clients c ON c.client_id = s.client_id]]>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{total_bs1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="1" width="60" height="19" uuid="95fe32d0-e33a-44da-9d3d-b4d984e87c14"/>
+				<reportElement x="0" y="2" width="60" height="19" uuid="95fe32d0-e33a-44da-9d3d-b4d984e87c14"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -488,7 +560,7 @@ clients c ON c.client_id = s.client_id]]>
 				<text><![CDATA[Total $ :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="20" width="60" height="19" uuid="73f36b25-6062-4fbd-aa90-eac4c300765c"/>
+				<reportElement x="0" y="21" width="60" height="19" uuid="73f36b25-6062-4fbd-aa90-eac4c300765c"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

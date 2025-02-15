@@ -64,6 +64,7 @@ public class DataInitializer {
             if (existingCurrency == null) {
                 Currency currency = new Currency();
                 currency.setCurrencyId(1L);
+                currency.setPrice(0.0);
                 currency.setStatus(true);
 
                 em.persist(currency);

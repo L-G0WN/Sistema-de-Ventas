@@ -37,7 +37,7 @@ public class DialogHistory extends JDialog {
 
             },
             new String [] {
-                "CODIGO", "PRODUCTO", "CANTIDAD", "P.V. $", "SUBTOTAL $", "P.V. BS", "SUBTOTAL BS"
+                "CÓDIGO", "PRODUCTO", "CANTIDAD", "P.V. $", "SUBTOTAL $", "P.V. BS", "SUBTOTAL BS"
             }
         ) {
             Class[] types = new Class [] {

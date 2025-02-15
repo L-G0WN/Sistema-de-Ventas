@@ -50,7 +50,7 @@ public class History extends JPanel {
 
             },
             new String [] {
-                "CODIGO", "FECHA DE VENTA", "CEDULA", "NOMBRE Y APELLIDO", "MONTO TOTAL $", "MONTO TOTAL BS", "MÉTODO DE PAGO", "VENTA REALIZADA POR", "PRODUCTOS"
+                "CÓDIGO", "FECHA DE VENTA", "CÉDULA", "NOMBRE Y APELLIDO", "MONTO TOTAL $", "MONTO TOTAL BS", "MÉTODO DE PAGO", "VENTA REALIZADA POR", "PRODUCTOS"
             }
         ) {
             Class[] types = new Class [] {

@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 
@@ -42,8 +43,10 @@ public class FormVerify extends JPanel implements FocusablePanel {
         cbQuestions.setModel(new DefaultComboBoxModel<>(new String[]{"¿CÓMO SE LLAMA TU MASCOTA?", "¿EN QUÉ CIUDAD NACIÓ TU MADRE?", "¿EN QUÉ CIUDAD NACIÓ TU PADRE?", "¿CUÁL ES TU PELÍCULA FAVORITA?"}));
         cbQuestions.setEditable(false);
 
-        txtAnswer = new JTextField();
+        txtAnswer = new JPasswordField();
         txtAnswer.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ingresa tu respuesta");
+        txtAnswer.putClientProperty(FlatClientProperties.STYLE, ""
+                + "showRevealButton: true");
         txtAnswer.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -64,7 +67,7 @@ public class FormVerify extends JPanel implements FocusablePanel {
         btnVerify.addActionListener(e -> {
             ActionPerformedVerify();
         });
-        
+
         add(new LabelLogo(), "gapright 40");
         add(LabelRecovery.restoreLabel(), "gapy 5");
         add(LabelRecovery.descriptionLabel(), "gapbottom 10");
@@ -86,6 +89,6 @@ public class FormVerify extends JPanel implements FocusablePanel {
     }
 
     private JComboBox cbQuestions;
-    private JTextField txtAnswer;
+    private JPasswordField txtAnswer;
     private JButton btnVerify;
 }

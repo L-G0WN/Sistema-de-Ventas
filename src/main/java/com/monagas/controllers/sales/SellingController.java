@@ -95,7 +95,7 @@ public class SellingController {
                     } else {
                         JOptionPane.showMessageDialog(
                                 parent,
-                                "Producto con COD. " + productId + " no encontrado.",
+                                "Producto con CÓD. " + productId + " no encontrado.",
                                 "Sistema de Ventas - Advertencia",
                                 JOptionPane.WARNING_MESSAGE);
                     }

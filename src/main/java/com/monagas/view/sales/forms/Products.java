@@ -67,7 +67,7 @@ public class Products extends CustomJPanel {
 
             },
             new String [] {
-                "N°", "CODIGO", "DESCRIPCIÓN", "P.C.", "P.V.", "STOCK", "CATEGORÍA", "PROVEEDOR", "REGISTRADO EN", "REGISTRADO POR", "ACTUALIZADO EN", "ACTUALIZADO POR", "ACCIONES"
+                "N°", "CÓDIGO", "DESCRIPCIÓN", "P.C.", "P.V.", "STOCK", "CATEGORÍA", "PROVEEDOR", "REGISTRADO EN", "REGISTRADO POR", "ACTUALIZADO EN", "ACTUALIZADO POR", "ACCIONES"
             }
         ) {
             Class[] types = new Class [] {

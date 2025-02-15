@@ -10,8 +10,9 @@ import com.monagas.view.sales.forms.History;
 import com.monagas.view.sales.forms.Products;
 import com.monagas.view.sales.forms.Sellings;
 import com.monagas.view.sales.forms.Suppliers;
+import com.monagas.view.sales.forms.dialogs.DialogInput;
 import com.monagas.view.sales.forms.dialogs.DialogSettings;
-import com.monagas.view.sales.print.JasperReports;
+import com.monagas.view.sales.print.Reports;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFrame;
@@ -21,6 +22,7 @@ import javax.swing.Timer;
 public class Sales extends JFrame {
 
     private final User currentUser = CurrentUser.getInstance().getUser();
+    private final Reports report = new Reports();
 
     private final CurrencyApi currency = new CurrencyApi();
 
@@ -48,7 +50,7 @@ public class Sales extends JFrame {
             tpWindows.addTab("Proveedores", new Suppliers(this));
         } else {
             tpWindows.addTab("Ventas", new Sellings(this));
-            itemHistory.setVisible(false);
+            mExport.setVisible(false);
         }
     }
 
@@ -78,7 +80,12 @@ public class Sales extends JFrame {
         MenuBar = new javax.swing.JMenuBar();
         mAccount = new javax.swing.JMenu();
         itemSettings = new javax.swing.JMenuItem();
+        mExport = new javax.swing.JMenu();
         itemHistory = new javax.swing.JMenuItem();
+        itemDate = new javax.swing.JMenuItem();
+        itemEmploye = new javax.swing.JMenuItem();
+        itemBoth = new javax.swing.JMenuItem();
+        itemExport = new javax.swing.JMenuItem();
         itemLogout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -113,17 +120,57 @@ public class Sales extends JFrame {
         });
         mAccount.add(itemSettings);
 
-        itemHistory.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        mExport.setText("Exportar Reportes");
+        mExport.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        mExport.setMargin(new java.awt.Insets(8, 6, 8, 6));
+
         itemHistory.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        itemHistory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconHistory16.png"))); // NOI18N
-        itemHistory.setText("Expotar Historial de Ventas");
-        itemHistory.setMargin(new java.awt.Insets(8, 6, 8, 6));
+        itemHistory.setText("Reporte Completo");
         itemHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemHistoryActionPerformed(evt);
             }
         });
-        mAccount.add(itemHistory);
+        mExport.add(itemHistory);
+
+        itemDate.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        itemDate.setText("Reporte por Fecha");
+        itemDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemDateActionPerformed(evt);
+            }
+        });
+        mExport.add(itemDate);
+
+        itemEmploye.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        itemEmploye.setText("Reporte por Empleado");
+        itemEmploye.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemEmployeActionPerformed(evt);
+            }
+        });
+        mExport.add(itemEmploye);
+
+        itemBoth.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        itemBoth.setText("Reporte por Empleado y Fecha");
+        itemBoth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemBothActionPerformed(evt);
+            }
+        });
+        mExport.add(itemBoth);
+
+        mAccount.add(mExport);
+
+        itemExport.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        itemExport.setText("Reporte de Ventas");
+        itemExport.setMargin(new java.awt.Insets(8, 6, 8, 6));
+        itemExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemExportActionPerformed(evt);
+            }
+        });
+        mAccount.add(itemExport);
 
         itemLogout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemLogout.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -186,25 +233,49 @@ public class Sales extends JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void itemHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemHistoryActionPerformed
-        JasperReports jr = new JasperReports();
+        generateReport("Reporte de Ventas Completo", null, null, null);
+    }//GEN-LAST:event_itemHistoryActionPerformed
+
+    private void itemBothActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBothActionPerformed
+        new DialogInput(this, true, "Both").setVisible(true);
+    }//GEN-LAST:event_itemBothActionPerformed
+
+    private void itemDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDateActionPerformed
+        new DialogInput(this, true, "Date").setVisible(true);
+    }//GEN-LAST:event_itemDateActionPerformed
+
+    private void itemEmployeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEmployeActionPerformed
+        new DialogInput(this, true, "Employe").setVisible(true);
+    }//GEN-LAST:event_itemEmployeActionPerformed
+
+    private void itemExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemExportActionPerformed
+        new DialogInput(this, true, "Individual").setVisible(true);
+    }//GEN-LAST:event_itemExportActionPerformed
+
+    private void generateReport(String pdf, String created_at, Long registered_by, String user) {
         try {
-            jr.generateHistory();
+            report.fillReport(pdf, created_at, registered_by, user);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
-                    "Error al generar el historial de ventas:\n" + ex.getMessage(),
+                    "Error al generar el reporte de ventas:\n" + ex.getMessage(),
                     "Sistema de Ventas - Error",
                     JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_itemHistoryActionPerformed
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JMenuItem itemBoth;
+    private javax.swing.JMenuItem itemDate;
+    private javax.swing.JMenuItem itemEmploye;
+    private javax.swing.JMenuItem itemExport;
     private javax.swing.JMenuItem itemHistory;
     private javax.swing.JMenuItem itemLogout;
     private javax.swing.JMenuItem itemSettings;
     private javax.swing.JLabel lbCurrentPrice;
     private javax.swing.JLabel lbTime;
     public static javax.swing.JMenu mAccount;
+    private javax.swing.JMenu mExport;
     private javax.swing.JTabbedPane tpWindows;
     // End of variables declaration//GEN-END:variables
 }

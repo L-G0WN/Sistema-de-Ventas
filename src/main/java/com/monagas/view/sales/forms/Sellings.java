@@ -108,7 +108,7 @@ public class Sellings extends CustomJPanel {
 
             },
             new String [] {
-                "COD.", "PRODUCTO", "CANT.", "P.V. $", "SUBTOTAL $", "P.V. BS", "SUBTOTAL BS", ""
+                "CÓD.", "PRODUCTO", "CANT.", "P.V. $", "SUBTOTAL $", "P.V. BS", "SUBTOTAL BS", ""
             }
         ) {
             Class[] types = new Class [] {
@@ -434,7 +434,7 @@ public class Sellings extends CustomJPanel {
             int amountTotal = Integer.parseInt(lbTotalProducts.getText().replace("Cantidad de Productos : ", ""));
             double total = Double.parseDouble(lbTotal.getText().replace("Monto : ", "").replace(",", ".").replace("$", ""));
             String Bs = lbBs.getText().replace("Monto en Bs. : ", "").replace(",", ".").replace(" Bs.", "");
-            double totalBs = (Bs.equals("Error al obtener la información del dolar.")) ? 0.0 : Double.parseDouble(Bs);
+            double totalBs = (Bs.equals("Error al obtener la información del dólar.")) ? 0.0 : Double.parseDouble(Bs);
 
             if (!txtCedula.getText().isEmpty() && !txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !txtPhone.getText().isEmpty()) {
                 new DialogMethod(parent, false, tblSellings, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, lbTotal, lbBs, lbTotalProducts).setVisible(true);

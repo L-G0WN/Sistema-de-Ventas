@@ -61,12 +61,12 @@ public class CurrencyApi {
                     currentPrice = currency.getDouble("price");
                     String lastUpdate = currency.getString("last_update");
 
-                    price.setText("Precio del Dolar : " + currentPrice + " Bs. - Última actualización: " + lastUpdate);
+                    price.setText("Precio del Dólar : " + currentPrice + " Bs. - Última actualización: " + lastUpdate);
                 } else {
-                    price.setText("Error al obtener la información del dolar.");
+                    price.setText("Error al obtener la información del dólar.");
                 }
             } else {
-                price.setText("Precio del Dolar : " + currencyApp.getPrice() + " Bs. - Precio Manual");
+                price.setText("Precio del Dólar : " + currencyApp.getPrice() + " Bs. - Precio Manual");
             }
         }
     }
@@ -87,7 +87,7 @@ public class CurrencyApi {
                     double value = amount * currentConvert;
                     result.setText(String.format("Monto en Bs. : %.2f Bs.", value));
                 } else {
-                    result.setText("Monto en Bs. : Error al obtener la información del dolar.");
+                    result.setText("Monto en Bs. : Error al obtener la información del dólar.");
                 }
             } else {
                 double value = amount * currencyApp.getPrice();

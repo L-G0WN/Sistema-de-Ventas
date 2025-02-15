@@ -169,7 +169,7 @@ public class ClientController {
             } else {
                 JOptionPane.showMessageDialog(
                         parent,
-                        "Por favor, Ingrese una cedula para realizar la busqueda.",
+                        "Por favor, Ingrese una cédula para realizar la busqueda.",
                         "Sistema de Ventas - Advertencia",
                         JOptionPane.WARNING_MESSAGE);
             }

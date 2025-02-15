@@ -93,7 +93,7 @@ public class DialogSellings extends JDialog {
 
             },
             new String [] {
-                "CODIGO", "DESCRIPCIÓN", "PRECIO", "STOCK", "ACCIÓN"
+                "CÓDIGO", "DESCRIPCIÓN", "PRECIO", "STOCK", "ACCIÓN"
             }
         ) {
             Class[] types = new Class [] {

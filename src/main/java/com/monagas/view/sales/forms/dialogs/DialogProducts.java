@@ -85,9 +85,9 @@ public class DialogProducts extends JDialog {
 
         txtAmount.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        cbCategories.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Seleccionar Categoría (Opcional)" }));
+        cbCategories.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Seleccionar Categoría" }));
 
-        cbSuppliers.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Seleccionar Proveedor" }));
+        cbSuppliers.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Seleccionar Proveedor (Opcional)" }));
 
         btnCancel.setBackground(new java.awt.Color(185, 39, 39));
         btnCancel.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N

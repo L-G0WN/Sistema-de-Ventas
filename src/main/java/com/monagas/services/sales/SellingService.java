@@ -8,7 +8,7 @@ import com.monagas.entities.sales.Product;
 import com.monagas.entities.sales.Selling;
 import com.monagas.entities.sales.SellingProduct;
 import com.monagas.services.EntityManagerFactoryProvider;
-import com.monagas.view.sales.print.JasperReports;
+import com.monagas.view.sales.print.Reports;
 import java.io.Serializable;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -64,7 +64,7 @@ public class SellingService implements Serializable {
 
             Long sellingId = selling.getSellingId();
 
-            JasperReports invoiceReport = new JasperReports();
+            Reports invoiceReport = new Reports();
             invoiceReport.generateInvoice(sellingId);
         } catch (Exception ex) {
             if (em != null && em.getTransaction().isActive()) {

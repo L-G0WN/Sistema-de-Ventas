@@ -64,7 +64,7 @@ public class Clients extends CustomJPanel {
 
             },
             new String [] {
-                "N°", "CODIGO", "CEDULA", "NOMBRE Y APELLIDO", "TELÉFONO", "DIRECCIÓN PRINCIPAL", "REGISTRADO EN", "REGISTRADO POR", "ACTUALIZADO EN", "ACTUALIZADO POR", "ACCIONES"
+                "N°", "CÓDIGO", "CÉDULA", "NOMBRE Y APELLIDO", "TELÉFONO", "DIRECCIÓN PRINCIPAL", "REGISTRADO EN", "REGISTRADO POR", "ACTUALIZADO EN", "ACTUALIZADO POR", "ACCIONES"
             }
         ) {
             Class[] types = new Class [] {

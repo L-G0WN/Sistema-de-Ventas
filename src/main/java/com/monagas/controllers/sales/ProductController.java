@@ -39,9 +39,9 @@ public class ProductController {
         Category category;
         Supplier supplier;
 
-        if (!description.isEmpty() && price != null && purchase != null && amount != null && supplierName != null) {
-            category = (categoryName != null) ? categoryService.findCategoryByName(categoryName) : null;
-            supplier = supplierService.findSupplierByName(supplierName);
+        if (!description.isEmpty() && price != null && purchase != null && amount != null && categoryName != null) {
+            category = categoryService.findCategoryByName(categoryName);
+            supplier = (supplierName != null) ? supplierService.findSupplierByName(supplierName) : null;
 
             product.setDescription(description);
             product.setPrice(price);
@@ -85,9 +85,9 @@ public class ProductController {
         Category category;
         Supplier supplier;
 
-        if (!description.isEmpty() && price != null && purchase != null && amount != null && supplierName != null) {
-            category = (categoryName != null) ? categoryService.findCategoryByName(categoryName) : null;
-            supplier = supplierService.findSupplierByName(supplierName);
+        if (!description.isEmpty() && price != null && purchase != null && amount != null && categoryName != null) {
+            category = categoryService.findCategoryByName(categoryName);
+            supplier = (supplierName != null) ? supplierService.findSupplierByName(supplierName) : null;
 
             product.setProductId(id);
             product.setDescription(description);
@@ -144,8 +144,8 @@ public class ProductController {
         txtPrice.setText(product.getPrice().toString());
         txtPurchase.setText(product.getPurchase().toString());
         txtAmount.setText(product.getAmount().toString());
-        cbCategories.setSelectedItem((product.getCategory() != null) ? product.getCategory().getName() : "-- Seleccionar Categoría (Opcional)");
-        cbSuppliers.setSelectedItem(product.getSupplier().getName());
+        cbCategories.setSelectedItem(product.getCategory().getName());
+        cbSuppliers.setSelectedItem((product.getSupplier() != null) ? product.getSupplier().getName() : "-- Seleccionar Proveedor (Opcional)");
 
         return product;
     }
@@ -162,8 +162,8 @@ public class ProductController {
         for (Product product : products) {
             User registeredBy = userService.findUserById(product.getRegisteredBy().getUserId());
             User updatedBy = (product.getUpdatedBy() != null) ? userService.findUserById(product.getUpdatedBy().getUserId()) : null;
-            Category categoryName = (product.getCategory() != null) ? categoryService.findCategoryById(product.getCategory().getCategoryId()) : null;
-            Supplier supplierName = supplierService.findSupplierById(product.getSupplier().getSupplierId());
+            Category categoryName = categoryService.findCategoryById(product.getCategory().getCategoryId());
+            Supplier supplierName = (product.getSupplier() != null) ? supplierService.findSupplierById(product.getSupplier().getSupplierId()) : null;
 
             row = new Object[]{
                 count++,
@@ -172,8 +172,8 @@ public class ProductController {
                 product.getPrice() + "$",
                 product.getPurchase() + "$",
                 product.getAmount(),
-                (categoryName != null) ? categoryName.getName() : null,
-                supplierName.getName(),
+                categoryName.getName(),
+                (supplierName != null) ? supplierName.getName() : null,
                 product.getCreatedAt(),
                 registeredBy.getFirstname() + " " + registeredBy.getLastname(),
                 product.getUpdatedAt(),

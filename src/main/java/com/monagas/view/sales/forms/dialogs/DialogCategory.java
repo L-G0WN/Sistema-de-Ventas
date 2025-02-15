@@ -71,7 +71,7 @@ public class DialogCategory extends javax.swing.JDialog {
 
             },
             new String [] {
-                "N°", "CODIGO", "NOMBRE", "ACCIONES"
+                "N°", "CÓDIGO", "NOMBRE", "ACCIONES"
             }
         ) {
             Class[] types = new Class [] {

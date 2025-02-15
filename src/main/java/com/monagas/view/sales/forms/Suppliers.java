@@ -64,7 +64,7 @@ public class Suppliers extends CustomJPanel {
 
             },
             new String [] {
-                "N°", "CODIGO", "RIF", "NOMBRE", "TELÉFONO", "CORREO ELECTRÓNICO", "DIRECCIÓN", "REGISTRADO EN", "REGISTRADO POR", "ACTUALIZADO EN", "ACTUALIZADO POR", "ACCIONES"
+                "N°", "CÓDIGO", "RIF", "NOMBRE", "TELÉFONO", "CORREO ELECTRÓNICO", "DIRECCIÓN", "REGISTRADO EN", "REGISTRADO POR", "ACTUALIZADO EN", "ACTUALIZADO POR", "ACCIONES"
             }
         ) {
             Class[] types = new Class [] {

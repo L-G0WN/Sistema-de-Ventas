@@ -123,7 +123,7 @@ public class Controls extends JPanel {
 
             },
             new String [] {
-                "CODIGO", "USUARIO", "NOMBRE Y APELLIDO", "ESTADO"
+                "CÓDIGO", "USUARIO", "NOMBRE Y APELLIDO", "ESTADO"
             }
         ) {
             Class[] types = new Class [] {
