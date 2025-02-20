@@ -4,11 +4,13 @@ import com.monagas.controllers.sales.SellingController;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
 import com.monagas.view.sales.forms.dialogs.DialogHistory;
+import com.monagas.view.sales.print.Reports;
 import com.monagas.view.sales.renderer.cell.PanelView.TableActionCellEditor;
 import com.monagas.view.sales.renderer.cell.PanelView.TableActionCellRender;
 import com.monagas.view.sales.renderer.cell.PanelView.TableViewEvent;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class History extends JPanel {
@@ -19,10 +21,28 @@ public class History extends JPanel {
         initComponents();
 
         FlatStyle.setStyle(spHistory, tblHistory);
-        
-        TableViewEvent event = (int row) -> {
-            Long id = Long.valueOf(tblHistory.getValueAt(row, 0).toString().substring(1));
-            new DialogHistory(parent, true, id).setVisible(true);
+
+        TableViewEvent event = new TableViewEvent() {
+            @Override
+            public void onView(int row) {
+                Long id = Long.valueOf(tblHistory.getValueAt(row, 0).toString().substring(1));
+                new DialogHistory(parent, true, id).setVisible(true);
+            }
+
+            @Override
+            public void onInvoice(int row) {
+                Reports invoiceReport = new Reports();
+                Long id = Long.valueOf(tblHistory.getValueAt(row, 0).toString().substring(1));
+                try {
+                    invoiceReport.generateInvoice(id);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(
+                            parent,
+                            ex.getMessage(),
+                            "Sistema de Ventas - Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
         };
 
         tblHistory.getColumnModel().getColumn(tblHistory.getColumnCount() - 1).setCellRenderer(new TableActionCellRender());
@@ -81,6 +101,7 @@ public class History extends JPanel {
         spHistory.setViewportView(tblHistory);
         if (tblHistory.getColumnModel().getColumnCount() > 0) {
             tblHistory.getColumnModel().getColumn(0).setPreferredWidth(80);
+            tblHistory.getColumnModel().getColumn(8).setMinWidth(230);
         }
 
         txtSearch.setName("Clients"); // NOI18N

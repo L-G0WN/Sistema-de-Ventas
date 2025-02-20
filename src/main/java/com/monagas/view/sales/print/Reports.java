@@ -28,7 +28,7 @@ public class Reports {
         JasperPrint JP;
         JasperViewer JV;
 
-        InputStream jasperStream = this.getClass().getResourceAsStream("/JasperReports/Invoices.jrxml");
+        InputStream jasperStream = this.getClass().getResourceAsStream("/prints/Invoices.jrxml");
         EntityManager em = null;
         Connection conn;
 
