@@ -58,7 +58,13 @@ public class Reports {
         }
     }
 
-    public void fillReport(String pdf, String created_at, Long registered_by, String user) throws Exception {
+    private Connection getJdbcConnection(EntityManager em) throws Exception {
+        Session session = em.unwrap(Session.class);
+        SessionImplementor sessionImplementor = (SessionImplementor) session;
+        return sessionImplementor.getJdbcConnectionAccess().obtainConnection();
+    }
+
+    private void fillReport(String pdf, String created_at, Long registered_by, String user) throws Exception {
         JasperReport JR;
         JasperPrint JP;
         JasperViewer JV;
@@ -97,6 +103,7 @@ public class Reports {
             JP = JasperFillManager.fillReport(JR, (!parameters.isEmpty()) ? parameters : null, conn);
 
             JV = new JasperViewer(JP, false);
+            JV.setAlwaysOnTop(true);
             JV.setTitle("Sistema de Ventas" + ((user != null) ? " - Reporte: " + user : ""));
             JV.setIconImage(new ImageIcon(getClass().getResource("/images/iconFrame20.png")).getImage());
             JV.setVisible(true);
@@ -109,9 +116,14 @@ public class Reports {
         }
     }
 
-    private Connection getJdbcConnection(EntityManager em) throws Exception {
-        Session session = em.unwrap(Session.class);
-        SessionImplementor sessionImplementor = (SessionImplementor) session;
-        return sessionImplementor.getJdbcConnectionAccess().obtainConnection();
+    public void generateReport(String pdf, String created_at, Long registered_by, String user) {
+        try {
+            fillReport(pdf, created_at, registered_by, user);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Error al generar el reporte de ventas:\n" + ex.getMessage(),
+                    "Sistema de Ventas - Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

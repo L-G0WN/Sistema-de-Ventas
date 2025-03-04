@@ -233,7 +233,7 @@ public class Sales extends JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void itemHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemHistoryActionPerformed
-        generateReport("Reporte de Ventas Completo", null, null, null);
+        report.generateReport("Reporte de Ventas Completo", null, null, null);
     }//GEN-LAST:event_itemHistoryActionPerformed
 
     private void itemBothActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBothActionPerformed
@@ -251,17 +251,6 @@ public class Sales extends JFrame {
     private void itemExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemExportActionPerformed
         new DialogInput(this, true, "Individual").setVisible(true);
     }//GEN-LAST:event_itemExportActionPerformed
-
-    private void generateReport(String pdf, String created_at, Long registered_by, String user) {
-        try {
-            report.fillReport(pdf, created_at, registered_by, user);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,
-                    "Error al generar el reporte de ventas:\n" + ex.getMessage(),
-                    "Sistema de Ventas - Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MenuBar;

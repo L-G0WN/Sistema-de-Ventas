@@ -114,7 +114,7 @@ public class DialogInput extends JDialog {
 
             Long id = Long.valueOf(cbEmploye.getSelectedItem().toString().replaceAll(" - .*", ""));
             String user = cbEmploye.getSelectedItem().toString().replaceAll(".* - ", "");
-            generateReport("Reporte de Ventas", reverseDateFormat(Date.getSelectedDateAsString().replace("/", "-")), id, user);
+            report.generateReport("Reporte de Ventas", reverseDateFormat(Date.getSelectedDateAsString().replace("/", "-")), id, user);
             this.dispose();
         }
 
@@ -128,11 +128,11 @@ public class DialogInput extends JDialog {
             }
 
             if (type.equals("Date")) {
-                generateReport("Reporte de Ventas por Fecha", reverseDateFormat(Date.getSelectedDateAsString().replace("/", "-")), null, null);
+                report.generateReport("Reporte de Ventas por Fecha", reverseDateFormat(Date.getSelectedDateAsString().replace("/", "-")), null, null);
             }
 
             if (type.equals("Individual")) {
-                generateReport("Reporte de Ventas", reverseDateFormat(Date.getSelectedDateAsString().replace("/", "-")), session.getUserId(), session.getFirstname() + " " + session.getLastname());
+                report.generateReport("Reporte de Ventas", reverseDateFormat(Date.getSelectedDateAsString().replace("/", "-")), session.getUserId(), session.getFirstname() + " " + session.getLastname());
             }
             this.dispose();
         }
@@ -148,21 +148,10 @@ public class DialogInput extends JDialog {
 
             Long id = Long.valueOf(cbEmploye.getSelectedItem().toString().replaceAll(" - .*", ""));
             String user = cbEmploye.getSelectedItem().toString().replaceAll(".* - ", "");
-            generateReport("Reporte de Ventas por Empleado", null, id, user);
+            report.generateReport("Reporte de Ventas por Empleado", null, id, user);
             this.dispose();
         }
     }//GEN-LAST:event_btnPDFActionPerformed
-
-    private void generateReport(String pdf, String created_at, Long registered_by, String user) {
-        try {
-            report.fillReport(pdf, created_at, registered_by, user);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,
-                    "Error al generar el reporte de ventas:\n" + ex.getMessage(),
-                    "Sistema de Ventas - Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
     private String reverseDateFormat(String date) {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
