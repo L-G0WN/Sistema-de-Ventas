@@ -120,7 +120,7 @@ public class FormMain extends JPanel implements FocusablePanel {
 
     private void ActionPerformedForget() {
         FlatAnimatedLafChange.showSnapshot();
-        Frame.switchPanel(new FormContinue(Frame));
+        Frame.switchPanel(new FormContinue(Frame), 0);
         FlatLaf.updateUI();
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }

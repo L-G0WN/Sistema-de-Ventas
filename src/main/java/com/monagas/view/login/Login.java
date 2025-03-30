@@ -36,9 +36,11 @@ public class Login extends JFrame {
         setContentPane(Main);
     }
 
-    public void switchPanel(JPanel newPanel) {
+    public void switchPanel(JPanel newPanel, int height) {
         setContentPane(newPanel);
-
+        
+        setSize(400, (height != 0) ? height : 430);
+        
         if (newPanel instanceof FocusablePanel focusablePanel) {
             focusablePanel.focusTextField();
         }

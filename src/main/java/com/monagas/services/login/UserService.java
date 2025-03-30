@@ -65,6 +65,7 @@ public class UserService implements Serializable {
             em.merge(user);
             em.getTransaction().commit();
         } catch (Exception ex) {
+            ex.printStackTrace();
             if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
@@ -276,7 +277,9 @@ public class UserService implements Serializable {
         }
     }
 
-    public boolean verify(String username, String question, String answer) throws Exception {
+    public boolean verify(String username, String question1, String answer1,
+            String question2, String answer2,
+            String question3, String answer3) throws Exception {
         EntityManager em = null;
 
         try {
@@ -292,8 +295,16 @@ public class UserService implements Serializable {
                 throw new Exception("La cuenta está desactivada.");
             }
 
-            if (!user.getQuestion().equals(question) || !user.getAnswer().equals(answer)) {
-                throw new Exception("La pregunta o la respuesta son incorrectas.");
+            if (user.getQuestion1() == null && user.getAnswer1() == null
+                    && user.getQuestion2() == null && user.getAnswer2() == null
+                    && user.getQuestion3() == null && user.getAnswer3() == null) {
+                throw new Exception("Por favor, inicie sesión por primera vez para registrar las preguntas y respuestas en el sistema.");
+            }
+
+            if ((!user.getQuestion1().equals(question1) || !user.getAnswer1().equals(answer1))
+                    || (!user.getQuestion2().equals(question2) || !user.getAnswer2().equals(answer2))
+                    || (!user.getQuestion3().equals(question3) || !user.getAnswer3().equals(answer3))) {
+                throw new Exception("Las preguntas o las respuestas son incorrectas.");
             }
 
             em.getTransaction().commit();

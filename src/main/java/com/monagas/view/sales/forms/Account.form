@@ -16,24 +16,9 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txtAnswer" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
-                              <Component id="lbAnswer" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="cbAccount" alignment="0" pref="175" max="32767" attributes="0"/>
-                              <Component id="lbAccount" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Component id="cbQuestion" alignment="0" max="32767" attributes="0"/>
-                      <Component id="lbQuestions" alignment="0" min="-2" pref="364" max="-2" attributes="0"/>
-                  </Group>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lbFirstname" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -51,9 +36,26 @@
                           <Component id="txtLastname" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="btnUpdate" alignment="0" min="-2" pref="364" max="-2" attributes="0"/>
+                  <Component id="btnUpdate" alignment="0" max="32767" attributes="0"/>
+                  <Component id="lbAccount" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="cbAccount" alignment="0" min="-2" pref="364" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="470" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="lbQuestion3" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbAnswer3" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbQuestion2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbAnswer2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbQuestion1" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbAnswer1" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="cbQuestions1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="cbQuestions2" alignment="0" pref="0" max="32767" attributes="0"/>
+                  <Component id="cbQuestions3" alignment="0" pref="0" max="32767" attributes="0"/>
+                  <Component id="txtAnswer2" alignment="0" max="32767" attributes="0"/>
+                  <Component id="txtAnswer3" alignment="0" max="32767" attributes="0"/>
+                  <Component id="txtAnswer1" alignment="0" min="-2" pref="245" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="207" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -62,44 +64,60 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lbFirstname" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="lbLastname" alignment="1" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="txtFirstname" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="txtLastname" min="-2" pref="30" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lbUsername" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lbPassword" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtUsername" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="txtPassword" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="lbQuestions" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="cbQuestion" min="-2" pref="30" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="lbAnswer" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="lbQuestion1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="txtAnswer" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="cbQuestions1" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="lbAnswer1" min="-2" pref="16" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="txtAnswer1" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                      <Component id="lbQuestion2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="cbQuestions2" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="lbAnswer2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="txtAnswer2" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="lbQuestion3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="cbQuestions3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="lbAnswer3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="txtAnswer3" min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lbFirstname" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbLastname" alignment="1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="txtFirstname" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="txtLastname" min="-2" pref="30" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lbUsername" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbPassword" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="txtUsername" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="txtPassword" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="lbAccount" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="cbAccount" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnUpdate" min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="btnUpdate" min="-2" pref="30" max="-2" attributes="0"/>
-              <EmptySpace pref="200" max="32767" attributes="0"/>
+              <EmptySpace pref="141" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -178,47 +196,6 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lbQuestions">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
-        </Property>
-        <Property name="horizontalAlignment" type="int" value="2"/>
-        <Property name="text" type="java.lang.String" value="Nueva Pregunta de Seguridad"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="cbQuestion">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Arial" size="14" style="0"/>
-        </Property>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new DefaultComboBoxModel&lt;&gt;(new String[]{&quot;&#xbf;C&#xd3;MO SE LLAMA TU MASCOTA?&quot;, &quot;&#xbf;EN QU&#xc9; CIUDAD NACI&#xd3; TU MADRE?&quot;, &quot;&#xbf;EN QU&#xc9; CIUDAD NACI&#xd3; TU PADRE?&quot;, &quot;&#xbf;CU&#xc1;L ES TU PEL&#xcd;CULA FAVORITA?&quot;})" type="code"/>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lbAnswer">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="0"/>
-        </Property>
-        <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Nueva Respuesta"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtAnswer">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Arial" size="14" style="0"/>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new CustomJTextField(&quot;Answer&quot;)"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.swing.JLabel" name="lbAccount">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -261,6 +238,129 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbQuestion1">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="14" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Pregunta de Seguridad 1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cbQuestions1">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="12" style="0"/>
+        </Property>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="&#xbf;C&#xd3;MO SE LLAMA TU MASCOTA?"/>
+            <StringItem index="1" value="&#xbf;EN QU&#xc9; CIUDAD NACI&#xd3; TU MADRE?"/>
+            <StringItem index="2" value="&#xbf;EN QU&#xc9; CIUDAD NACI&#xd3; TU PADRE?"/>
+            <StringItem index="3" value="&#xbf;CU&#xc1;L ES TU PEL&#xcd;CULA FAVORITA?"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbAnswer1">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="14" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Repuestas 1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbQuestion2">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="14" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Pregunta de Seguridad 2"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cbQuestions2">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="12" style="0"/>
+        </Property>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="&#xbf;CU&#xc1;L ES TU COMIDA FAVORITA?"/>
+            <StringItem index="1" value="&#xbf;QU&#xc9; NOMBRE RECIBI&#xd3; TU PRIMERA MASCOTA?"/>
+            <StringItem index="2" value="&#xbf;CU&#xc1;L ES TU LIBRO PREFERIDO?"/>
+            <StringItem index="3" value="&#xbf;QU&#xc9; DEPORTE TE GUSTA M&#xc1;S?"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbAnswer2">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="14" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Repuestas 2"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbQuestion3">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="14" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Pregunta de Seguridad 3"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cbQuestions3">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="12" style="0"/>
+        </Property>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="&#xbf;CU&#xc1;L ES TU SUE&#xd1;O M&#xc1;S GRANDE?"/>
+            <StringItem index="1" value="&#xbf;QU&#xc9; LENGUAJE TE GUSTAR&#xcd;A APRENDER?"/>
+            <StringItem index="2" value="&#xbf;CU&#xc1;L ES TU RECUERDO FAVORITO?"/>
+            <StringItem index="3" value="&#xbf;QU&#xc9; HACES EN TU TIEMPO LIBRE?"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbAnswer3">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="14" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Repuestas 3"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="txtAnswer2">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="14" style="0"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="txtAnswer1">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="14" style="0"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="txtAnswer3">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="14" style="0"/>
+        </Property>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

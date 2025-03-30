@@ -29,10 +29,9 @@ public class DataInitializer {
                 admin.setPassword("12345");
                 admin.setFirstname("Administrador");
                 admin.setLastname("General");
-                admin.setQuestion("¿CÓMO SE LLAMA TU MASCOTA?");
-                admin.setAnswer("Azul");
                 admin.setAccountType(1);
                 admin.setEnabled(true);
+                admin.setFirstime(true);
 
                 em.persist(admin);
                 em.getTransaction().commit();

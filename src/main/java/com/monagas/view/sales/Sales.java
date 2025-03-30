@@ -10,13 +10,13 @@ import com.monagas.view.sales.forms.History;
 import com.monagas.view.sales.forms.Products;
 import com.monagas.view.sales.forms.Sellings;
 import com.monagas.view.sales.forms.Suppliers;
+import com.monagas.view.sales.forms.dialogs.DialogFirstime;
 import com.monagas.view.sales.forms.dialogs.DialogInput;
 import com.monagas.view.sales.forms.dialogs.DialogSettings;
 import com.monagas.view.sales.print.Reports;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class Sales extends JFrame {
@@ -39,6 +39,10 @@ public class Sales extends JFrame {
         Timer timerCurrency = new Timer(1000, e -> loadCurrency());
         timer.start();
         timerCurrency.start();
+        
+        if (currentUser.isFirstime()) {
+            new DialogFirstime(this, true, currentUser.getUserId()).setVisible(true);
+        }
     }
 
     private void loadTaps() {

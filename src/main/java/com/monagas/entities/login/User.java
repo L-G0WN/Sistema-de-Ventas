@@ -41,17 +41,32 @@ public class User implements Serializable {
     @Column(name = "lastname", length = 50, nullable = false)
     private String lastname;
 
-    @Column(name = "question", length = 255, nullable = false)
-    private String question;
+    @Column(name = "question1", length = 255, nullable = true)
+    private String question1;
 
-    @Column(name = "answer", length = 255, nullable = false)
-    private String answer;
+    @Column(name = "answer1", length = 255, nullable = true)
+    private String answer1;
+
+    @Column(name = "question2", length = 255, nullable = true)
+    private String question2;
+
+    @Column(name = "answer2", length = 255, nullable = true)
+    private String answer2;
+
+    @Column(name = "question3", length = 255, nullable = true)
+    private String question3;
+
+    @Column(name = "answer3", length = 255, nullable = true)
+    private String answer3;
 
     @Column(name = "account_type", nullable = false)
     private Integer accountType;
 
     @Column(name = "enabled")
     private boolean enabled;
+
+    @Column(name = "is_firstime")
+    private boolean isFirstime;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

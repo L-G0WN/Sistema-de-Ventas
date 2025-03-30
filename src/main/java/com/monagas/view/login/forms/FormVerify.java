@@ -15,7 +15,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 
 public class FormVerify extends JPanel implements FocusablePanel {
@@ -39,15 +38,63 @@ public class FormVerify extends JPanel implements FocusablePanel {
         putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:@background;");
 
-        cbQuestions = new JComboBox();
-        cbQuestions.setModel(new DefaultComboBoxModel<>(new String[]{"¿CÓMO SE LLAMA TU MASCOTA?", "¿EN QUÉ CIUDAD NACIÓ TU MADRE?", "¿EN QUÉ CIUDAD NACIÓ TU PADRE?", "¿CUÁL ES TU PELÍCULA FAVORITA?"}));
-        cbQuestions.setEditable(false);
+        cbQuestions1 = new JComboBox();
+        cbQuestions1.setModel(new DefaultComboBoxModel<>(new String[]{
+            "¿CÓMO SE LLAMA TU MASCOTA?",
+            "¿EN QUÉ CIUDAD NACIÓ TU MADRE?",
+            "¿EN QUÉ CIUDAD NACIÓ TU PADRE?",
+            "¿CUÁL ES TU PELÍCULA FAVORITA?"}));
+        cbQuestions1.setEditable(false);
 
-        txtAnswer = new JPasswordField();
-        txtAnswer.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ingresa tu respuesta");
-        txtAnswer.putClientProperty(FlatClientProperties.STYLE, ""
+        txtAnswer1 = new JPasswordField();
+        txtAnswer1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ingresa tu respuesta 1");
+        txtAnswer1.putClientProperty(FlatClientProperties.STYLE, ""
                 + "showRevealButton: true");
-        txtAnswer.addKeyListener(new KeyAdapter() {
+        txtAnswer1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    ActionPerformedVerify();
+                }
+            }
+        });
+
+        cbQuestions2 = new JComboBox();
+        cbQuestions2.setModel(new DefaultComboBoxModel<>(new String[]{
+            "¿CUÁL ES TU COMIDA FAVORITA?",
+            "¿QUÉ NOMBRE RECIBIÓ TU PRIMERA MASCOTA?",
+            "¿CUÁL ES TU LIBRO PREFERIDO?",
+            "¿QUÉ DEPORTE TE GUSTA MÁS?"
+        }));
+        cbQuestions2.setEditable(false);
+
+        txtAnswer2 = new JPasswordField();
+        txtAnswer2.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ingresa tu respuesta 2");
+        txtAnswer2.putClientProperty(FlatClientProperties.STYLE, ""
+                + "showRevealButton: true");
+        txtAnswer2.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    ActionPerformedVerify();
+                }
+            }
+        });
+
+        cbQuestions3 = new JComboBox();
+        cbQuestions3.setModel(new DefaultComboBoxModel<>(new String[]{
+            "¿CUÁL ES TU SUEÑO MÁS GRANDE?",
+            "¿QUÉ LENGUAJE TE GUSTARÍA APRENDER?",
+            "¿CUÁL ES TU RECUERDO FAVORITO?",
+            "¿QUÉ HACES EN TU TIEMPO LIBRE?"
+        }));
+        cbQuestions3.setEditable(false);
+
+        txtAnswer3 = new JPasswordField();
+        txtAnswer3.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ingresa tu respuesta 3");
+        txtAnswer3.putClientProperty(FlatClientProperties.STYLE, ""
+                + "showRevealButton: true");
+        txtAnswer3.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -71,24 +118,36 @@ public class FormVerify extends JPanel implements FocusablePanel {
         add(new LabelLogo(), "gapright 40");
         add(LabelRecovery.restoreLabel(), "gapy 5");
         add(LabelRecovery.descriptionLabel(), "gapbottom 10");
-        add(new JLabel("Pregunta de Seguridad"), "gapy 5");
-        add(cbQuestions);
-        add(new JLabel("Respuesta"), "gapy 8");
-        add(txtAnswer);
+        add(new JLabel("Pregunta de Seguridad 1"), "gapy 5");
+        add(cbQuestions1);
+        add(new JLabel("Respuesta 1"), "gapy 8");
+        add(txtAnswer1);
+        add(new JLabel("Pregunta de Seguridad 2"), "gapy 5");
+        add(cbQuestions2);
+        add(new JLabel("Respuesta 2"), "gapy 8");
+        add(txtAnswer2);
+        add(new JLabel("Pregunta de Seguridad 3"), "gapy 5");
+        add(cbQuestions3);
+        add(new JLabel("Respuesta 3"), "gapy 8");
+        add(txtAnswer3);
         add(btnVerify, "gapy 10");
         add(Cancel, "width 70:70:70, gapy 10, align center");
     }
 
     private void ActionPerformedVerify() {
-        controller.verify(Frame, username, cbQuestions, txtAnswer, btnVerify, Cancel);
+        controller.verify(Frame, username, cbQuestions1, txtAnswer1, cbQuestions2, txtAnswer2, cbQuestions3, txtAnswer3, btnVerify, Cancel);
     }
 
     @Override
     public void focusTextField() {
-        txtAnswer.requestFocusInWindow();
+        txtAnswer1.requestFocusInWindow();
     }
 
-    private JComboBox cbQuestions;
-    private JPasswordField txtAnswer;
+    private JComboBox cbQuestions1;
+    private JPasswordField txtAnswer1;
+    private JComboBox cbQuestions2;
+    private JPasswordField txtAnswer2;
+    private JComboBox cbQuestions3;
+    private JPasswordField txtAnswer3;
     private JButton btnVerify;
 }

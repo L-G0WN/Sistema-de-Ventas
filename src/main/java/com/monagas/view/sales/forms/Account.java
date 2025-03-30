@@ -5,7 +5,6 @@ import com.monagas.controllers.login.UserController;
 import com.monagas.entities.login.User;
 import com.monagas.view.sales.components.CustomJTextField;
 import java.awt.Frame;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
 
@@ -17,7 +16,7 @@ public class Account extends JPanel {
 
     private final Frame parent;
     private final JMenu mAccount;
-    
+
     public Account(Frame parent, User currentUser, JMenu mAccount) {
         this.parent = parent;
         this.currentUser = currentUser;
@@ -27,6 +26,18 @@ public class Account extends JPanel {
         txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ingresa tu contraseña");
         txtPassword.putClientProperty(FlatClientProperties.STYLE, ""
                 + "showRevealButton:true");
+
+        txtAnswer1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nueva Repuesta 1 (Opcional)");
+        txtAnswer1.putClientProperty(FlatClientProperties.STYLE, ""
+                + "showRevealButton: true");
+
+        txtAnswer2.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nueva Repuesta 2 (Opcional)");
+        txtAnswer2.putClientProperty(FlatClientProperties.STYLE, ""
+                + "showRevealButton: true");
+
+        txtAnswer3.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nueva Repuesta 3 (Opcional)");
+        txtAnswer3.putClientProperty(FlatClientProperties.STYLE, ""
+                + "showRevealButton: true");
 
         txtFirstname.setText(currentUser.getFirstname());
         txtLastname.setText(currentUser.getLastname());
@@ -45,13 +56,21 @@ public class Account extends JPanel {
         txtUsername = new CustomJTextField("Username");
         lbPassword = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
-        lbQuestions = new javax.swing.JLabel();
-        cbQuestion = new javax.swing.JComboBox<>();
-        lbAnswer = new javax.swing.JLabel();
-        txtAnswer = new CustomJTextField("Answer");
         lbAccount = new javax.swing.JLabel();
         cbAccount = new javax.swing.JComboBox<>();
         btnUpdate = new javax.swing.JButton();
+        lbQuestion1 = new javax.swing.JLabel();
+        cbQuestions1 = new javax.swing.JComboBox<>();
+        lbAnswer1 = new javax.swing.JLabel();
+        lbQuestion2 = new javax.swing.JLabel();
+        cbQuestions2 = new javax.swing.JComboBox<>();
+        lbAnswer2 = new javax.swing.JLabel();
+        lbQuestion3 = new javax.swing.JLabel();
+        cbQuestions3 = new javax.swing.JComboBox<>();
+        lbAnswer3 = new javax.swing.JLabel();
+        txtAnswer2 = new javax.swing.JPasswordField();
+        txtAnswer1 = new javax.swing.JPasswordField();
+        txtAnswer3 = new javax.swing.JPasswordField();
 
         lbFirstname.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbFirstname.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -77,19 +96,6 @@ public class Account extends JPanel {
 
         txtPassword.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        lbQuestions.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lbQuestions.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbQuestions.setText("Nueva Pregunta de Seguridad");
-
-        cbQuestion.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        cbQuestion.setModel(new DefaultComboBoxModel<>(new String[]{"¿CÓMO SE LLAMA TU MASCOTA?", "¿EN QUÉ CIUDAD NACIÓ TU MADRE?", "¿EN QUÉ CIUDAD NACIÓ TU PADRE?", "¿CUÁL ES TU PELÍCULA FAVORITA?"}));
-
-        lbAnswer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lbAnswer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbAnswer.setText("Nueva Respuesta");
-
-        txtAnswer.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-
         lbAccount.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbAccount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbAccount.setText("Tipo de Cuenta");
@@ -108,24 +114,46 @@ public class Account extends JPanel {
             }
         });
 
+        lbQuestion1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbQuestion1.setText("Pregunta de Seguridad 1");
+
+        cbQuestions1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        cbQuestions1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "¿CÓMO SE LLAMA TU MASCOTA?", "¿EN QUÉ CIUDAD NACIÓ TU MADRE?", "¿EN QUÉ CIUDAD NACIÓ TU PADRE?", "¿CUÁL ES TU PELÍCULA FAVORITA?" }));
+
+        lbAnswer1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbAnswer1.setText("Repuestas 1");
+
+        lbQuestion2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbQuestion2.setText("Pregunta de Seguridad 2");
+
+        cbQuestions2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        cbQuestions2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "¿CUÁL ES TU COMIDA FAVORITA?", "¿QUÉ NOMBRE RECIBIÓ TU PRIMERA MASCOTA?", "¿CUÁL ES TU LIBRO PREFERIDO?", "¿QUÉ DEPORTE TE GUSTA MÁS?" }));
+
+        lbAnswer2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbAnswer2.setText("Repuestas 2");
+
+        lbQuestion3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbQuestion3.setText("Pregunta de Seguridad 3");
+
+        cbQuestions3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        cbQuestions3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "¿CUÁL ES TU SUEÑO MÁS GRANDE?", "¿QUÉ LENGUAJE TE GUSTARÍA APRENDER?", "¿CUÁL ES TU RECUERDO FAVORITO?", "¿QUÉ HACES EN TU TIEMPO LIBRE?" }));
+
+        lbAnswer3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbAnswer3.setText("Repuestas 3");
+
+        txtAnswer2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
+        txtAnswer1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
+        txtAnswer3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lbAnswer))
-                            .addGap(14, 14, 14)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(cbAccount, 0, 175, Short.MAX_VALUE)
-                                .addComponent(lbAccount)))
-                        .addComponent(cbQuestion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lbQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbFirstname)
@@ -139,64 +167,104 @@ public class Account extends JPanel {
                             .addComponent(txtPassword)
                             .addComponent(lbPassword)
                             .addComponent(txtLastname, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(470, Short.MAX_VALUE))
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbAccount)
+                    .addComponent(cbAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lbQuestion3)
+                    .addComponent(lbAnswer3)
+                    .addComponent(lbQuestion2)
+                    .addComponent(lbAnswer2)
+                    .addComponent(lbQuestion1)
+                    .addComponent(lbAnswer1)
+                    .addComponent(cbQuestions1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbQuestions2, 0, 0, Short.MAX_VALUE)
+                    .addComponent(cbQuestions3, 0, 0, Short.MAX_VALUE)
+                    .addComponent(txtAnswer2)
+                    .addComponent(txtAnswer3)
+                    .addComponent(txtAnswer1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbFirstname)
-                    .addComponent(lbLastname, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(0, 0, 0)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtFirstname, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtLastname, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbUsername)
-                    .addComponent(lbPassword))
-                .addGap(0, 0, 0)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbQuestions)
-                .addGap(0, 0, 0)
-                .addComponent(cbQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lbAnswer)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lbQuestion1)
                         .addGap(0, 0, 0)
-                        .addComponent(txtAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(cbQuestions1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbAnswer1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(txtAnswer1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)
+                        .addComponent(lbQuestion2)
+                        .addGap(0, 0, 0)
+                        .addComponent(cbQuestions2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbAnswer2)
+                        .addGap(0, 0, 0)
+                        .addComponent(txtAnswer2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbQuestion3)
+                        .addGap(0, 0, 0)
+                        .addComponent(cbQuestions3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbAnswer3)
+                        .addGap(0, 0, 0)
+                        .addComponent(txtAnswer3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbFirstname)
+                            .addComponent(lbLastname, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(0, 0, 0)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtFirstname, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtLastname, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbUsername)
+                            .addComponent(lbPassword))
+                        .addGap(0, 0, 0)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lbAccount)
                         .addGap(0, 0, 0)
-                        .addComponent(cbAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(200, Short.MAX_VALUE))
+                        .addComponent(cbAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        controller.editAccount(parent, currentUser, txtFirstname, txtLastname, txtUsername, txtPassword, cbQuestion, txtAnswer, mAccount);
+        controller.editAccount(parent, currentUser, txtFirstname, txtLastname, txtUsername, txtPassword, cbQuestions1, txtAnswer1, cbQuestions2, txtAnswer2, cbQuestions3, txtAnswer3, mAccount);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbAccount;
-    private javax.swing.JComboBox<String> cbQuestion;
+    private javax.swing.JComboBox<String> cbQuestions1;
+    private javax.swing.JComboBox<String> cbQuestions2;
+    private javax.swing.JComboBox<String> cbQuestions3;
     private javax.swing.JLabel lbAccount;
-    private javax.swing.JLabel lbAnswer;
+    private javax.swing.JLabel lbAnswer1;
+    private javax.swing.JLabel lbAnswer2;
+    private javax.swing.JLabel lbAnswer3;
     private javax.swing.JLabel lbFirstname;
     private javax.swing.JLabel lbLastname;
     private javax.swing.JLabel lbPassword;
-    private javax.swing.JLabel lbQuestions;
+    private javax.swing.JLabel lbQuestion1;
+    private javax.swing.JLabel lbQuestion2;
+    private javax.swing.JLabel lbQuestion3;
     private javax.swing.JLabel lbUsername;
-    private javax.swing.JTextField txtAnswer;
+    private javax.swing.JPasswordField txtAnswer1;
+    private javax.swing.JPasswordField txtAnswer2;
+    private javax.swing.JPasswordField txtAnswer3;
     private javax.swing.JTextField txtFirstname;
     private javax.swing.JTextField txtLastname;
     private javax.swing.JPasswordField txtPassword;

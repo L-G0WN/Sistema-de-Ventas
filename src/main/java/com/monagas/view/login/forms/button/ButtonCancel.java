@@ -31,7 +31,7 @@ public class ButtonCancel extends JButton {
 
     public void ActionPerfomedCancel() {
         FlatAnimatedLafChange.showSnapshot();
-        Frame.switchPanel(new FormMain(Frame));
+        Frame.switchPanel(new FormMain(Frame), 0);
         FlatLaf.updateUI();
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }

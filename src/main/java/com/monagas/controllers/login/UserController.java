@@ -16,6 +16,7 @@ import java.util.Optional;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -71,31 +72,97 @@ public class UserController {
         }
     }
 
-    public void createUser(Frame parent, JTable table, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbQuestions, JTextField txtAnswer, JComboBox cbStatus) {
+    public void isFirstime(Frame parent,
+            JDialog dialog,
+            Long id,
+            JPasswordField txtPassword,
+            JPasswordField txtConfirmPassword,
+            int passwordStrength,
+            JComboBox cbQuestions1, JPasswordField txtAnswer1,
+            JComboBox cbQuestions2, JPasswordField txtAnswer2,
+            JComboBox cbQuestions3, JPasswordField txtAnswer3) {
+        String password = new String(txtPassword.getPassword());
+        String confirmPassword = new String(txtConfirmPassword.getPassword());
+        String question1 = cbQuestions1.getSelectedItem().toString();
+        String answer1 = new String(txtAnswer1.getPassword());
+        String question2 = cbQuestions2.getSelectedItem().toString();
+        String answer2 = new String(txtAnswer2.getPassword());
+        String question3 = cbQuestions3.getSelectedItem().toString();
+        String answer3 = new String(txtAnswer3.getPassword());
+
+        if (!password.isEmpty() && !confirmPassword.isEmpty()
+                && !answer1.isEmpty() && !answer2.isEmpty() && !answer3.isEmpty()) {
+            if (password.equals(confirmPassword)) {
+                if ((passwordStrength == 2) || (passwordStrength == 3)) {
+                    User user = userService.findUserById(id);
+
+                    user.setPassword(password);
+                    user.setQuestion1(question1);
+                    user.setAnswer1(answer1);
+                    user.setQuestion2(question2);
+                    user.setAnswer2(answer2);
+                    user.setQuestion3(question3);
+                    user.setAnswer3(answer3);
+                    user.setFirstime(false);
+
+                    try {
+                        userService.edit(user);
+                        JOptionPane.showMessageDialog(
+                                parent,
+                                "Se han realizado los cambios correctamente.",
+                                "Sistema de Ventas - Información",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        dialog.dispose();
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(
+                                parent,
+                                ex.getMessage(),
+                                "Sistema de Ventas - Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(
+                            parent,
+                            "La contraseña es muy debil...",
+                            "Sistema de Ventas - Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(
+                        parent,
+                        "Las contraseñas no coinciden. Por favor revise y vuelve a intentarlo.",
+                        "Sistema de Ventas - Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    parent,
+                    "Por favor, complete todos los campos vacíos.",
+                    "Sistema de Ventas - Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    public void createUser(Frame parent, JTable table, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbStatus) {
         String firstname = txtFirstname.getText().toUpperCase();
         String lastname = txtLastname.getText().toUpperCase();
         String username = txtUsername.getText();
         String password = new String(txtPassword.getPassword());
-        String question = cbQuestions.getSelectedItem().toString();
-        String answer = txtAnswer.getText();
         boolean status = cbStatus.getSelectedIndex() == 0;
 
         User user = new User();
 
         if (!firstname.isEmpty()
                 && !lastname.isEmpty()
-                && !username.isEmpty()
-                && !password.isEmpty()
-                && !answer.isEmpty()) {
+                && !username.isEmpty()) {
             user.setFirstname(firstname);
             user.setLastname(lastname);
             user.setUsername(username);
             user.setPassword(password);
-            user.setQuestion(question);
-            user.setAnswer(answer);
             user.setAccountType(0);
             user.setEnabled(status);
-
+            user.setFirstime(true);
+            
             try {
                 userService.create(user);
                 loadUsers(table);
@@ -115,13 +182,11 @@ public class UserController {
         }
     }
 
-    public void editUser(Frame parent, JTable table, Long id, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbQuestions, JTextField txtAnswer, JComboBox cbStatus) {
+    public void editUser(Frame parent, JTable table, Long id, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbStatus) {
         String firstname = txtFirstname.getText().toUpperCase();
         String lastname = txtLastname.getText().toUpperCase();
         String username = txtUsername.getText();
         String password = new String(txtPassword.getPassword());
-        String question = cbQuestions.getSelectedItem().toString();
-        String answer = txtAnswer.getText();
         boolean status = cbStatus.getSelectedIndex() == 0;
 
         User user = userService.findUserById(id);
@@ -129,16 +194,14 @@ public class UserController {
         if (!firstname.isEmpty()
                 && !lastname.isEmpty()
                 && !username.isEmpty()
-                && !password.isEmpty()
-                && !answer.isEmpty()) {
+                && !password.isEmpty()) {
             user.setFirstname(firstname);
             user.setLastname(lastname);
             user.setUsername(username);
             user.setPassword(password);
-            user.setQuestion(question);
-            user.setAnswer(answer);
             user.setEnabled(status);
-
+            user.setFirstime(true);
+            
             try {
                 userService.edit(user);
                 loadUsers(table);
@@ -164,13 +227,26 @@ public class UserController {
         }
     }
 
-    public void editAccount(Frame parent, User currentUser, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbQuestions, JTextField txtAnswer, JMenu mAccount) {
+    public void editAccount(Frame parent,
+            User currentUser,
+            JTextField txtFirstname,
+            JTextField txtLastname,
+            JTextField txtUsername,
+            JPasswordField txtPassword,
+            JComboBox cbQuestions1, JPasswordField txtAnswer1,
+            JComboBox cbQuestions2, JPasswordField txtAnswer2,
+            JComboBox cbQuestions3, JPasswordField txtAnswer3,
+            JMenu mAccount) {
         String firstname = txtFirstname.getText().toUpperCase();
         String lastname = txtLastname.getText().toUpperCase();
         String username = txtUsername.getText();
         String password = new String(txtPassword.getPassword());
-        String question = cbQuestions.getSelectedItem().toString();
-        String answer = txtAnswer.getText();
+        String question1 = cbQuestions1.getSelectedItem().toString();
+        String answer1 = new String(txtAnswer1.getPassword());
+        String question2 = cbQuestions2.getSelectedItem().toString();
+        String answer2 = new String(txtAnswer2.getPassword());
+        String question3 = cbQuestions3.getSelectedItem().toString();
+        String answer3 = new String(txtAnswer3.getPassword());
 
         User user = currentUser;
 
@@ -188,16 +264,28 @@ public class UserController {
                         user.setUsername(username);
                     }
 
-                    if (!answer.isEmpty()) {
-                        user.setQuestion(question);
-                        user.setAnswer(answer);
+                    if (!answer1.isEmpty()) {
+                        user.setQuestion1(question1);
+                        user.setAnswer1(answer1);
+                    }
+                    if (!answer2.isEmpty()) {
+                        user.setQuestion2(question2);
+                        user.setAnswer2(answer2);
+                    }
+                    if (!answer3.isEmpty()) {
+                        user.setQuestion3(question3);
+                        user.setAnswer3(answer3);
                     }
 
                     userService.edit(user);
                     txtUsername.setText("");
                     txtPassword.setText("");
-                    cbQuestions.setSelectedIndex(0);
-                    txtAnswer.setText("");
+                    cbQuestions1.setSelectedIndex(0);
+                    txtAnswer1.setText("");
+                    cbQuestions2.setSelectedIndex(0);
+                    txtAnswer2.setText("");
+                    cbQuestions3.setSelectedIndex(0);
+                    txtAnswer3.setText("");
 
                     mAccount.setText((user.getAccountType() == 1 ? " Administrador: " : "Empleado: ") + user.getFirstname() + " " + user.getLastname());
 
@@ -239,15 +327,13 @@ public class UserController {
         }
     }
 
-    public User loadUserById(Long id, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbQuestions, JTextField txtAnswer, JComboBox cbStatus) {
+    public User loadUserById(Long id, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbStatus) {
         User user = userService.findUserById(id);
 
         txtFirstname.setText(user.getFirstname());
         txtLastname.setText(user.getLastname());
         txtUsername.setText(user.getUsername());
         txtPassword.setText(user.getPassword());
-        cbQuestions.setSelectedItem(user.getQuestion());
-        txtAnswer.setText(user.getAnswer());
         cbStatus.setSelectedItem(user.isEnabled() ? "Activado" : "Desactivado");
 
         return user;
@@ -302,7 +388,7 @@ public class UserController {
 
                 Timer timer = new Timer(1500, ex -> {
                     FlatAnimatedLafChange.showSnapshot();
-                    parent.switchPanel(new FormVerify(parent, username));
+                    parent.switchPanel(new FormVerify(parent, username), 650);
                     FlatLaf.updateUI();
                     FlatAnimatedLafChange.hideSnapshotWithAnimation();
                 });
@@ -325,16 +411,28 @@ public class UserController {
         }
     }
 
-    public void verify(Login parent, String username, JComboBox cbQuestions, JPasswordField txtAnswer, JButton btnVerify, JButton Cancel) {
-        String question = cbQuestions.getSelectedItem().toString();
-        String answer = new String(txtAnswer.getPassword());
+    public void verify(Login parent, String username,
+            JComboBox cbQuestions1, JPasswordField txtAnswer1,
+            JComboBox cbQuestions2, JPasswordField txtAnswer2,
+            JComboBox cbQuestions3, JPasswordField txtAnswer3,
+            JButton btnVerify, JButton Cancel) {
+        String question1 = cbQuestions1.getSelectedItem().toString();
+        String answer1 = new String(txtAnswer1.getPassword());
+        String question2 = cbQuestions2.getSelectedItem().toString();
+        String answer2 = new String(txtAnswer2.getPassword());
+        String question3 = cbQuestions3.getSelectedItem().toString();
+        String answer3 = new String(txtAnswer3.getPassword());
 
-        if (!answer.isEmpty()) {
+        if (!answer1.isEmpty() && !answer2.isEmpty() && !answer3.isEmpty()) {
             try {
-                userService.verify(username, question, answer);
+                userService.verify(username, question1, answer1, question2, answer2, question3, answer3);
 
-                txtAnswer.setEditable(false);
-                cbQuestions.setEnabled(false);
+                txtAnswer1.setEditable(false);
+                cbQuestions1.setEnabled(false);
+                txtAnswer2.setEditable(false);
+                cbQuestions2.setEnabled(false);
+                txtAnswer3.setEditable(false);
+                cbQuestions3.setEnabled(false);
                 btnVerify.setEnabled(false);
                 Cancel.setEnabled(false);
 
@@ -346,7 +444,7 @@ public class UserController {
 
                 Timer timer = new Timer(1500, ex -> {
                     FlatAnimatedLafChange.showSnapshot();
-                    parent.switchPanel(new FormRecovery(parent, username));
+                    parent.switchPanel(new FormRecovery(parent, username), 0);
                     FlatLaf.updateUI();
                     FlatAnimatedLafChange.hideSnapshotWithAnimation();
                 });
