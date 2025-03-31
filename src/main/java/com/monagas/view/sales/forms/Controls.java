@@ -40,8 +40,6 @@ public class Controls extends JPanel {
         txtUsername = new CustomJTextField("Username2");
         lbPassword = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
-        lbAccount = new javax.swing.JLabel();
-        cbAccount = new javax.swing.JComboBox<>();
         btnRegister = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -66,12 +64,6 @@ public class Controls extends JPanel {
         lbPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbPassword.setText("Contraseña");
-
-        lbAccount.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lbAccount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbAccount.setText("Tipo de Cuenta");
-
-        cbAccount.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empleado" }));
 
         btnRegister.setBackground(new java.awt.Color(40, 188, 72));
         btnRegister.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -175,20 +167,12 @@ public class Controls extends JPanel {
                             .addComponent(lbPassword)
                             .addComponent(txtLastname, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbAccount, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lbAccount)
-                                .addGap(0, 86, Short.MAX_VALUE)))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbStatus)
-                            .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnRegister)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnUpdate)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUpdate))
+                    .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbStatus))
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnDelete)
@@ -219,13 +203,9 @@ public class Controls extends JPanel {
                             .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lbAccount)
-                            .addComponent(lbStatus))
+                        .addComponent(lbStatus)
                         .addGap(0, 0, 0)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,9 +292,7 @@ public class Controls extends JPanel {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnRegister;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> cbAccount;
     private javax.swing.JComboBox<String> cbStatus;
-    private javax.swing.JLabel lbAccount;
     private javax.swing.JLabel lbFirstname;
     private javax.swing.JLabel lbLastname;
     private javax.swing.JLabel lbPassword;

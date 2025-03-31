@@ -4,6 +4,7 @@ import com.monagas.controllers.sales.SellingController;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
 import com.monagas.view.sales.forms.dialogs.DialogHistory;
+import com.monagas.view.sales.forms.dialogs.DialogReturn;
 import com.monagas.view.sales.print.Reports;
 import com.monagas.view.sales.renderer.cell.PanelView.TableActionCellEditor;
 import com.monagas.view.sales.renderer.cell.PanelView.TableActionCellRender;
@@ -27,6 +28,31 @@ public class History extends JPanel {
             public void onView(int row) {
                 Long id = Long.valueOf(tblHistory.getValueAt(row, 0).toString().substring(1));
                 new DialogHistory(parent, true, id).setVisible(true);
+            }
+
+            @Override
+            public void onReturn(int row) {
+                Object[] options = {"DEVOLUCIÓN TOTAL", "MODIFICAR FACTURA Y GENERAR"};
+
+                int confirm = JOptionPane.showOptionDialog(parent,
+                        "Seleccione el tipo de devolución que desea realizar:",
+                        "Tipo de Devolución",
+                        0,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+
+                if (confirm == 0) {
+                    Long id = Long.valueOf(tblHistory.getValueAt(row, 0).toString().substring(1));
+                    controller.editSelling(parent, id, true);
+                    btnRefresh.doClick();
+                }
+
+                if (confirm == 1) {
+                    Long id = Long.valueOf(tblHistory.getValueAt(row, 0).toString().substring(1));
+                    new DialogReturn(parent, false, id).setVisible(true);
+                }
             }
 
             @Override
@@ -56,6 +82,7 @@ public class History extends JPanel {
         spHistory = new javax.swing.JScrollPane();
         tblHistory = new CustomJTable();
         txtSearch = new CustomJTextField(tblHistory);
+        btnRefresh = new javax.swing.JButton();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -70,7 +97,7 @@ public class History extends JPanel {
 
             },
             new String [] {
-                "CÓDIGO", "FECHA DE VENTA", "CÉDULA", "NOMBRE Y APELLIDO", "MONTO TOTAL $", "MONTO TOTAL BS", "MÉTODO DE PAGO", "VENTA REALIZADA POR", "PRODUCTOS"
+                "CÓDIGO", "FECHA DE VENTA", "CÉDULA", "NOMBRE Y APELLIDO", "MONTO TOTAL $", "MONTO TOTAL BS", "MÉTODO DE PAGO", "VENTA REALIZADA POR", "ACCIONES"
             }
         ) {
             Class[] types = new Class [] {
@@ -101,42 +128,56 @@ public class History extends JPanel {
         spHistory.setViewportView(tblHistory);
         if (tblHistory.getColumnModel().getColumnCount() > 0) {
             tblHistory.getColumnModel().getColumn(0).setPreferredWidth(80);
-            tblHistory.getColumnModel().getColumn(8).setMinWidth(230);
+            tblHistory.getColumnModel().getColumn(8).setMinWidth(340);
         }
 
         txtSearch.setName("Clients"); // NOI18N
+
+        btnRefresh.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconRefresh16.png"))); // NOI18N
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(spHistory, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
-                        .addComponent(txtSearch))
-                    .addContainerGap()))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(spHistory, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtSearch)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(spHistory, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(7, 7, 7)
+                .addComponent(spHistory, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        controller.loadSellings(tblHistory);
+        controller.loadSellings(tblHistory, false);
     }//GEN-LAST:event_formComponentShown
 
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        controller.loadSellings(tblHistory, false);
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JScrollPane spHistory;
     private javax.swing.JTable tblHistory;
     private javax.swing.JTextField txtSearch;

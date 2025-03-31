@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -29,7 +30,9 @@ public class SellingController {
     private final User currentUser = CurrentUser.getInstance().getUser();
 
     public Selling createSelling(Frame parent,
+            JDialog dialog,
             JTable table,
+            Long oldInvoiceId,
             JComboBox cbType,
             JTextField txtCedula,
             JTextField txtFirstname,
@@ -41,7 +44,8 @@ public class SellingController {
             Double total,
             Double totalBs,
             JButton button,
-            String method) {
+            String method,
+            boolean isReturn) {
         String type = cbType.getSelectedItem().toString();
         String cedula = txtCedula.getText();
         String firstname = txtFirstname.getText().toUpperCase();
@@ -101,7 +105,10 @@ public class SellingController {
                     }
                 }
 
-                sellingService.createSelling(client, products, total, totalBs, amountTotal, amounts, purchases, subTotals, purchasesBs, subTotalsBs, method);
+                sellingService.createSelling(oldInvoiceId, client, products, total, totalBs, amountTotal, amounts, purchases, subTotals, purchasesBs, subTotalsBs, method, isReturn);
+                if (oldInvoiceId != null) {
+                    dialog.dispose();
+                }
                 DefaultTableModel model = (DefaultTableModel) table.getModel();
                 model.setRowCount(0);
                 button.doClick();
@@ -123,7 +130,20 @@ public class SellingController {
         return selling;
     }
 
-    public List<Selling> loadSellings(JTable table) {
+    public void editSelling(Frame parent,
+            Long oldInvoiceId, boolean isReturn) {
+        try {
+            sellingService.editSelling(oldInvoiceId, isReturn);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    parent,
+                    ex.getMessage(),
+                    "Sistema de Ventas - Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public List<Selling> loadSellings(JTable table, boolean isReturn) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
 
@@ -132,20 +152,22 @@ public class SellingController {
         Object[] row;
 
         for (Selling selling : sellings) {
-            User registeredBy = userService.findUserById(selling.getRegisteredBy().getUserId());
-            Client client = clientService.findClientById(selling.getClient().getClientId());
+            if (selling.isReturn() == isReturn) {
+                User registeredBy = userService.findUserById(selling.getRegisteredBy().getUserId());
+                Client client = clientService.findClientById(selling.getClient().getClientId());
 
-            row = new Object[]{
-                "V" + selling.getSellingId(),
-                selling.getCreatedAt(),
-                client.getType() + client.getCedula(),
-                client.getFirstname() + " " + client.getLastname(),
-                selling.getTotal(),
-                selling.getTotalBs(),
-                selling.getMethod(),
-                registeredBy.getFirstname() + " " + registeredBy.getLastname()
-            };
-            model.addRow(row);
+                row = new Object[]{
+                    "V" + selling.getSellingId(),
+                    selling.getCreatedAt(),
+                    client.getType() + client.getCedula(),
+                    client.getFirstname() + " " + client.getLastname(),
+                    selling.getTotal(),
+                    selling.getTotalBs(),
+                    selling.getMethod(),
+                    registeredBy.getFirstname() + " " + registeredBy.getLastname()
+                };
+                model.addRow(row);
+            }
         }
 
         return sellings;
@@ -173,6 +195,20 @@ public class SellingController {
         }
 
         return products;
+    }
+
+    public Selling loadClientByInvoiceId(Long invoiceId, JComboBox cbType, JTextField txtCedula, JTextField txtFirstname, JTextField txtLastname, JComboBox cbCode, JTextField txtPhone, JTextField txtAddress) {
+        Selling selling = sellingService.findSellingById(invoiceId);
+
+        cbType.setSelectedItem(selling.getClient().getType());
+        txtCedula.setText(selling.getClient().getCedula());
+        txtFirstname.setText(selling.getClient().getFirstname());
+        txtLastname.setText(selling.getClient().getLastname());
+        cbCode.setSelectedItem(selling.getClient().getCode());
+        txtPhone.setText(selling.getClient().getPhone());
+        txtAddress.setText(selling.getClient().getAddress());
+
+        return selling;
     }
 
     public Long commerceExist() {

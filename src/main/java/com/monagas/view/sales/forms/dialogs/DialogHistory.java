@@ -7,15 +7,15 @@ import java.awt.Frame;
 import javax.swing.JDialog;
 
 public class DialogHistory extends JDialog {
-    
+
     private final SellingController controller = new SellingController();
-    
+
     public DialogHistory(Frame parent, boolean modal, Long id) {
         super(parent, modal);
         initComponents();
 
         FlatStyle.setStyle(spProducts, tblProducts);
-        
+
         controller.loadProducts(tblProducts, id);
     }
 
@@ -81,8 +81,8 @@ public class DialogHistory extends JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(spProducts, javax.swing.GroupLayout.DEFAULT_SIZE, 782, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(spProducts, javax.swing.GroupLayout.PREFERRED_SIZE, 782, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

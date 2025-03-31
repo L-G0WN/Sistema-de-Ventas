@@ -24,7 +24,7 @@ public class SellingService implements Serializable {
         return EntityManagerFactoryProvider.getEntityManagerFactory().createEntityManager();
     }
 
-    public void createSelling(Client client, List<Product> products, Double total, Double totalBs, Integer amountTotal, List<Integer> amounts, List<Double> purchases, List<Double> subTotals, List<Double> purchasesBs, List<Double> subTotalsBs, String method) throws Exception {
+    public void createSelling(Long oldInvoiceId, Client client, List<Product> products, Double total, Double totalBs, Integer amountTotal, List<Integer> amounts, List<Double> purchases, List<Double> subTotals, List<Double> purchasesBs, List<Double> subTotalsBs, String method, boolean isReturn) throws Exception {
         User currentUser = CurrentUser.getInstance().getUser();
         if (currentUser == null) {
             throw new Exception("Usuario no autenticado.");
@@ -59,6 +59,12 @@ public class SellingService implements Serializable {
                 selling.addSellingProduct(product, amount, purchase, subTotal, purchaseBs, subTotalBs);
             }
 
+            if (isReturn) {
+                Selling oldSelling = findSellingById(oldInvoiceId);
+                oldSelling.setReturn(isReturn);
+                em.merge(oldSelling);
+            }
+
             em.persist(selling);
             em.getTransaction().commit();
 
@@ -71,6 +77,34 @@ public class SellingService implements Serializable {
                 em.getTransaction().rollback();
             }
             throw new Exception("Error al crear la venta: " + ex.getMessage(), ex);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public void editSelling(Long oldInvoiceId, boolean isReturn) throws Exception {
+        User currentUser = CurrentUser.getInstance().getUser();
+        if (currentUser == null) {
+            throw new Exception("Usuario no autenticado.");
+        }
+
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
+            Selling oldSelling = findSellingById(oldInvoiceId);
+            oldSelling.setReturn(isReturn);
+            em.merge(oldSelling);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new Exception("Error al actualizar la venta: " + ex.getMessage(), ex);
         } finally {
             if (em != null) {
                 em.close();
@@ -111,6 +145,28 @@ public class SellingService implements Serializable {
                 em.getTransaction().rollback();
             }
             throw new RuntimeException("Error al encontrar las entidades de venta", ex);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public Selling findSellingById(Long id) {
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
+            Selling selling = em.find(Selling.class, id);
+            em.getTransaction().commit();
+            return selling;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al encontrar la factura por ID", ex);
         } finally {
             if (em != null) {
                 em.close();

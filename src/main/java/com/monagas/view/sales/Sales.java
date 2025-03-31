@@ -8,6 +8,7 @@ import com.monagas.view.login.Login;
 import com.monagas.view.sales.forms.Clients;
 import com.monagas.view.sales.forms.History;
 import com.monagas.view.sales.forms.Products;
+import com.monagas.view.sales.forms.Return;
 import com.monagas.view.sales.forms.Sellings;
 import com.monagas.view.sales.forms.Suppliers;
 import com.monagas.view.sales.forms.dialogs.DialogFirstime;
@@ -47,13 +48,14 @@ public class Sales extends JFrame {
 
     private void loadTaps() {
         if (currentUser.getAccountType() == 1) {
-            tpWindows.addTab("Ventas", new Sellings(this));
+            tpWindows.addTab("Ventas", new Sellings(this, false, null, null));
             tpWindows.addTab("Historial de Ventas", new History(this));
+            tpWindows.addTab("Devoluciones", new Return(this));
             tpWindows.addTab("Clientes Registrados", new Clients(this));
             tpWindows.addTab("Productos", new Products(this));
             tpWindows.addTab("Proveedores", new Suppliers(this));
         } else {
-            tpWindows.addTab("Ventas", new Sellings(this));
+            tpWindows.addTab("Ventas", new Sellings(this, false, null, null));
             mExport.setVisible(false);
         }
     }

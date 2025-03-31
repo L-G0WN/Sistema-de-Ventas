@@ -18,6 +18,7 @@ public class DialogMethod extends JDialog {
 
     private final Frame parent;
     private final JTable table;
+    private final Long oldInvoiceId;
     private final JComboBox cbType;
     private final JTextField txtCedula;
     private final JTextField txtFirstname;
@@ -32,9 +33,12 @@ public class DialogMethod extends JDialog {
     private final JLabel lbTotal;
     private final JLabel lbBs;
     private final JLabel lbTotalProducts;
+    private final boolean isReturn;
+    private final JDialog dialog;
     
     public DialogMethod(Frame parent, boolean modal,
             JTable table,
+            Long oldInvoiceId,
             JComboBox cbType,
             JTextField txtCedula,
             JTextField txtFirstname,
@@ -46,7 +50,9 @@ public class DialogMethod extends JDialog {
             Double total,
             Double totalBs,
             JButton btnClear,
-            JLabel lbTotal, JLabel lbBs, JLabel lbTotalProducts) {
+            JLabel lbTotal, JLabel lbBs, JLabel lbTotalProducts,
+            boolean isReturn,
+            JDialog dialog) {
         super(parent, modal);
         this.parent = parent;
         this.table = table;
@@ -64,6 +70,9 @@ public class DialogMethod extends JDialog {
         this.lbTotal = lbTotal;
         this.lbBs = lbBs;
         this.lbTotalProducts = lbTotalProducts;
+        this.isReturn = isReturn;
+        this.oldInvoiceId = oldInvoiceId;
+        this.dialog = dialog;
         
         initComponents();
     }
@@ -157,7 +166,7 @@ public class DialogMethod extends JDialog {
                 AbstractButton button = buttons.nextElement();
 
                 if (button.isSelected()) {
-                    controller.createSelling(parent, table, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, button.getText());
+                    controller.createSelling(parent, dialog, table, oldInvoiceId, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, button.getText(), isReturn);
                 }
             }
 

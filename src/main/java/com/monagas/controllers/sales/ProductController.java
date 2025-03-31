@@ -39,9 +39,9 @@ public class ProductController {
         Category category;
         Supplier supplier;
 
-        if (!description.isEmpty() && price != null && purchase != null && amount != null && categoryName != null) {
+        if (!description.isEmpty() && price != null && purchase != null && amount != null && categoryName != null && supplierName != null) {
             category = categoryService.findCategoryByName(categoryName);
-            supplier = (supplierName != null) ? supplierService.findSupplierByName(supplierName) : null;
+            supplier = supplierService.findSupplierByName(supplierName);
 
             product.setDescription(description);
             product.setPrice(price);
@@ -85,9 +85,9 @@ public class ProductController {
         Category category;
         Supplier supplier;
 
-        if (!description.isEmpty() && price != null && purchase != null && amount != null && categoryName != null) {
+        if (!description.isEmpty() && price != null && purchase != null && amount != null && categoryName != null && supplierName != null) {
             category = categoryService.findCategoryByName(categoryName);
-            supplier = (supplierName != null) ? supplierService.findSupplierByName(supplierName) : null;
+            supplier = supplierService.findSupplierByName(supplierName);
 
             product.setProductId(id);
             product.setDescription(description);
@@ -145,7 +145,7 @@ public class ProductController {
         txtPurchase.setText(product.getPurchase().toString());
         txtAmount.setText(product.getAmount().toString());
         cbCategories.setSelectedItem(product.getCategory().getName());
-        cbSuppliers.setSelectedItem((product.getSupplier() != null) ? product.getSupplier().getName() : "-- Seleccionar Proveedor (Opcional)");
+        cbSuppliers.setSelectedItem(product.getSupplier().getName());
 
         return product;
     }
@@ -162,8 +162,6 @@ public class ProductController {
         for (Product product : products) {
             User registeredBy = userService.findUserById(product.getRegisteredBy().getUserId());
             User updatedBy = (product.getUpdatedBy() != null) ? userService.findUserById(product.getUpdatedBy().getUserId()) : null;
-            Category categoryName = categoryService.findCategoryById(product.getCategory().getCategoryId());
-            Supplier supplierName = (product.getSupplier() != null) ? supplierService.findSupplierById(product.getSupplier().getSupplierId()) : null;
 
             row = new Object[]{
                 count++,
@@ -172,8 +170,8 @@ public class ProductController {
                 product.getPrice() + "$",
                 product.getPurchase() + "$",
                 product.getAmount(),
-                categoryName.getName(),
-                (supplierName != null) ? supplierName.getName() : null,
+                product.getCategory().getName(),
+                product.getSupplier().getName(),
                 product.getCreatedAt(),
                 registeredBy.getFirstname() + " " + registeredBy.getLastname(),
                 product.getUpdatedAt(),

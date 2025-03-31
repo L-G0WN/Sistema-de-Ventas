@@ -46,6 +46,7 @@ public class Reports {
             JV.setTitle("Sistema de Ventas - Factura");
             JV.setIconImage(new ImageIcon(getClass().getResource("/images/iconFrame20.png")).getImage());
             JV.setVisible(true);
+            JV.setAlwaysOnTop(true);
         } catch (JRException ex) {
             JOptionPane.showMessageDialog(null,
                     "Error al generar el informe:\n" + ex.getMessage(),

@@ -18,6 +18,7 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -31,9 +32,15 @@ public class Sellings extends CustomJPanel {
     private final CurrencyApi currency = new CurrencyApi();
 
     private final Frame parent;
-
-    public Sellings(Frame parent) {
+    private boolean isReturn;
+    private Long invoiceId;
+    private JDialog dialog;
+    
+    public Sellings(Frame parent, boolean isReturn, Long invoiceId, JDialog dialog) {
         this.parent = parent;
+        this.isReturn = isReturn;
+        this.invoiceId = invoiceId;
+        this.dialog = dialog;
         initComponents();
 
         FlatStyle.setStyle(spSellings, tblSellings);
@@ -64,6 +71,19 @@ public class Sellings extends CustomJPanel {
         });
 
         eventField(txtCedula);
+        goReturn(isReturn, invoiceId);
+    }
+
+    private void goReturn(boolean isReturn, Long invoiceId) {
+        cbType.setEnabled(!isReturn);
+        txtCedula.setEnabled(!isReturn);
+        btnSearch.setEnabled(!isReturn);
+        btnClear.setEnabled(!isReturn);
+
+        if (isReturn) {
+            sellingController.loadClientByInvoiceId(invoiceId, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress);
+        }
+        refreshData();
     }
 
     @SuppressWarnings("unchecked")
@@ -437,7 +457,11 @@ public class Sellings extends CustomJPanel {
             double totalBs = (Bs.equals("Error al obtener la información del dólar.")) ? 0.0 : Double.parseDouble(Bs);
 
             if (!txtCedula.getText().isEmpty() && !txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !txtPhone.getText().isEmpty()) {
-                new DialogMethod(parent, false, tblSellings, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, lbTotal, lbBs, lbTotalProducts).setVisible(true);
+                if (isReturn) {
+                    new DialogMethod(parent, true, tblSellings, invoiceId, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, lbTotal, lbBs, lbTotalProducts, isReturn, dialog).setVisible(true);
+                } else {
+                    new DialogMethod(parent, true, tblSellings, null, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, lbTotal, lbBs, lbTotalProducts, isReturn, null).setVisible(true);
+                }
             } else {
                 JOptionPane.showMessageDialog(
                         parent,

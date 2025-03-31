@@ -14,6 +14,10 @@ public class PanelView extends JPanel {
             event.onInvoice(row);
         });
 
+        btnReturn.addActionListener((ActionEvent ae) -> {
+            event.onReturn(row);
+        });
+
         btnView.addActionListener((ActionEvent ae) -> {
             event.onView(row);
         });
@@ -24,12 +28,18 @@ public class PanelView extends JPanel {
     private void initComponents() {
 
         btnInvoice = new javax.swing.JButton();
+        btnReturn = new javax.swing.JButton();
         btnView = new javax.swing.JButton();
 
         btnInvoice.setBackground(new java.awt.Color(40, 188, 72));
         btnInvoice.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnInvoice.setForeground(new java.awt.Color(255, 255, 255));
         btnInvoice.setText("FACTURA");
+
+        btnReturn.setBackground(new java.awt.Color(185, 39, 39));
+        btnReturn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnReturn.setForeground(new java.awt.Color(255, 255, 255));
+        btnReturn.setText("DEVOLUCIÓN");
 
         btnView.setBackground(new java.awt.Color(232, 213, 42));
         btnView.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -41,8 +51,10 @@ public class PanelView extends JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(btnInvoice)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnReturn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnView)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -53,12 +65,14 @@ public class PanelView extends JPanel {
                 .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnView)
-                    .addComponent(btnInvoice)))
+                    .addComponent(btnInvoice)
+                    .addComponent(btnReturn)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInvoice;
+    private javax.swing.JButton btnReturn;
     private javax.swing.JButton btnView;
     // End of variables declaration//GEN-END:variables
 }

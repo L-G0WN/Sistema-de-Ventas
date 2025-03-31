@@ -48,10 +48,10 @@ public class Selling implements Serializable {
 
     @Column(name = "method", updatable = false, nullable = false)
     private String method;
-    
-    @Column(name = "is_return", updatable = false, nullable = false)
+
+    @Column(name = "is_return", updatable = true, nullable = true)
     private boolean isReturn;
-    
+
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "client_id", updatable = false, nullable = false)
     private Client client;
@@ -63,7 +63,7 @@ public class Selling implements Serializable {
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)
     private Date createdAt;
-    
+
     public void addSellingProduct(Product product, Integer amount, Double purchase, Double subTotal, Double purchaseBs, Double subTotalBs) {
         SellingProduct sellingProduct = new SellingProduct();
         sellingProduct.setSellingId(this);

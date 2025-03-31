@@ -48,7 +48,7 @@ public class Product implements Serializable {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "supplier", referencedColumnName = "supplier_id", nullable = true)
+    @JoinColumn(name = "supplier", referencedColumnName = "supplier_id", nullable = false)
     private Supplier supplier;
 
     @CreationTimestamp
