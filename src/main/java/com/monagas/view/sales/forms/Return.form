@@ -65,7 +65,7 @@
                 <Column editable="false" title="MONTO TOTAL BS" type="java.lang.Double"/>
                 <Column editable="false" title="M&#xc9;TODO DE PAGO" type="java.lang.String"/>
                 <Column editable="false" title="VENTA REALIZADA POR" type="java.lang.String"/>
-                <Column editable="true" title="ACCIONES" type="java.lang.Object"/>
+                <Column editable="true" title="ACCI&#xd3;N" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="autoResizeMode" type="int" value="0"/>
@@ -111,7 +111,7 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="120" prefWidth="-1" resizable="true">
+                <Column maxWidth="-1" minWidth="100" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>

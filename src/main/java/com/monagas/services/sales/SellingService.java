@@ -20,6 +20,8 @@ import java.util.List;
 
 public class SellingService implements Serializable {
 
+    private final ProductService service = new ProductService();
+
     private EntityManager getEntityManager() {
         return EntityManagerFactoryProvider.getEntityManagerFactory().createEntityManager();
     }
@@ -62,6 +64,12 @@ public class SellingService implements Serializable {
             if (isReturn) {
                 Selling oldSelling = findSellingById(oldInvoiceId);
                 oldSelling.setReturn(isReturn);
+                List<SellingProduct> sellings = oldSelling.getSellingProducts();
+                for (SellingProduct pr : sellings) {
+                    Product product = service.findProductById(pr.getProduct().getProductId());
+                    product.setAmount(product.getAmount() + pr.getAmount());
+                    em.merge(product);
+                }
                 em.merge(oldSelling);
             }
 
@@ -98,6 +106,13 @@ public class SellingService implements Serializable {
 
             Selling oldSelling = findSellingById(oldInvoiceId);
             oldSelling.setReturn(isReturn);
+            List<SellingProduct> sellings = oldSelling.getSellingProducts();
+            for (SellingProduct pr : sellings) {
+                Product product = service.findProductById(pr.getProduct().getProductId());
+                product.setAmount(product.getAmount() + pr.getAmount());
+                em.merge(product);
+            }
+
             em.merge(oldSelling);
             em.getTransaction().commit();
         } catch (Exception ex) {

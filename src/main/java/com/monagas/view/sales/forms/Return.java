@@ -3,6 +3,10 @@ package com.monagas.view.sales.forms;
 import com.monagas.controllers.sales.SellingController;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
+import com.monagas.view.sales.forms.dialogs.DialogHistory;
+import com.monagas.view.sales.renderer.cell.PanelReturn.TableActionCellEditor;
+import com.monagas.view.sales.renderer.cell.PanelReturn.TableActionCellRender;
+import com.monagas.view.sales.renderer.cell.PanelReturn.TableReturnEvent;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
 import javax.swing.JPanel;
@@ -15,6 +19,14 @@ public class Return extends JPanel {
         initComponents();
 
         FlatStyle.setStyle(spHistory, tblReturn);
+
+        TableReturnEvent event = (int row) -> {
+            Long id = Long.valueOf(tblReturn.getValueAt(row, 0).toString().substring(1));
+            new DialogHistory(parent, true, id).setVisible(true);
+        };
+
+        tblReturn.getColumnModel().getColumn(tblReturn.getColumnCount() - 1).setCellRenderer(new TableActionCellRender());
+        tblReturn.getColumnModel().getColumn(tblReturn.getColumnCount() - 1).setCellEditor(new TableActionCellEditor(event));
     }
 
     @SuppressWarnings("unchecked")
@@ -38,7 +50,7 @@ public class Return extends JPanel {
 
             },
             new String [] {
-                "CÓDIGO", "FECHA DE VENTA", "CÉDULA", "NOMBRE Y APELLIDO", "MONTO TOTAL $", "MONTO TOTAL BS", "MÉTODO DE PAGO", "VENTA REALIZADA POR", "ACCIONES"
+                "CÓDIGO", "FECHA DE VENTA", "CÉDULA", "NOMBRE Y APELLIDO", "MONTO TOTAL $", "MONTO TOTAL BS", "MÉTODO DE PAGO", "VENTA REALIZADA POR", "ACCIÓN"
             }
         ) {
             Class[] types = new Class [] {
@@ -69,7 +81,7 @@ public class Return extends JPanel {
         spHistory.setViewportView(tblReturn);
         if (tblReturn.getColumnModel().getColumnCount() > 0) {
             tblReturn.getColumnModel().getColumn(0).setPreferredWidth(80);
-            tblReturn.getColumnModel().getColumn(8).setMinWidth(120);
+            tblReturn.getColumnModel().getColumn(8).setMinWidth(100);
         }
 
         txtSearch.setName("Clients"); // NOI18N

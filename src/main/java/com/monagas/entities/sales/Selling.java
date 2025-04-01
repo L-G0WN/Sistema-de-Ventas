@@ -4,6 +4,7 @@ import com.monagas.entities.login.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,7 +35,7 @@ public class Selling implements Serializable {
     @Column(name = "selling_id")
     private Long sellingId;
 
-    @OneToMany(mappedBy = "sellingId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sellingId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SellingProduct> sellingProducts = new ArrayList<>();
 
     @Column(name = "amount_total", updatable = false, nullable = false)
