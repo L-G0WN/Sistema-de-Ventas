@@ -35,6 +35,7 @@ public class DialogMethod extends JDialog {
     private final JLabel lbTotalProducts;
     private final boolean isReturn;
     private final JDialog dialog;
+    private final JTable tblHistory;
     
     public DialogMethod(Frame parent, boolean modal,
             JTable table,
@@ -52,7 +53,8 @@ public class DialogMethod extends JDialog {
             JButton btnClear,
             JLabel lbTotal, JLabel lbBs, JLabel lbTotalProducts,
             boolean isReturn,
-            JDialog dialog) {
+            JDialog dialog,
+            JTable tblHistory) {
         super(parent, modal);
         this.parent = parent;
         this.table = table;
@@ -73,6 +75,7 @@ public class DialogMethod extends JDialog {
         this.isReturn = isReturn;
         this.oldInvoiceId = oldInvoiceId;
         this.dialog = dialog;
+        this.tblHistory = tblHistory;
         
         initComponents();
     }
@@ -166,7 +169,7 @@ public class DialogMethod extends JDialog {
                 AbstractButton button = buttons.nextElement();
 
                 if (button.isSelected()) {
-                    controller.createSelling(parent, dialog, table, oldInvoiceId, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, button.getText(), isReturn);
+                    controller.createSelling(parent, dialog, table, oldInvoiceId, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, button.getText(), isReturn, tblHistory);
                 }
             }
 

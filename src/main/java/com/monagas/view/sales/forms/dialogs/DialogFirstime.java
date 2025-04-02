@@ -2,6 +2,7 @@ package com.monagas.view.sales.forms.dialogs;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.monagas.controllers.login.UserController;
+import com.monagas.view.sales.components.CustomJTextField;
 import java.awt.Frame;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -66,6 +67,11 @@ public class DialogFirstime extends JDialog {
         txtAnswer2 = new javax.swing.JPasswordField();
         txtAnswer1 = new javax.swing.JPasswordField();
         txtAnswer3 = new javax.swing.JPasswordField();
+        lbPhone = new javax.swing.JLabel();
+        cbCode = new javax.swing.JComboBox<>();
+        txtPhone = new CustomJTextField("Phone");
+        lbAddress = new javax.swing.JLabel();
+        txtAddress = new CustomJTextField("Address2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Registro de Contraseña, Preguntas y Respuestas");
@@ -139,25 +145,55 @@ public class DialogFirstime extends JDialog {
 
         txtAnswer3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
+        lbPhone.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbPhone.setText("Teléfono");
+
+        cbCode.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        cbCode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0424", "0414", "0416", "0426", "0412" }));
+
+        txtPhone.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
+        lbAddress.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbAddress.setText("Dirección");
+
+        txtAddress.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
         panelMain.setLayout(panelMainLayout);
         panelMainLayout.setHorizontalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMainLayout.createSequentialGroup()
-                        .addComponent(btnGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancel))
+                        .addGap(27, 27, 27)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(lbPassword)
+                                .addGap(143, 143, 143))
+                            .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtConfirmPassword, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(passwordStrengthStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbConfirmPassword))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lbPassword)
-                        .addGap(143, 143, 143))
-                    .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtConfirmPassword, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(passwordStrengthStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbConfirmPassword))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addComponent(btnGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCancel))
+                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtAddress, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(panelMainLayout.createSequentialGroup()
+                                    .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lbPhone)
+                                        .addComponent(cbCode, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lbAddress))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGap(18, 18, 18)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lbQuestion3)
@@ -191,14 +227,6 @@ public class DialogFirstime extends JDialog {
                         .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMainLayout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(passwordStrengthStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbConfirmPassword)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(panelMainLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lbAnswer1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
@@ -209,21 +237,37 @@ public class DialogFirstime extends JDialog {
                         .addComponent(cbQuestions2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lbAnswer2)
-                        .addGap(0, 0, 0)
+                        .addGap(1, 1, 1)
                         .addComponent(txtAnswer2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lbQuestion3)
                         .addGap(0, 0, 0)
                         .addComponent(cbQuestions3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbAnswer3)
+                        .addComponent(lbAnswer3))
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(passwordStrengthStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbConfirmPassword)
                         .addGap(0, 0, 0)
-                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtAnswer3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(26, Short.MAX_VALUE))))
+                        .addComponent(txtConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(13, 13, 13)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addComponent(lbPhone)
+                                .addGap(0, 0, 0)
+                                .addComponent(cbCode, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbAddress)
+                        .addGap(0, 0, 0)
+                        .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addComponent(txtAnswer3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -246,7 +290,7 @@ public class DialogFirstime extends JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeneralActionPerformed
-        controller.isFirstime(parent, this, id, txtPassword, txtConfirmPassword, passwordStrengthStatus.getPasswordStrengthType(), cbQuestions1, txtAnswer1, cbQuestions2, txtAnswer2, cbQuestions3, txtAnswer3);
+        controller.isFirstime(parent, this, id, txtPassword, txtConfirmPassword, passwordStrengthStatus.getPasswordStrengthType(), cbQuestions1, txtAnswer1, cbQuestions2, txtAnswer2, cbQuestions3, txtAnswer3, cbCode, txtPhone, txtAddress);
     }//GEN-LAST:event_btnGeneralActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -268,23 +312,28 @@ public class DialogFirstime extends JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnGeneral;
+    private javax.swing.JComboBox<String> cbCode;
     private javax.swing.JComboBox<String> cbQuestions1;
     private javax.swing.JComboBox<String> cbQuestions2;
     private javax.swing.JComboBox<String> cbQuestions3;
+    private javax.swing.JLabel lbAddress;
     private javax.swing.JLabel lbAnswer1;
     private javax.swing.JLabel lbAnswer2;
     private javax.swing.JLabel lbAnswer3;
     private javax.swing.JLabel lbConfirmPassword;
     private javax.swing.JLabel lbPassword;
+    private javax.swing.JLabel lbPhone;
     private javax.swing.JLabel lbQuestion1;
     private javax.swing.JLabel lbQuestion2;
     private javax.swing.JLabel lbQuestion3;
     private javax.swing.JPanel panelMain;
     private com.monagas.view.login.components.PasswordStrengthStatus passwordStrengthStatus;
+    private javax.swing.JTextField txtAddress;
     private javax.swing.JPasswordField txtAnswer1;
     private javax.swing.JPasswordField txtAnswer2;
     private javax.swing.JPasswordField txtAnswer3;
     private javax.swing.JPasswordField txtConfirmPassword;
     private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtPhone;
     // End of variables declaration//GEN-END:variables
 }

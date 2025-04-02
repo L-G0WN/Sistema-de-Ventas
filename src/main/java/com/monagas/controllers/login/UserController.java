@@ -80,7 +80,9 @@ public class UserController {
             int passwordStrength,
             JComboBox cbQuestions1, JPasswordField txtAnswer1,
             JComboBox cbQuestions2, JPasswordField txtAnswer2,
-            JComboBox cbQuestions3, JPasswordField txtAnswer3) {
+            JComboBox cbQuestions3, JPasswordField txtAnswer3,
+            JComboBox cbCode, JTextField txtPhone,
+            JTextField txtAddress) {
         String password = new String(txtPassword.getPassword());
         String confirmPassword = new String(txtConfirmPassword.getPassword());
         String question1 = cbQuestions1.getSelectedItem().toString();
@@ -89,9 +91,12 @@ public class UserController {
         String answer2 = new String(txtAnswer2.getPassword());
         String question3 = cbQuestions3.getSelectedItem().toString();
         String answer3 = new String(txtAnswer3.getPassword());
-
+        String code = cbCode.getSelectedItem().toString();
+        String phone = txtPhone.getText();
+        String address = txtAddress.getText().toUpperCase();
+        
         if (!password.isEmpty() && !confirmPassword.isEmpty()
-                && !answer1.isEmpty() && !answer2.isEmpty() && !answer3.isEmpty()) {
+                && !answer1.isEmpty() && !answer2.isEmpty() && !answer3.isEmpty() && !phone.isEmpty() && !address.isEmpty()) {
             if (password.equals(confirmPassword)) {
                 if ((passwordStrength == 2) || (passwordStrength == 3)) {
                     User user = userService.findUserById(id);
@@ -103,6 +108,9 @@ public class UserController {
                     user.setAnswer2(answer2);
                     user.setQuestion3(question3);
                     user.setAnswer3(answer3);
+                    user.setCode(code);
+                    user.setPhone(phone);
+                    user.setAddress(address);
                     user.setFirstime(false);
 
                     try {
@@ -236,6 +244,8 @@ public class UserController {
             JComboBox cbQuestions1, JPasswordField txtAnswer1,
             JComboBox cbQuestions2, JPasswordField txtAnswer2,
             JComboBox cbQuestions3, JPasswordField txtAnswer3,
+            JComboBox cbCode, JTextField txtPhone,
+            JTextField txtAddress,
             JMenu mAccount) {
         String firstname = txtFirstname.getText().toUpperCase();
         String lastname = txtLastname.getText().toUpperCase();
@@ -247,7 +257,10 @@ public class UserController {
         String answer2 = new String(txtAnswer2.getPassword());
         String question3 = cbQuestions3.getSelectedItem().toString();
         String answer3 = new String(txtAnswer3.getPassword());
-
+        String code = cbCode.getSelectedItem().toString();
+        String phone = txtPhone.getText();
+        String address = txtAddress.getText().toUpperCase();
+        
         User user = currentUser;
 
         if (!firstname.isEmpty() && !lastname.isEmpty()) {
@@ -262,6 +275,15 @@ public class UserController {
 
                     if (!username.isEmpty()) {
                         user.setUsername(username);
+                    }
+                    
+                    if (!phone.isEmpty()) {
+                        user.setCode(code);
+                        user.setPhone(phone);
+                    }
+                    
+                    if (!address.isEmpty()) {
+                        user.setAddress(address);
                     }
 
                     if (!answer1.isEmpty()) {
@@ -327,13 +349,15 @@ public class UserController {
         }
     }
 
-    public User loadUserById(Long id, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbStatus) {
+    public User loadUserById(Long id, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbStatus, JTextField txtPhone, JTextField txtAddress) {
         User user = userService.findUserById(id);
 
         txtFirstname.setText(user.getFirstname());
         txtLastname.setText(user.getLastname());
         txtUsername.setText(user.getUsername());
         txtPassword.setText(user.getPassword());
+        txtPhone.setText((user.getPhone() != null) ? user.getCode() + "-" + user.getPhone() : "");
+        txtAddress.setText((user.getAddress() != null) ? user.getAddress() : "");
         cbStatus.setSelectedItem(user.isEnabled() ? "Activado" : "Desactivado");
 
         return user;

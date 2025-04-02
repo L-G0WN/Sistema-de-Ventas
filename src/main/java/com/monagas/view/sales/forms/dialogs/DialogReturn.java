@@ -4,15 +4,16 @@ import com.monagas.view.sales.forms.Sellings;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import javax.swing.JDialog;
+import javax.swing.JTable;
 
 public class DialogReturn extends JDialog {
     
-    public DialogReturn(Frame parent, boolean modal, Long invoiceId) {
+    public DialogReturn(Frame parent, boolean modal, Long invoiceId, JTable tblHistory) {
         super(parent, modal);
         initComponents();
         
         panelMain.setLayout(new BorderLayout());
-        panelMain.add(new Sellings(parent, true, invoiceId, this), BorderLayout.CENTER);
+        panelMain.add(new Sellings(parent, true, invoiceId, this, tblHistory), BorderLayout.CENTER);
     }
 
     @SuppressWarnings("unchecked")

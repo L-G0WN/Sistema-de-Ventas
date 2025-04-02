@@ -99,7 +99,7 @@ clients c ON c.client_id = s.client_id
 JOIN
 	commerce cc
 WHERE
-	s.is_return = 0 AND s.created_at = $P{created_at}]]>
+	s.is_return = 1 AND s.created_at = $P{created_at}]]>
 	</queryString>
 	<field name="selling_id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="selling_id"/>

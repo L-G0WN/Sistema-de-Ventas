@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 6.20.2  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HistoryDate" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c4a98e58-c6ba-48d6-b30e-3c557c82a8d7">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="History" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c4a98e58-c6ba-48d6-b30e-3c557c82a8d7">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sistema de Ventas"/>
 	<subDataset name="Dataset1" uuid="4983b7a5-ffc5-459b-bfe9-5e43c7bfdfe7">
@@ -81,7 +81,6 @@ clients c ON c.client_id = s.client_id]]>
 			<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
 		</field>
 	</subDataset>
-	<parameter name="created_at" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT
 s.*,
@@ -98,8 +97,7 @@ JOIN
 clients c ON c.client_id = s.client_id
 JOIN
 	commerce cc
-WHERE
-	s.is_return = 0 AND s.created_at = $P{created_at}]]>
+WHERE s.is_return = 1;]]>
 	</queryString>
 	<field name="selling_id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="selling_id"/>
@@ -352,7 +350,7 @@ WHERE
 				<text><![CDATA[Venta Realizada Por]]></text>
 			</staticText>
 			<line>
-				<reportElement x="20" y="9" width="190" height="1" uuid="0f2800f3-7fdf-47ba-a087-78bf021ee7ba">
+				<reportElement x="20" y="9" width="190" height="1" uuid="2d1cc303-fb44-4b4d-86d8-c49f0ca51997">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<graphicElement>
@@ -360,7 +358,7 @@ WHERE
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="20" y="60" width="55" height="1" uuid="e6be0af5-d1e5-4d1f-ace6-520223313666">
+				<reportElement x="20" y="60" width="55" height="1" uuid="3c6a786f-31f4-4d7b-8ac3-458e5893f676">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -369,7 +367,7 @@ WHERE
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="158" y="59" width="55" height="1" uuid="454e0870-b1f9-4d48-b370-9b68f12727b9">
+				<reportElement x="158" y="59" width="55" height="1" uuid="ad713125-b136-43db-a5d7-e5ad7c7452ba">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -378,7 +376,7 @@ WHERE
 				</graphicElement>
 			</line>
 			<textField textAdjust="ScaleFont">
-				<reportElement x="75" y="52" width="83" height="15" forecolor="#FC3A44" uuid="b906d27c-be76-4247-80e4-e97c2c8ee11a">
+				<reportElement x="75" y="52" width="83" height="15" forecolor="#FC3A44" uuid="ea3ff8cb-a3da-450b-bf5e-cb6c14468bc9">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -387,7 +385,7 @@ WHERE
 				<textFieldExpression><![CDATA["RIF "+ $F{type} + $F{rif}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="ScaleFont">
-				<reportElement x="68" y="30" width="138" height="22" forecolor="#FC3A44" uuid="682693a4-5a41-4301-a199-da47aa045ecb">
+				<reportElement x="68" y="30" width="138" height="22" forecolor="#FC3A44" uuid="feaa06d5-f924-46eb-8046-9b9289acbbef">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -397,7 +395,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="ScaleFont">
-				<reportElement x="68" y="12" width="138" height="28" forecolor="#FC3A44" uuid="468eb929-b909-4b95-bdb3-8d2e22fb7cc1">
+				<reportElement x="68" y="12" width="138" height="28" forecolor="#FC3A44" uuid="780185cc-839c-4c9f-adc0-872965b33888">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -407,7 +405,7 @@ WHERE
 				<textFieldExpression><![CDATA["INVERSIONES"]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="26" y="15" width="42" height="40" uuid="e88ece40-abc6-49cd-9be9-29cca852f0ca"/>
+				<reportElement x="26" y="15" width="42" height="40" uuid="5565377a-39bf-429d-a4e1-490a35fced06"/>
 				<imageExpression><![CDATA[this.getClass().getResourceAsStream("/images/shopping.png")]]></imageExpression>
 			</image>
 		</band>

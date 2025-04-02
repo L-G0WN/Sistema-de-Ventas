@@ -89,6 +89,13 @@ public class Reports {
                 parameters.put("registered_by", registered_by);
                 parameters.put("created_at", created_at);
             }
+            case "Reporte de Devoluciones Completo" -> {
+                jasperStream = this.getClass().getResourceAsStream("/prints/HistoryReturn.jrxml");
+            }
+            case "Reporte de Devoluciones por Fecha" -> {
+                jasperStream = this.getClass().getResourceAsStream("/prints/ReturnDate.jrxml");
+                parameters.put("created_at", created_at);
+            }
             default ->
                 throw new Exception("No sé ha podido detectar el archivo, por favor verifique e intente nuevamente.");
         }

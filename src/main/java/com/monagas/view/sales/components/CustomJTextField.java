@@ -40,6 +40,7 @@ public class CustomJTextField extends JTextField {
         TYPE_MESSAGES.put("Phone", "Número de teléfono");
         TYPE_MESSAGES.put("Email", "Correo Electrónico (Opcional)");
         TYPE_MESSAGES.put("Address", "Dirección principal (Opcional)");
+        TYPE_MESSAGES.put("Address2", "Dirección principal");
         TYPE_MESSAGES.put("Description", "Descripción del Producto");
         TYPE_MESSAGES.put("Price", "P.C.");
         TYPE_MESSAGES.put("Purchase", "P.V.");
@@ -130,7 +131,7 @@ public class CustomJTextField extends JTextField {
                         }
                     }
 
-                    if (getName().equals("Address") || getName().equals("Answer") || getName().equals("Answer2")) {
+                    if (getName().equals("Address") || getName().equals("Address2") || getName().equals("Answer") || getName().equals("Answer2")) {
                         if (getText().length() >= MAX_LENGTH_ADDRESS) {
                             e.consume();
                         }

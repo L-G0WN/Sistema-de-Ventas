@@ -20,6 +20,7 @@ import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -35,12 +36,14 @@ public class Sellings extends CustomJPanel {
     private boolean isReturn;
     private Long invoiceId;
     private JDialog dialog;
+    private JTable tblHistory;
     
-    public Sellings(Frame parent, boolean isReturn, Long invoiceId, JDialog dialog) {
+    public Sellings(Frame parent, boolean isReturn, Long invoiceId, JDialog dialog, JTable tblHistory) {
         this.parent = parent;
         this.isReturn = isReturn;
         this.invoiceId = invoiceId;
         this.dialog = dialog;
+        this.tblHistory = tblHistory;
         initComponents();
 
         FlatStyle.setStyle(spSellings, tblSellings);
@@ -458,9 +461,9 @@ public class Sellings extends CustomJPanel {
 
             if (!txtCedula.getText().isEmpty() && !txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !txtPhone.getText().isEmpty()) {
                 if (isReturn) {
-                    new DialogMethod(parent, true, tblSellings, invoiceId, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, lbTotal, lbBs, lbTotalProducts, isReturn, dialog).setVisible(true);
+                    new DialogMethod(parent, true, tblSellings, invoiceId, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, lbTotal, lbBs, lbTotalProducts, isReturn, dialog, tblHistory).setVisible(true);
                 } else {
-                    new DialogMethod(parent, true, tblSellings, null, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, lbTotal, lbBs, lbTotalProducts, isReturn, null).setVisible(true);
+                    new DialogMethod(parent, true, tblSellings, null, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, lbTotal, lbBs, lbTotalProducts, isReturn, null, null).setVisible(true);
                 }
             } else {
                 JOptionPane.showMessageDialog(

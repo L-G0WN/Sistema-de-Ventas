@@ -48,14 +48,14 @@ public class Sales extends JFrame {
 
     private void loadTaps() {
         if (currentUser.getAccountType() == 1) {
-            tpWindows.addTab("Ventas", new Sellings(this, false, null, null));
+            tpWindows.addTab("Ventas", new Sellings(this, false, null, null, null));
             tpWindows.addTab("Historial de Ventas", new History(this));
             tpWindows.addTab("Devoluciones", new Return(this));
             tpWindows.addTab("Clientes Registrados", new Clients(this));
             tpWindows.addTab("Productos", new Products(this));
             tpWindows.addTab("Proveedores", new Suppliers(this));
         } else {
-            tpWindows.addTab("Ventas", new Sellings(this, false, null, null));
+            tpWindows.addTab("Ventas", new Sellings(this, false, null, null, null));
             mExport.setVisible(false);
         }
     }
@@ -91,6 +91,8 @@ public class Sales extends JFrame {
         itemDate = new javax.swing.JMenuItem();
         itemEmploye = new javax.swing.JMenuItem();
         itemBoth = new javax.swing.JMenuItem();
+        itemReturn = new javax.swing.JMenuItem();
+        itemReturnDate = new javax.swing.JMenuItem();
         itemExport = new javax.swing.JMenuItem();
         itemLogout = new javax.swing.JMenuItem();
 
@@ -165,6 +167,24 @@ public class Sales extends JFrame {
             }
         });
         mExport.add(itemBoth);
+
+        itemReturn.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        itemReturn.setText("Reporte de Devoluciones Completo");
+        itemReturn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemReturnActionPerformed(evt);
+            }
+        });
+        mExport.add(itemReturn);
+
+        itemReturnDate.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        itemReturnDate.setText("Reporte de Devoluciones por Fecha");
+        itemReturnDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemReturnDateActionPerformed(evt);
+            }
+        });
+        mExport.add(itemReturnDate);
 
         mAccount.add(mExport);
 
@@ -258,6 +278,14 @@ public class Sales extends JFrame {
         new DialogInput(this, true, "Individual").setVisible(true);
     }//GEN-LAST:event_itemExportActionPerformed
 
+    private void itemReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnActionPerformed
+        report.generateReport("Reporte de Devoluciones Completo", null, null, null);
+    }//GEN-LAST:event_itemReturnActionPerformed
+
+    private void itemReturnDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReturnDateActionPerformed
+        new DialogInput(this, true, "Date2").setVisible(true);
+    }//GEN-LAST:event_itemReturnDateActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MenuBar;
     private javax.swing.JMenuItem itemBoth;
@@ -266,6 +294,8 @@ public class Sales extends JFrame {
     private javax.swing.JMenuItem itemExport;
     private javax.swing.JMenuItem itemHistory;
     private javax.swing.JMenuItem itemLogout;
+    private javax.swing.JMenuItem itemReturn;
+    private javax.swing.JMenuItem itemReturnDate;
     private javax.swing.JMenuItem itemSettings;
     private javax.swing.JLabel lbCurrentPrice;
     private javax.swing.JLabel lbTime;

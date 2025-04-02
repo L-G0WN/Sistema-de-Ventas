@@ -99,7 +99,7 @@ clients c ON c.client_id = s.client_id
 JOIN
 	commerce cc
 WHERE
-	s.registered_by = $P{registered_by}]]>
+	s.is_return = 0 AND s.registered_by = $P{registered_by}]]>
 	</queryString>
 	<field name="selling_id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="selling_id"/>
@@ -114,6 +114,11 @@ WHERE
 	<field name="created_at" class="java.sql.Date">
 		<property name="com.jaspersoft.studio.field.name" value="created_at"/>
 		<property name="com.jaspersoft.studio.field.label" value="created_at"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sellings"/>
+	</field>
+	<field name="is_return" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="is_return"/>
+		<property name="com.jaspersoft.studio.field.label" value="is_return"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="sellings"/>
 	</field>
 	<field name="method" class="java.lang.String">
@@ -151,12 +156,12 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="lastname"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="users"/>
 	</field>
-	<field name="COLUMN_11" class="java.lang.String">
+	<field name="COLUMN_12" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="firstname"/>
 		<property name="com.jaspersoft.studio.field.label" value="firstname"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
 	</field>
-	<field name="COLUMN_12" class="java.lang.String">
+	<field name="COLUMN_13" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="lastname"/>
 		<property name="com.jaspersoft.studio.field.label" value="lastname"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
@@ -496,7 +501,7 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{COLUMN_11} + " " + $F{COLUMN_12}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{COLUMN_12} + " " + $F{COLUMN_13}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="ScaleFont">
 				<reportElement x="455" y="0" width="100" height="20" uuid="3bf3238e-c710-4917-9d12-d58c0a172503">

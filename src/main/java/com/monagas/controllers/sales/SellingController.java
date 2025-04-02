@@ -45,7 +45,8 @@ public class SellingController {
             Double totalBs,
             JButton button,
             String method,
-            boolean isReturn) {
+            boolean isReturn,
+            JTable tblHistory) {
         String type = cbType.getSelectedItem().toString();
         String cedula = txtCedula.getText();
         String firstname = txtFirstname.getText().toUpperCase();
@@ -112,6 +113,9 @@ public class SellingController {
                 DefaultTableModel model = (DefaultTableModel) table.getModel();
                 model.setRowCount(0);
                 button.doClick();
+                if (tblHistory != null) {
+                    loadSellings(tblHistory, false);
+                }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(
                         parent,

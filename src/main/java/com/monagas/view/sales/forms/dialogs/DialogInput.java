@@ -34,7 +34,7 @@ public class DialogInput extends JDialog {
             Date.setEditor(tfDate);
         }
 
-        if (type.equals("Date") || type.equals("Individual")) {
+        if (type.equals("Date") || type.equals("Date2") || type.equals("Individual")) {
             setTitle("Establecer Fecha");
             cbEmploye.setVisible(false);
             Date.setEditor(tfDate);
@@ -118,7 +118,7 @@ public class DialogInput extends JDialog {
             this.dispose();
         }
 
-        if (type.equals("Date") || type.equals("Individual")) {
+        if (type.equals("Date") || type.equals("Date2") || type.equals("Individual")) {
             if (Date.getSelectedDateAsString() == null) {
                 JOptionPane.showMessageDialog(null,
                         "Por favor, complete la información para generar el archivo seleccionado correctamente.",
@@ -129,6 +129,10 @@ public class DialogInput extends JDialog {
 
             if (type.equals("Date")) {
                 report.generateReport("Reporte de Ventas por Fecha", reverseDateFormat(Date.getSelectedDateAsString().replace("/", "-")), null, null);
+            }
+            
+            if (type.equals("Date2")) {
+                report.generateReport("Reporte de Devoluciones por Fecha", reverseDateFormat(Date.getSelectedDateAsString().replace("/", "-")), null, null);
             }
 
             if (type.equals("Individual")) {

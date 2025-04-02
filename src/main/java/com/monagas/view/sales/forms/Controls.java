@@ -48,6 +48,10 @@ public class Controls extends JPanel {
         txtSearch = new CustomJTextField(tblDelete);
         lbStatus = new javax.swing.JLabel();
         cbStatus = new javax.swing.JComboBox<>();
+        txtPhone = new CustomJTextField("Phone");
+        lbUsername1 = new javax.swing.JLabel();
+        lbPassword1 = new javax.swing.JLabel();
+        txtAddress = new CustomJTextField("Address2");
 
         lbFirstname.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbFirstname.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -146,6 +150,18 @@ public class Controls extends JPanel {
 
         cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activado", "Desactivado" }));
 
+        txtPhone.setEnabled(false);
+
+        lbUsername1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbUsername1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbUsername1.setText("Teléfono");
+
+        lbPassword1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbPassword1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbPassword1.setText("Dirección");
+
+        txtAddress.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -171,7 +187,18 @@ public class Controls extends JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnUpdate))
                     .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbStatus))
+                    .addComponent(lbStatus)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbUsername1)
+                            .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(lbPassword1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -203,6 +230,14 @@ public class Controls extends JPanel {
                             .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbUsername1)
+                            .addComponent(lbPassword1))
+                        .addGap(0, 0, 0)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14)
                         .addComponent(lbStatus)
                         .addGap(0, 0, 0)
                         .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -283,7 +318,7 @@ public class Controls extends JPanel {
 
             if (row != -1) {
                 Long id = Long.valueOf(tblDelete.getValueAt(row, 0).toString().substring(1));
-                controller.loadUserById(id, txtFirstname, txtLastname, txtUsername, txtPassword, cbStatus);
+                controller.loadUserById(id, txtFirstname, txtLastname, txtUsername, txtPassword, cbStatus, txtPhone, txtAddress);
             }
         }
     }//GEN-LAST:event_tblDeleteMouseClicked
@@ -296,13 +331,17 @@ public class Controls extends JPanel {
     private javax.swing.JLabel lbFirstname;
     private javax.swing.JLabel lbLastname;
     private javax.swing.JLabel lbPassword;
+    private javax.swing.JLabel lbPassword1;
     private javax.swing.JLabel lbStatus;
     private javax.swing.JLabel lbUsername;
+    private javax.swing.JLabel lbUsername1;
     private javax.swing.JScrollPane spDelete;
     private javax.swing.JTable tblDelete;
+    private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtFirstname;
     private javax.swing.JTextField txtLastname;
     private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtPhone;
     private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables

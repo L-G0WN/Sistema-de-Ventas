@@ -46,12 +46,12 @@ public class History extends JPanel {
                 if (confirm == 0) {
                     Long id = Long.valueOf(tblHistory.getValueAt(row, 0).toString().substring(1));
                     controller.editSelling(parent, id, true);
-                    btnRefresh.doClick();
+                    controller.loadSellings(tblHistory, false);
                 }
 
                 if (confirm == 1) {
                     Long id = Long.valueOf(tblHistory.getValueAt(row, 0).toString().substring(1));
-                    new DialogReturn(parent, false, id).setVisible(true);
+                    new DialogReturn(parent, false, id, tblHistory).setVisible(true);
                 }
             }
 
@@ -82,7 +82,6 @@ public class History extends JPanel {
         spHistory = new javax.swing.JScrollPane();
         tblHistory = new CustomJTable();
         txtSearch = new CustomJTextField(tblHistory);
-        btnRefresh = new javax.swing.JButton();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -133,35 +132,22 @@ public class History extends JPanel {
 
         txtSearch.setName("Clients"); // NOI18N
 
-        btnRefresh.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconRefresh16.png"))); // NOI18N
-        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(spHistory, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtSearch)))
+                    .addComponent(txtSearch))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
                 .addComponent(spHistory, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
                 .addContainerGap())
@@ -172,12 +158,7 @@ public class History extends JPanel {
         controller.loadSellings(tblHistory, false);
     }//GEN-LAST:event_formComponentShown
 
-    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        controller.loadSellings(tblHistory, false);
-    }//GEN-LAST:event_btnRefreshActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnRefresh;
     private javax.swing.JScrollPane spHistory;
     private javax.swing.JTable tblHistory;
     private javax.swing.JTextField txtSearch;
