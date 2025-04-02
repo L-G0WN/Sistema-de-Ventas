@@ -96,6 +96,8 @@ public class Reports {
                 jasperStream = this.getClass().getResourceAsStream("/prints/ReturnDate.jrxml");
                 parameters.put("created_at", created_at);
             }
+            case "Reporte de Clientes Completo" ->
+                jasperStream = this.getClass().getResourceAsStream("/prints/HistoryClients.jrxml");
             default ->
                 throw new Exception("No sé ha podido detectar el archivo, por favor verifique e intente nuevamente.");
         }

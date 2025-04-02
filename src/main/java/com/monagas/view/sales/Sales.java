@@ -93,6 +93,7 @@ public class Sales extends JFrame {
         itemBoth = new javax.swing.JMenuItem();
         itemReturn = new javax.swing.JMenuItem();
         itemReturnDate = new javax.swing.JMenuItem();
+        itemClients = new javax.swing.JMenuItem();
         itemExport = new javax.swing.JMenuItem();
         itemLogout = new javax.swing.JMenuItem();
 
@@ -185,6 +186,15 @@ public class Sales extends JFrame {
             }
         });
         mExport.add(itemReturnDate);
+
+        itemClients.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        itemClients.setText("Reporte de Clientes Completo");
+        itemClients.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemClientsActionPerformed(evt);
+            }
+        });
+        mExport.add(itemClients);
 
         mAccount.add(mExport);
 
@@ -286,9 +296,14 @@ public class Sales extends JFrame {
         new DialogInput(this, true, "Date2").setVisible(true);
     }//GEN-LAST:event_itemReturnDateActionPerformed
 
+    private void itemClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClientsActionPerformed
+        report.generateReport("Reporte de Clientes Completo", null, null, null);
+    }//GEN-LAST:event_itemClientsActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MenuBar;
     private javax.swing.JMenuItem itemBoth;
+    private javax.swing.JMenuItem itemClients;
     private javax.swing.JMenuItem itemDate;
     private javax.swing.JMenuItem itemEmploye;
     private javax.swing.JMenuItem itemExport;
