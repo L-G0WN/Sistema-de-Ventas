@@ -63,7 +63,7 @@ public class SupplierService implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            
+
             Supplier existingSupplier = em.find(Supplier.class, supplier.getSupplierId());
             if (existingSupplier == null) {
                 throw new Exception("Proveedor no encontrado.");
@@ -95,7 +95,7 @@ public class SupplierService implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            
+
             Supplier supplier = em.find(Supplier.class, id);
             if (supplier == null) {
                 throw new Exception("Proveedor no encontrado.");
@@ -113,7 +113,7 @@ public class SupplierService implements Serializable {
             em.getTransaction().commit();
             return true;
         } catch (Exception ex) {
-            if (em != null &&  em.getTransaction().isActive()) {
+            if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
             throw new Exception(ex.getMessage(), ex);
@@ -166,6 +166,32 @@ public class SupplierService implements Serializable {
                 em.getTransaction().rollback();
             }
             throw new RuntimeException("Error al encontrar las entidades de proveedor", ex);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public boolean findSupplierRelation(Long id) {
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
+            long count = (long) em.createQuery("SELECT COUNT(p) FROM Product p WHERE p.supplier.id = :supplierId")
+                    .setParameter("supplierId", id)
+                    .getSingleResult();
+
+            em.getTransaction().commit();
+
+            return count == 0;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al obtener el conteo de productos", ex);
         } finally {
             if (em != null) {
                 em.close();

@@ -209,6 +209,34 @@ public class CategoryService implements Serializable {
         }
     }
 
+
+    public boolean findCategoryRelation(Long id) {
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
+            long count = (long) em.createQuery("SELECT COUNT(p) FROM Product p WHERE p.category.id = :categoryId")
+                    .setParameter("categoryId", id)
+                    .getSingleResult();
+
+            em.getTransaction().commit();
+
+            return count == 0;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al obtener el conteo de categorias", ex);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+
     public Long getCategoryCount() {
         EntityManager em = null;
         

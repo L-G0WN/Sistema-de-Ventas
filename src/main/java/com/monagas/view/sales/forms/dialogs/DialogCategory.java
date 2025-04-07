@@ -2,9 +2,9 @@ package com.monagas.view.sales.forms.dialogs;
 
 import com.monagas.controllers.sales.CategoryController;
 import com.monagas.view.sales.components.CustomJTable;
-import com.monagas.view.sales.renderer.cell.PanelAction.TableActionCellEditor;
-import com.monagas.view.sales.renderer.cell.PanelAction.TableActionCellRender;
-import com.monagas.view.sales.renderer.cell.PanelAction.TableActionEvent;
+import com.monagas.view.sales.renderer.cell.PanelAction2.TableActionCellEditor;
+import com.monagas.view.sales.renderer.cell.PanelAction2.TableActionCellRender;
+import com.monagas.view.sales.renderer.cell.PanelAction2.TableActionEvent;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
 

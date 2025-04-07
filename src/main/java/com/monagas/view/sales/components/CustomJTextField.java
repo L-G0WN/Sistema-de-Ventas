@@ -51,6 +51,11 @@ public class CustomJTextField extends JTextField {
         TYPE_MESSAGES.put("Answer", "Respuesta (Opcional)");
         TYPE_MESSAGES.put("Answer2", "Respuesta");
         TYPE_MESSAGES.put("Commerce", "Ingresa el nombre del comercio");
+        TYPE_MESSAGES.put("State", "Estado");
+        TYPE_MESSAGES.put("City", "Ciudad");
+        TYPE_MESSAGES.put("Town", "Municipio");
+        TYPE_MESSAGES.put("Parish", "Parroquia");
+        TYPE_MESSAGES.put("Details", "Dirección principal");
     }
 
     public CustomJTextField(String type) {
@@ -131,7 +136,15 @@ public class CustomJTextField extends JTextField {
                         }
                     }
 
-                    if (getName().equals("Address") || getName().equals("Address2") || getName().equals("Answer") || getName().equals("Answer2")) {
+                    if (getName().equals("Address") 
+                            || getName().equals("Address2") 
+                            || getName().equals("State") 
+                            || getName().equals("City") 
+                            || getName().equals("Town") 
+                            || getName().equals("Parish") 
+                            || getName().equals("Details") 
+                            || getName().equals("Answer") 
+                            || getName().equals("Answer2")) {
                         if (getText().length() >= MAX_LENGTH_ADDRESS) {
                             e.consume();
                         }

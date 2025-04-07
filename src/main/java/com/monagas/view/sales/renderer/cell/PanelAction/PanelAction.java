@@ -1,6 +1,7 @@
 package com.monagas.view.sales.renderer.cell.PanelAction;
 
 import java.awt.event.ActionEvent;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class PanelAction extends JPanel {
@@ -56,6 +57,10 @@ public class PanelAction extends JPanel {
                     .addComponent(btnEdit)))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    public JButton getBtnDelete() {
+        return btnDelete;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;

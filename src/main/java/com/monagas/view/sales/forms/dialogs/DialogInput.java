@@ -136,7 +136,7 @@ public class DialogInput extends JDialog {
             }
 
             if (type.equals("Individual")) {
-                report.generateReport("Reporte de Ventas", reverseDateFormat(Date.getSelectedDateAsString().replace("/", "-")), session.getUserId(), session.getFirstname() + " " + session.getLastname());
+                report.generateReport("Reporte de Ventas", reverseDateFormat(Date.getSelectedDateAsString().replace("/", "-")), session.getUserId(), session.getPerson().getFirstname() + " " + session.getPerson().getLastname());
             }
             this.dispose();
         }

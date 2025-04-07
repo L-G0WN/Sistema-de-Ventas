@@ -1,5 +1,7 @@
 package com.monagas.services.sales;
 
+import com.monagas.entities.Address;
+import com.monagas.entities.Person;
 import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
 import com.monagas.entities.sales.Client;
@@ -20,7 +22,7 @@ public class ClientService implements Serializable {
         return EntityManagerFactoryProvider.getEntityManagerFactory().createEntityManager();
     }
 
-    public void create(Client client) throws Exception {
+    public void create(Address address, Person person, Client client) throws Exception {
         User currentUser = CurrentUser.getInstance().getUser();
         if (currentUser == null) {
             throw new Exception("Usuario no autenticado.");
@@ -33,10 +35,12 @@ public class ClientService implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
 
-            if (doesSupplierExist(em, client.getType(), client.getCedula())) {
-                throw new Exception("La cédula \"" + client.getType() + client.getCedula() + "\" ya se encuentra registrada.");
+            if (doesClientExist(em, client.getCedula())) {
+                throw new Exception("La cédula \"" + client.getCedula() + "\" ya se encuentra registrada.");
             }
 
+            em.persist(address);
+            em.persist(person);
             em.persist(client);
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -51,7 +55,7 @@ public class ClientService implements Serializable {
         }
     }
 
-    public void edit(Client client) throws Exception {
+    public void edit(Address address, Person person, Client client) throws Exception {
         User currentUser = CurrentUser.getInstance().getUser();
         if (currentUser == null) {
             throw new Exception("Usuario no autenticado.");
@@ -69,12 +73,14 @@ public class ClientService implements Serializable {
                 throw new Exception("Cliente no encontrado.");
             }
 
-            if (doesSupplierExist(em, client.getType(), client.getCedula())) {
+            if (doesClientExist(em, client.getCedula())) {
                 if (!existingClient.getCedula().equals(client.getCedula())) {
-                    throw new Exception("La cédula \"" + client.getType() + client.getCedula() + "\" ya se encuentra registrada.");
+                    throw new Exception("La cédula \"" + client.getCedula() + "\" ya se encuentra registrada.");
                 }
             }
 
+            em.merge(address);
+            em.merge(person);
             em.merge(client);
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -109,7 +115,12 @@ public class ClientService implements Serializable {
                 throw new Exception("No se puede eliminar el cliente porque hay ventas asociadas a ella.");
             }
 
+            Person person = client.getPerson();
+            Address address = client.getPerson().getAddress();
+
             em.remove(client);
+            em.remove(person);
+            em.remove(address);
             em.getTransaction().commit();
             return true;
         } catch (Exception ex) {
@@ -124,10 +135,9 @@ public class ClientService implements Serializable {
         }
     }
 
-    private boolean doesSupplierExist(EntityManager em, String type, String cedula) {
-        String query = "SELECT COUNT(c) FROM Client c WHERE c.type = :type AND c.cedula = :cedula";
+    private boolean doesClientExist(EntityManager em, String cedula) {
+        String query = "SELECT COUNT(c) FROM Client c WHERE c.cedula = :cedula";
         Long count = em.createQuery(query, Long.class)
-                .setParameter("type", type)
                 .setParameter("cedula", cedula)
                 .getSingleResult();
         return count > 0;
@@ -143,7 +153,7 @@ public class ClientService implements Serializable {
 
     private List<Client> findClientEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = null;
-        
+
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -173,22 +183,21 @@ public class ClientService implements Serializable {
         }
     }
 
-    public Long createIfNotExist(String type, String cedula, Client client) throws Exception {
+    public Long createIfNotExist(String cedula, Address address, Person person, Client client) throws Exception {
         EntityManager em = null;
 
         try {
             em = getEntityManager();
             em.getTransaction().begin();
 
-            String query = "SELECT c.clientId FROM Client c WHERE c.type = :type AND c.cedula = :cedula";
+            String query = "SELECT c.clientId FROM Client c WHERE c.cedula = :cedula";
             Long existingClientId = em.createQuery(query, Long.class)
-                    .setParameter("type", type)
                     .setParameter("cedula", cedula)
                     .getSingleResult();
             em.getTransaction().commit();
             return existingClientId;
         } catch (NoResultException e) {
-            create(client);
+            create(address, person, client);
             return client.getClientId();
         } catch (Exception ex) {
             if (em != null && em.getTransaction().isActive()) {
@@ -224,16 +233,15 @@ public class ClientService implements Serializable {
         }
     }
 
-    public Long findIdByCedula(String type, String cedula) throws Exception {
+    public Long findIdByCedula(String cedula) throws Exception {
         EntityManager em = null;
 
         try {
             em = getEntityManager();
             em.getTransaction().begin();
 
-            String query = "SELECT c.clientId FROM Client c WHERE c.type = :type AND c.cedula = :cedula";
+            String query = "SELECT c.clientId FROM Client c WHERE c.cedula = :cedula";
             Long clientId = em.createQuery(query, Long.class)
-                    .setParameter("type", type)
                     .setParameter("cedula", cedula)
                     .getSingleResult();
             em.getTransaction().commit();
@@ -250,16 +258,15 @@ public class ClientService implements Serializable {
         }
     }
 
-    public Client findClientByCedula(String type, String cedula) throws Exception {
+    public Client findClientByCedula(String cedula) {
         EntityManager em = null;
 
         try {
             em = getEntityManager();
             em.getTransaction().begin();
 
-            String query = "SELECT c FROM Client c WHERE c.type = :type AND c.cedula = :cedula";
+            String query = "SELECT c FROM Client c WHERE c.cedula = :cedula";
             Client client = em.createQuery(query, Client.class)
-                    .setParameter("type", type)
                     .setParameter("cedula", cedula)
                     .getSingleResult();
             em.getTransaction().commit();
@@ -268,7 +275,7 @@ public class ClientService implements Serializable {
             if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new Exception("No se han encontrado resultados asociados a esa cédula.", ex);
+            throw new RuntimeException("No se han encontrado resultados asociados a esa cédula.", ex);
         } finally {
             if (em != null) {
                 em.close();
@@ -292,6 +299,32 @@ public class ClientService implements Serializable {
             Long count = (Long) q.getSingleResult();
             em.getTransaction().commit();
             return count;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al obtener el conteo de clientes", ex);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+    
+    public boolean findClientRelation(Long id) {
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
+            long count = (long) em.createQuery("SELECT COUNT(p) FROM Product p WHERE p.client.id = :clientId")
+                    .setParameter("clientId", id)
+                    .getSingleResult();
+
+            em.getTransaction().commit();
+
+            return count == 0;
         } catch (Exception ex) {
             if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();

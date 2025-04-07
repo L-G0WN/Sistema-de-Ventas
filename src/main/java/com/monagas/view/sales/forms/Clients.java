@@ -6,9 +6,9 @@ import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
 import com.monagas.view.sales.forms.dialogs.DialogClients;
 import com.monagas.view.sales.forms.dialogs.DialogConfirm;
-import com.monagas.view.sales.renderer.cell.PanelAction.TableActionCellEditor;
-import com.monagas.view.sales.renderer.cell.PanelAction.TableActionCellRender;
-import com.monagas.view.sales.renderer.cell.PanelAction.TableActionEvent;
+import com.monagas.view.sales.renderer.cell.PanelAction3.TableActionCellEditor;
+import com.monagas.view.sales.renderer.cell.PanelAction3.TableActionCellRender;
+import com.monagas.view.sales.renderer.cell.PanelAction3.TableActionEvent;
 import com.monagas.view.sales.style.FlatStyle;
 import java.awt.Frame;
 
@@ -27,8 +27,8 @@ public class Clients extends CustomJPanel {
         TableActionEvent event = new TableActionEvent() {
             @Override
             public void onEdit(int row) {
-                Long id = Long.valueOf(tblClients.getValueAt(row, 1).toString().substring(1));
-                new DialogClients(parent, true, tblClients, id, false).setVisible(true);
+                String cedula = tblClients.getValueAt(row, 2).toString();
+                new DialogClients(parent, true, tblClients, cedula, false).setVisible(true);
             }
 
             @Override
@@ -64,14 +64,14 @@ public class Clients extends CustomJPanel {
 
             },
             new String [] {
-                "N°", "CÓDIGO", "CÉDULA", "NOMBRE Y APELLIDO", "TELÉFONO", "DIRECCIÓN PRINCIPAL", "REGISTRADO EN", "REGISTRADO POR", "ACTUALIZADO EN", "ACTUALIZADO POR", "ACCIONES"
+                "N°", "CÓDIGO", "CÉDULA", "NOMBRE Y APELLIDO", "TELÉFONO", "ESTADO", "CIUDAD", "MUNICIPIO", "PARROQUIA", "DIRECCIÓN PRINCIPAL", "REGISTRADO EN", "REGISTRADO POR", "ACTUALIZADO EN", "ACTUALIZADO POR", "ACCIONES"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -96,7 +96,7 @@ public class Clients extends CustomJPanel {
         if (tblClients.getColumnModel().getColumnCount() > 0) {
             tblClients.getColumnModel().getColumn(0).setPreferredWidth(50);
             tblClients.getColumnModel().getColumn(1).setPreferredWidth(80);
-            tblClients.getColumnModel().getColumn(10).setMinWidth(110);
+            tblClients.getColumnModel().getColumn(14).setMinWidth(110);
         }
 
         txtSearch.setName("Clients"); // NOI18N

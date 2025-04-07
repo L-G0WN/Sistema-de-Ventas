@@ -1,5 +1,7 @@
 package com.monagas.controllers.sales;
 
+import com.monagas.entities.Address;
+import com.monagas.entities.Person;
 import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
 import com.monagas.entities.sales.Client;
@@ -20,31 +22,54 @@ public class ClientController {
     private final ClientService clientService = new ClientService();
     private final User currentUser = CurrentUser.getInstance().getUser();
 
-    public Client createClient(Frame parent, JDialog dialog, JTable table, JComboBox cbType, JTextField txtCedula, JTextField txtFirstname, JTextField txtLastname, JComboBox cbCode, JTextField txtPhone, JTextField txtAddress) {
+    public Client createClient(Frame parent,
+            JDialog dialog,
+            JTable table,
+            JComboBox cbType, JTextField txtCedula,
+            JTextField txtFirstname, JTextField txtLastname,
+            JComboBox cbCode, JTextField txtPhone,
+            JTextField txtState, JTextField txtCity, JTextField txtTown, JTextField txtParish, JTextField txtDetails) {
         String type = cbType.getSelectedItem().toString();
         String cedula = txtCedula.getText();
         String firstname = txtFirstname.getText().toUpperCase();
         String lastname = txtLastname.getText().toUpperCase();
         String code = cbCode.getSelectedItem().toString();
         String phone = txtPhone.getText();
-        String address = txtAddress.getText().toUpperCase();
+        String state = txtState.getText().toUpperCase();
+        String city = txtCity.getText().toUpperCase();
+        String town = txtTown.getText().toUpperCase();
+        String parish = txtParish.getText().toUpperCase();
+        String details = txtDetails.getText().toUpperCase();
 
+        Address address = new Address();
+        Person person = new Person();
         Client client = new Client();
 
-        if (!cedula.isEmpty() && !firstname.isEmpty() && !lastname.isEmpty() && !phone.isEmpty()) {
-            client.setType(type);
-            client.setCedula(cedula);
-            client.setFirstname(firstname);
-            client.setLastname(lastname);
-            client.setCode(code);
-            client.setPhone(phone);
-            client.setAddress(address);
+        if (!cedula.isEmpty() && !firstname.isEmpty() && !lastname.isEmpty() && !phone.isEmpty()
+                && !state.isEmpty() && !city.isEmpty() && !town.isEmpty() && !parish.isEmpty() && !details.isEmpty()) {
+            address.setState(state);
+            address.setCity(city);
+            address.setTown(town);
+            address.setParish(parish);
+            address.setAddressDetails(details);
+
+            person.setFirstname(firstname);
+            person.setLastname(lastname);
+            person.setAddress(address);
+
+            client.setPerson(person);
+            client.setCedula(type + cedula);
+            client.setPhone(code + "-" + phone);
             client.setRegisteredBy(currentUser);
 
             try {
-                clientService.create(client);
-                if (dialog != null) dialog.dispose();
-                if (table != null) loadClients(table);
+                clientService.create(address, person, client);
+                if (dialog != null) {
+                    dialog.dispose();
+                }
+                if (table != null) {
+                    loadClients(table);
+                }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(
                         parent,
@@ -63,44 +88,54 @@ public class ClientController {
         return client;
     }
 
-    public Client editClient(Frame parent, JDialog dialog, JTable table, Long id, JComboBox cbType, JTextField txtCedula, JTextField txtFirstname, JTextField txtLastname, JComboBox cbCode, JTextField txtPhone, JTextField txtAddress) {
+    public Client editClient(Frame parent,
+            JDialog dialog,
+            JTable table,
+            String nCedula,
+            JComboBox cbType, JTextField txtCedula,
+            JTextField txtFirstname, JTextField txtLastname,
+            JComboBox cbCode, JTextField txtPhone,
+            JTextField txtState, JTextField txtCity, JTextField txtTown, JTextField txtParish, JTextField txtDetails) {
         String type = cbType.getSelectedItem().toString();
         String cedula = txtCedula.getText();
         String firstname = txtFirstname.getText().toUpperCase();
         String lastname = txtLastname.getText().toUpperCase();
         String code = cbCode.getSelectedItem().toString();
         String phone = txtPhone.getText();
-        String address = txtAddress.getText().toUpperCase();
+        String state = txtState.getText().toUpperCase();
+        String city = txtCity.getText().toUpperCase();
+        String town = txtTown.getText().toUpperCase();
+        String parish = txtParish.getText().toUpperCase();
+        String details = txtDetails.getText().toUpperCase();
 
-        Client client = new Client();
+        Client client = clientService.findClientByCedula((nCedula != null) ? nCedula : type + cedula);
 
-        if (!cedula.isEmpty() && !firstname.isEmpty() && !lastname.isEmpty() && !phone.isEmpty()) {
-            if (id == null) {
-                try {
-                    id = clientService.findIdByCedula(type, cedula);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(
-                            parent,
-                            ex.getMessage(),
-                            "Sistema de Ventas - Error",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            }
+        if (!cedula.isEmpty() && !firstname.isEmpty() && !lastname.isEmpty() && !phone.isEmpty()
+                && !state.isEmpty() && !city.isEmpty() && !town.isEmpty() && !parish.isEmpty() && !details.isEmpty()) {
 
-            client.setClientId(id);
-            client.setType(type);
-            client.setCedula(cedula);
-            client.setFirstname(firstname);
-            client.setLastname(lastname);
-            client.setCode(code);
-            client.setPhone(phone);
-            client.setAddress(address);
+            Address address = client.getPerson().getAddress();
+            address.setState(state);
+            address.setCity(city);
+            address.setTown(town);
+            address.setParish(parish);
+            address.setAddressDetails(details);
+
+            Person person = client.getPerson();
+            person.setFirstname(firstname);
+            person.setLastname(lastname);
+
+            client.setCedula(type + cedula);
+            client.setPhone(code + "-" + phone);
             client.setUpdatedBy(currentUser);
 
             try {
-                clientService.edit(client);
-                if (dialog != null) dialog.dispose();
-                if (table != null) loadClients(table);
+                clientService.edit(address, person, client);
+                if (dialog != null) {
+                    dialog.dispose();
+                }
+                if (table != null) {
+                    loadClients(table);
+                }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(
                         parent,
@@ -136,21 +171,33 @@ public class ClientController {
         }
     }
 
-    public Client loadClientById(Long id, JComboBox cbType, JTextField txtCedula, JTextField txtFirstname, JTextField txtLastname, JComboBox cbCode, JTextField txtPhone, JTextField txtAddress) {
-        Client client = clientService.findClientById(id);
+    public Client loadClientByCedula(String cedula,
+            JComboBox cbType, JTextField txtCedula,
+            JTextField txtFirstname, JTextField txtLastname,
+            JComboBox cbCode, JTextField txtPhone,
+            JTextField txtState, JTextField txtCity, JTextField txtTown, JTextField txtParish, JTextField txtDetails) {
+        Client client = clientService.findClientByCedula(cedula);
 
-        cbType.setSelectedItem(client.getType());
-        txtCedula.setText(client.getCedula());
-        txtFirstname.setText(client.getFirstname());
-        txtLastname.setText(client.getLastname());
-        cbCode.setSelectedItem(client.getCode());
-        txtPhone.setText(client.getPhone());
-        txtAddress.setText(client.getAddress());
+        cbType.setSelectedItem(client.getCedula().replaceAll("-.*", ""));
+        txtCedula.setText(client.getCedula().replaceAll(".*-", ""));
+        txtFirstname.setText(client.getPerson().getFirstname());
+        txtLastname.setText(client.getPerson().getLastname());
+        cbCode.setSelectedItem(client.getPhone().replaceAll("-.*", ""));
+        txtPhone.setText(client.getPhone().replaceAll(".*-", ""));
+        txtState.setText(client.getPerson().getAddress().getState());
+        txtCity.setText(client.getPerson().getAddress().getCity());
+        txtTown.setText(client.getPerson().getAddress().getTown());
+        txtParish.setText(client.getPerson().getAddress().getParish());
+        txtDetails.setText(client.getPerson().getAddress().getAddressDetails());
 
         return client;
     }
 
-    public Client loadClientByCedula(Frame parent, JComboBox cbType, JTextField txtCedula, JTextField txtFirstname, JTextField txtLastname, JComboBox cbCode, JTextField txtPhone, JTextField txtAddress) {
+    public Client loadClientByCedula(Frame parent,
+            JComboBox cbType, JTextField txtCedula,
+            JTextField txtFirstname, JTextField txtLastname,
+            JComboBox cbCode, JTextField txtPhone,
+            JTextField txtState, JTextField txtCity, JTextField txtTown, JTextField txtParish, JTextField txtDetails) {
         String type = cbType.getSelectedItem().toString();
         String cedula = txtCedula.getText();
 
@@ -158,14 +205,17 @@ public class ClientController {
 
         try {
             if (!cedula.isEmpty()) {
+                client = clientService.findClientByCedula(type + cedula);
 
-                client = clientService.findClientByCedula(type, cedula);
-
-                txtFirstname.setText(client.getFirstname());
-                txtLastname.setText(client.getLastname());
-                cbCode.setSelectedItem(client.getCode());
-                txtPhone.setText(client.getPhone());
-                txtAddress.setText(client.getAddress());
+                txtFirstname.setText(client.getPerson().getFirstname());
+                txtLastname.setText(client.getPerson().getLastname());
+                cbCode.setSelectedItem(client.getPhone().replaceAll("-.*", ""));
+                txtPhone.setText(client.getPhone().replaceAll(".*-", ""));
+                txtState.setText(client.getPerson().getAddress().getState());
+                txtCity.setText(client.getPerson().getAddress().getCity());
+                txtTown.setText(client.getPerson().getAddress().getTown());
+                txtParish.setText(client.getPerson().getAddress().getParish());
+                txtDetails.setText(client.getPerson().getAddress().getAddressDetails());
             } else {
                 JOptionPane.showMessageDialog(
                         parent,
@@ -198,14 +248,18 @@ public class ClientController {
             model.addRow(new Object[]{
                 count++,
                 "C" + client.getClientId(),
-                client.getType() + client.getCedula(),
-                client.getFirstname() + " " + client.getLastname(),
-                client.getCode() + "-" + client.getPhone(),
-                client.getAddress(),
+                client.getCedula(),
+                client.getPerson().getFirstname() + " " + client.getPerson().getLastname(),
+                client.getPhone(),
+                client.getPerson().getAddress().getState(),
+                client.getPerson().getAddress().getCity(),
+                client.getPerson().getAddress().getTown(),
+                client.getPerson().getAddress().getParish(),
+                client.getPerson().getAddress().getAddressDetails(),
                 client.getCreatedAt(),
-                registeredBy.getFirstname() + " " + registeredBy.getLastname(),
+                registeredBy.getPerson().getFirstname() + " " + registeredBy.getPerson().getLastname(),
                 client.getUpdatedAt(),
-                (updatedBy != null) ? updatedBy.getFirstname() + " " + updatedBy.getLastname() : null
+                (updatedBy != null) ? updatedBy.getPerson().getFirstname() + " " + updatedBy.getPerson().getLastname() : null
             });
         }
 

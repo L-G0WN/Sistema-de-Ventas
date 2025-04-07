@@ -1,5 +1,7 @@
 package com.monagas.controllers.sales;
 
+import com.monagas.entities.Address;
+import com.monagas.entities.Person;
 import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
 import com.monagas.entities.sales.Client;
@@ -39,7 +41,7 @@ public class SellingController {
             JTextField txtLastname,
             JComboBox cbCode,
             JTextField txtPhone,
-            JTextField txtAddress,
+            JTextField txtState, JTextField txtCity, JTextField txtTown, JTextField txtParish, JTextField txtDetails,
             Integer amountTotal,
             Double total,
             Double totalBs,
@@ -53,24 +55,37 @@ public class SellingController {
         String lastname = txtLastname.getText().toUpperCase();
         String code = cbCode.getSelectedItem().toString();
         String phone = txtPhone.getText();
-        String address = txtAddress.getText().toUpperCase();
-
+        String state = txtState.getText().toUpperCase();
+        String city = txtCity.getText().toUpperCase();
+        String town = txtTown.getText().toUpperCase();
+        String parish = txtParish.getText().toUpperCase();
+        String details = txtDetails.getText().toUpperCase();
+        
+        Address address = new Address();
+        Person person = new Person();
         Client client = new Client();
+
         Selling selling = new Selling();
 
         if (table.getRowCount() > 0) {
-            client.setType(type);
-            client.setCedula(cedula);
-            client.setFirstname(firstname);
-            client.setLastname(lastname);
-            client.setCode(code);
-            client.setPhone(phone);
-            client.setAddress(address);
+            address.setState(state);
+            address.setCity(city);
+            address.setTown(town);
+            address.setParish(parish);
+            address.setAddressDetails(details);
+
+            person.setFirstname(firstname);
+            person.setLastname(lastname);
+            person.setAddress(address);
+
+            client.setPerson(person);
+            client.setCedula(type + cedula);
+            client.setPhone(code + "-" + phone);
             client.setRegisteredBy(currentUser);
 
             try {
-                clientService.createIfNotExist(type, cedula, client);
-                client.setClientId(clientService.findIdByCedula(type, cedula));
+                clientService.createIfNotExist(type + cedula, address, person, client);
+                client.setClientId(clientService.findIdByCedula(type + cedula));
 
                 List<Product> products = new ArrayList<>();
                 List<Integer> amounts = new ArrayList<>();
@@ -163,12 +178,12 @@ public class SellingController {
                 row = new Object[]{
                     "V" + selling.getSellingId(),
                     selling.getCreatedAt(),
-                    client.getType() + client.getCedula(),
-                    client.getFirstname() + " " + client.getLastname(),
+                    client.getCedula(),
+                    client.getPerson().getFirstname() + " " + client.getPerson().getLastname(),
                     selling.getTotal(),
                     selling.getTotalBs(),
                     selling.getMethod(),
-                    registeredBy.getFirstname() + " " + registeredBy.getLastname()
+                    registeredBy.getPerson().getFirstname() + " " + registeredBy.getPerson().getLastname()
                 };
                 model.addRow(row);
             }
@@ -201,16 +216,24 @@ public class SellingController {
         return products;
     }
 
-    public Selling loadClientByInvoiceId(Long invoiceId, JComboBox cbType, JTextField txtCedula, JTextField txtFirstname, JTextField txtLastname, JComboBox cbCode, JTextField txtPhone, JTextField txtAddress) {
+    public Selling loadClientByInvoiceId(Long invoiceId,
+            JComboBox cbType, JTextField txtCedula,
+            JTextField txtFirstname, JTextField txtLastname,
+            JComboBox cbCode, JTextField txtPhone,
+            JTextField txtState, JTextField txtCity, JTextField txtTown, JTextField txtParish, JTextField txtDetails) {
         Selling selling = sellingService.findSellingById(invoiceId);
 
-        cbType.setSelectedItem(selling.getClient().getType());
+        cbType.setSelectedItem(selling.getClient().getCedula().replaceAll(".*-", ""));
         txtCedula.setText(selling.getClient().getCedula());
-        txtFirstname.setText(selling.getClient().getFirstname());
-        txtLastname.setText(selling.getClient().getLastname());
-        cbCode.setSelectedItem(selling.getClient().getCode());
+        txtFirstname.setText(selling.getClient().getPerson().getFirstname());
+        txtLastname.setText(selling.getClient().getPerson().getLastname());
+        cbCode.setSelectedItem(selling.getClient().getPhone().replaceAll(".*-", ""));
         txtPhone.setText(selling.getClient().getPhone());
-        txtAddress.setText(selling.getClient().getAddress());
+        txtState.setText(selling.getClient().getPerson().getAddress().getState());
+        txtCity.setText(selling.getClient().getPerson().getAddress().getCity());
+        txtTown.setText(selling.getClient().getPerson().getAddress().getTown());
+        txtParish.setText(selling.getClient().getPerson().getAddress().getParish());
+        txtDetails.setText(selling.getClient().getPerson().getAddress().getAddressDetails());
 
         return selling;
     }

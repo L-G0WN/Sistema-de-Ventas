@@ -1,6 +1,7 @@
 package com.monagas.view.sales.forms;
 
 import com.monagas.controllers.sales.ProductController;
+import com.monagas.services.sales.ProductService;
 import com.monagas.view.sales.components.CustomJPanel;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
@@ -15,6 +16,7 @@ import java.awt.Frame;
 
 public class Products extends CustomJPanel {
 
+    private final ProductService service = new ProductService();
     private final ProductController controller = new ProductController();
 
     private final Frame parent;

@@ -16,14 +16,14 @@ public class DialogClients extends JDialog {
 
     private final Frame parent;
     private final JTable table;
-    private final Long id;
+    private final String cedula;
     private final boolean isRegister;
 
-    public DialogClients(Frame parent, boolean modal, JTable table, Long id, boolean isRegister) {
+    public DialogClients(Frame parent, boolean modal, JTable table, String cedula, boolean isRegister) {
         super(parent, modal);
         this.parent = parent;
         this.table = table;
-        this.id = id;
+        this.cedula = cedula;
         this.isRegister = isRegister;
         initComponents();
 
@@ -36,11 +36,11 @@ public class DialogClients extends JDialog {
             btnGeneral.setBackground(new java.awt.Color(232, 213, 42));
             btnGeneral.setText("ACTUALIZAR");
 
-            controller.loadClientById(id, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress);
+            controller.loadClientByCedula(cedula, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtState, txtCity, txtTown, txtParish, txtDetails);
             lbTitle.setText("Cliente : " + txtFirstname.getText() + " " + txtLastname.getText());
         }
 
-        JTextField[] textFields = {txtCedula, txtFirstname, txtLastname, txtPhone, txtAddress};
+        JTextField[] textFields = {txtCedula, txtFirstname, txtLastname, txtPhone, txtState, txtCity, txtTown, txtParish, txtDetails};
         eventField(textFields);
     }
 
@@ -56,9 +56,13 @@ public class DialogClients extends JDialog {
         txtLastname = new CustomJTextField("Lastname");
         cbCode = new javax.swing.JComboBox<>();
         txtPhone = new CustomJTextField("Phone");
-        txtAddress = new CustomJTextField("Address");
+        txtState = new CustomJTextField("State");
         btnGeneral = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        txtCity = new CustomJTextField("City");
+        txtParish = new CustomJTextField("Parish");
+        txtTown = new CustomJTextField("Town");
+        txtDetails = new CustomJTextField("Details");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Clientes");
@@ -87,7 +91,7 @@ public class DialogClients extends JDialog {
 
         txtPhone.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        txtAddress.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtState.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         btnGeneral.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnGeneral.setForeground(new java.awt.Color(255, 255, 255));
@@ -107,6 +111,14 @@ public class DialogClients extends JDialog {
             }
         });
 
+        txtCity.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
+        txtParish.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
+        txtTown.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
+        txtDetails.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout panelGeneralLayout = new javax.swing.GroupLayout(panelGeneral);
         panelGeneral.setLayout(panelGeneralLayout);
         panelGeneralLayout.setHorizontalGroup(
@@ -118,6 +130,7 @@ public class DialogClients extends JDialog {
                         .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelGeneralLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelGeneralLayout.createSequentialGroup()
                                 .addComponent(btnGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -132,9 +145,13 @@ public class DialogClients extends JDialog {
                                     .addComponent(cbCode, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtState, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(txtFirstname)
-                                .addComponent(txtLastname)))
+                                .addComponent(txtLastname))
+                            .addComponent(txtCity, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTown, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtParish, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(74, 74, 74))))
         );
         panelGeneralLayout.setVerticalGroup(
@@ -155,12 +172,20 @@ public class DialogClients extends JDialog {
                     .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addComponent(txtState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtTown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtParish, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(btnGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(15, 15, 15))
+                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -171,7 +196,7 @@ public class DialogClients extends JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -180,9 +205,9 @@ public class DialogClients extends JDialog {
 
     private void btnGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeneralActionPerformed
         if (isRegister) {
-            controller.createClient(parent, this, table, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress);
+            controller.createClient(parent, this, table, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtState, txtCity, txtTown, txtParish, txtDetails);
         } else {
-            controller.editClient(parent, this, table, id, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress);
+            controller.editClient(parent, this, table, cedula, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtState, txtCity, txtTown, txtParish, txtDetails);
         }
     }//GEN-LAST:event_btnGeneralActionPerformed
 
@@ -210,10 +235,14 @@ public class DialogClients extends JDialog {
     private javax.swing.JComboBox<String> cbType;
     private javax.swing.JLabel lbTitle;
     private javax.swing.JPanel panelGeneral;
-    private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtCedula;
+    private javax.swing.JTextField txtCity;
+    private javax.swing.JTextField txtDetails;
     private javax.swing.JTextField txtFirstname;
     private javax.swing.JTextField txtLastname;
+    private javax.swing.JTextField txtParish;
     private javax.swing.JTextField txtPhone;
+    private javax.swing.JTextField txtState;
+    private javax.swing.JTextField txtTown;
     // End of variables declaration//GEN-END:variables
 }

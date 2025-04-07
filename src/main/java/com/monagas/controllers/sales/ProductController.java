@@ -173,9 +173,9 @@ public class ProductController {
                 product.getCategory().getName(),
                 product.getSupplier().getName(),
                 product.getCreatedAt(),
-                registeredBy.getFirstname() + " " + registeredBy.getLastname(),
+                registeredBy.getPerson().getFirstname() + " " + registeredBy.getPerson().getLastname(),
                 product.getUpdatedAt(),
-                (updatedBy != null) ? updatedBy.getFirstname() + " " + updatedBy.getLastname() : null
+                (updatedBy != null) ? updatedBy.getPerson().getFirstname() + " " + updatedBy.getPerson().getLastname() : null
             };
 
             model.addRow(row);

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 6.20.2  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="200" pageHeight="500" orientation="Landscape" columnWidth="160" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0c1db7f7-708c-4cbc-97e0-7ce679df1105">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sistema de Ventas"/>
@@ -15,62 +16,48 @@
 	<parameter name="s_id" class="java.lang.Long"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT 
-	cc.*,
     s.selling_id,
     s.amount_total,
     s.total,
     s.total_bs,
     s.method,
-    u.firstname,
-    u.lastname,
     sp.selling_product_id,
     sp.amount,
     sp.purchase,
     sp.subTotal,
     sp.purchase_bs,
     sp.subTotal_bs,
-    p.product_id,
-    p.description,
-    cl.firstname,
-    cl.lastname,
-    cl.type,
-    cl.cedula,
-    cl.code,
-    cl.phone,
-    cl.address
+    pr.product_id,
+    pr.description,
+    c.cedula,
+    c.phone,
+	p.firstname AS uFirstname,
+	p.lastname AS uLastname,
+	pp.firstname AS cFirstname,
+	pp.Lastname AS cLastname,
+	a.address_details AS cDetails,
+	cc.*
 FROM 
-    commerce cc, Sellings s
- JOIN
- 	clients cl ON s.client_id = cl.client_id
+    Sellings s
 JOIN 
-    selling_products sp ON s.selling_id = sp.selling_id 
+    Selling_products sp ON s.selling_id = sp.selling_id 
 JOIN 
-    users u ON u.user_id = s.registered_by 
+    Products pr ON pr.product_id = sp.product_id
 JOIN 
-    products p ON p.product_id = sp.product_id
+    Users u ON u.user_id = s.registered_by 
+JOIN
+ 	Clients c ON s.client_id = c.client_id
+JOIN 
+    Persons p ON p.person_id = u.person_id
+JOIN 
+    Persons pp ON pp.person_id = c.person_id
+JOIN 
+    Address a ON a.address_id = pp.address_id
+JOIN
+	Commerce cc ON cc.commerce_id = 1
 WHERE 
     s.selling_id = $P{s_id}]]>
 	</queryString>
-	<field name="commerce_id" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="commerce_id"/>
-		<property name="com.jaspersoft.studio.field.label" value="commerce_id"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="commerce"/>
-	</field>
-	<field name="name" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="name"/>
-		<property name="com.jaspersoft.studio.field.label" value="name"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="commerce"/>
-	</field>
-	<field name="rif" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="rif"/>
-		<property name="com.jaspersoft.studio.field.label" value="rif"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="commerce"/>
-	</field>
-	<field name="type" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="type"/>
-		<property name="com.jaspersoft.studio.field.label" value="type"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="commerce"/>
-	</field>
 	<field name="selling_id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="selling_id"/>
 		<property name="com.jaspersoft.studio.field.label" value="selling_id"/>
@@ -95,16 +82,6 @@ WHERE
 		<property name="com.jaspersoft.studio.field.name" value="method"/>
 		<property name="com.jaspersoft.studio.field.label" value="method"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="sellings"/>
-	</field>
-	<field name="firstname" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="firstname"/>
-		<property name="com.jaspersoft.studio.field.label" value="firstname"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="users"/>
-	</field>
-	<field name="lastname" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="lastname"/>
-		<property name="com.jaspersoft.studio.field.label" value="lastname"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="users"/>
 	</field>
 	<field name="selling_product_id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="selling_product_id"/>
@@ -146,29 +123,9 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="description"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="products"/>
 	</field>
-	<field name="COLUMN_20" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="firstname"/>
-		<property name="com.jaspersoft.studio.field.label" value="firstname"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
-	</field>
-	<field name="COLUMN_21" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="lastname"/>
-		<property name="com.jaspersoft.studio.field.label" value="lastname"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
-	</field>
-	<field name="COLUMN_22" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="type"/>
-		<property name="com.jaspersoft.studio.field.label" value="type"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
-	</field>
 	<field name="cedula" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="cedula"/>
 		<property name="com.jaspersoft.studio.field.label" value="cedula"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
-	</field>
-	<field name="code" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="code"/>
-		<property name="com.jaspersoft.studio.field.label" value="code"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
 	</field>
 	<field name="phone" class="java.lang.String">
@@ -176,10 +133,50 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="phone"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
 	</field>
-	<field name="address" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="address"/>
-		<property name="com.jaspersoft.studio.field.label" value="address"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
+	<field name="uFirstname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="firstname"/>
+		<property name="com.jaspersoft.studio.field.label" value="uFirstname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="persons"/>
+	</field>
+	<field name="uLastname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="lastname"/>
+		<property name="com.jaspersoft.studio.field.label" value="uLastname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="persons"/>
+	</field>
+	<field name="cFirstname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="firstname"/>
+		<property name="com.jaspersoft.studio.field.label" value="cFirstname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="persons"/>
+	</field>
+	<field name="cLastname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="lastname"/>
+		<property name="com.jaspersoft.studio.field.label" value="cLastname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="persons"/>
+	</field>
+	<field name="cDetails" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="address_details"/>
+		<property name="com.jaspersoft.studio.field.label" value="cDetails"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="address"/>
+	</field>
+	<field name="commerce_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="commerce_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="commerce_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="commerce"/>
+	</field>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="name"/>
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="commerce"/>
+	</field>
+	<field name="rif" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="rif"/>
+		<property name="com.jaspersoft.studio.field.label" value="rif"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="commerce"/>
+	</field>
+	<field name="type" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="type"/>
+		<property name="com.jaspersoft.studio.field.label" value="type"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="commerce"/>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -207,7 +204,7 @@ WHERE
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{firstname} + " " + $F{lastname}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{uFirstname} + " " + $F{uLastname}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="1" y="124" width="159" height="1" uuid="5a46d178-b857-4bf5-9873-32140eceba2a"/>
@@ -338,21 +335,21 @@ WHERE
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{COLUMN_20} + " " + $F{COLUMN_21}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cFirstname} + " " + $F{cLastname}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="24" y="42" width="136" height="10" uuid="e4207b5c-e229-4472-bcbe-0f2f69ce1c53"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{COLUMN_22} + $F{cedula}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="30" y="52" width="130" height="10" uuid="3d7d2161-223d-40f1-9ffa-821186b10d03"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{code} + "-" + $F{phone}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{phone}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="30" y="62" width="130" height="10" uuid="36c85477-e430-451c-a6c3-861697cd465e">
@@ -361,7 +358,7 @@ WHERE
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cDetails}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="97" width="24" height="10" uuid="2acd8f14-5464-48d9-ab95-e3309268a70d">

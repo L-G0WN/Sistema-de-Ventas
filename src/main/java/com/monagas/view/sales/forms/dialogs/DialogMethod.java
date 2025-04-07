@@ -25,7 +25,11 @@ public class DialogMethod extends JDialog {
     private final JTextField txtLastname;
     private final JComboBox cbCode;
     private final JTextField txtPhone;
-    private final JTextField txtAddress;
+    private final JTextField txtState;
+    private final JTextField txtCity;
+    private final JTextField txtTown;
+    private final JTextField txtParish;
+    private final JTextField txtDetails;
     private final Integer amountTotal;
     private final Double total;
     private final Double totalBs;
@@ -46,7 +50,11 @@ public class DialogMethod extends JDialog {
             JTextField txtLastname,
             JComboBox cbCode,
             JTextField txtPhone,
-            JTextField txtAddress,
+            JTextField txtState,
+            JTextField txtCity,
+            JTextField txtTown,
+            JTextField txtParish,
+            JTextField txtDetails,
             Integer amountTotal,
             Double total,
             Double totalBs,
@@ -64,7 +72,11 @@ public class DialogMethod extends JDialog {
         this.txtLastname = txtLastname;
         this.cbCode = cbCode;
         this.txtPhone = txtPhone;
-        this.txtAddress = txtAddress;
+        this.txtState = txtState;
+        this.txtCity = txtCity;
+        this.txtTown = txtTown;
+        this.txtParish = txtParish;
+        this.txtDetails = txtDetails;
         this.amountTotal = amountTotal;
         this.total = total;
         this.totalBs = totalBs;
@@ -169,7 +181,7 @@ public class DialogMethod extends JDialog {
                 AbstractButton button = buttons.nextElement();
 
                 if (button.isSelected()) {
-                    controller.createSelling(parent, dialog, table, oldInvoiceId, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtAddress, amountTotal, total, totalBs, btnClear, button.getText(), isReturn, tblHistory);
+                    controller.createSelling(parent, dialog, table, oldInvoiceId, cbType, txtCedula, txtFirstname, txtLastname, cbCode, txtPhone, txtState, txtCity, txtTown, txtParish, txtDetails, amountTotal, total, totalBs, btnClear, button.getText(), isReturn, tblHistory);
                 }
             }
 

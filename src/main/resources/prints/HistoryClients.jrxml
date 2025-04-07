@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 6.20.2  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="History" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c4a98e58-c6ba-48d6-b30e-3c557c82a8d7">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HistoryClients" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c4a98e58-c6ba-48d6-b30e-3c557c82a8d7">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sistema de Ventas"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT DISTINCT
-    c.firstname,
-    c.lastname,
-    c.type,
     c.cedula,
-    c.code,
     c.phone,
-    c.address,
+	p.firstname,
+	p.lastname,
+	a.address_details,
     s.client_id,
     s.total_bs,
     s.total,
@@ -19,44 +17,27 @@
     COUNT(c.client_id) AS amount,
     SUM(s.total) AS totalg,
     SUM(s.total_bs) AS totalg_bs
-    FROM
+FROM
     Clients c
 JOIN
     Sellings s ON s.client_id = c.client_id
 JOIN
-    commerce cc 
+	Persons p ON p.person_id = c.person_id
+JOIN
+	Address a ON a.address_id = p.address_id
+JOIN
+    Commerce cc ON cc.commerce_id = 1
 GROUP BY
-    c.type,
     c.cedula,
-    c.firstname,
-    c.lastname,
-    c.code,
-    c.phone,
-    c.address]]>
+    p.firstname,
+    p.lastname,
+	a.address_details,
+    c.phone
+]]>
 	</queryString>
-	<field name="firstname" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="firstname"/>
-		<property name="com.jaspersoft.studio.field.label" value="firstname"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
-	</field>
-	<field name="lastname" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="lastname"/>
-		<property name="com.jaspersoft.studio.field.label" value="lastname"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
-	</field>
-	<field name="type" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="type"/>
-		<property name="com.jaspersoft.studio.field.label" value="type"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
-	</field>
 	<field name="cedula" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="cedula"/>
 		<property name="com.jaspersoft.studio.field.label" value="cedula"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
-	</field>
-	<field name="code" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="code"/>
-		<property name="com.jaspersoft.studio.field.label" value="code"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
 	</field>
 	<field name="phone" class="java.lang.String">
@@ -64,10 +45,20 @@ GROUP BY
 		<property name="com.jaspersoft.studio.field.label" value="phone"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
 	</field>
-	<field name="address" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="address"/>
-		<property name="com.jaspersoft.studio.field.label" value="address"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
+	<field name="firstname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="firstname"/>
+		<property name="com.jaspersoft.studio.field.label" value="firstname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="persons"/>
+	</field>
+	<field name="lastname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="lastname"/>
+		<property name="com.jaspersoft.studio.field.label" value="lastname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="persons"/>
+	</field>
+	<field name="address_details" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="address_details"/>
+		<property name="com.jaspersoft.studio.field.label" value="address_details"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="address"/>
 	</field>
 	<field name="client_id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="client_id"/>
@@ -99,7 +90,7 @@ GROUP BY
 		<property name="com.jaspersoft.studio.field.label" value="rif"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="commerce"/>
 	</field>
-	<field name="COLUMN_14" class="java.lang.String">
+	<field name="type" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="type"/>
 		<property name="com.jaspersoft.studio.field.label" value="type"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="commerce"/>
@@ -346,7 +337,7 @@ GROUP BY
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{code} + "-" + $F{phone}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{phone}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="ScaleFont">
 				<reportElement x="80" y="0" width="122" height="20" uuid="86766260-9d46-4e8b-aafe-9d2e80bfc9ee">
@@ -372,7 +363,7 @@ GROUP BY
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{type} + "-" + $F{cedula}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="ScaleFont">
 				<reportElement x="500" y="0" width="54" height="20" uuid="3bf3238e-c710-4917-9d12-d58c0a172503">
@@ -398,7 +389,7 @@ GROUP BY
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{address_details}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="ScaleFont">
 				<reportElement x="400" y="0" width="50" height="20" uuid="450fa419-7b42-4d45-870c-51ad451bffd5"/>

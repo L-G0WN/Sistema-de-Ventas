@@ -1,6 +1,9 @@
 package com.monagas.services.login;
 
+import com.monagas.entities.Address;
+import com.monagas.entities.Person;
 import com.monagas.entities.login.CurrentUser;
+import com.monagas.entities.login.SecurityQuestion;
 import com.monagas.entities.login.User;
 import com.monagas.services.EntityManagerFactoryProvider;
 import jakarta.persistence.EntityManager;
@@ -19,7 +22,7 @@ public class UserService implements Serializable {
         return EntityManagerFactoryProvider.getEntityManagerFactory().createEntityManager();
     }
 
-    public void create(User user) throws Exception {
+    public void create(User user, Address address, Person person, SecurityQuestion sq) throws Exception {
         EntityManager em = null;
 
         try {
@@ -30,6 +33,9 @@ public class UserService implements Serializable {
                 throw new Exception("El usuario \"" + user.getUsername() + "\" ya se encuentra registrado.");
             }
 
+            em.persist(address);
+            em.persist(person);
+            em.persist(sq);
             em.persist(user);
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -44,7 +50,7 @@ public class UserService implements Serializable {
         }
     }
 
-    public void edit(User user) throws Exception {
+    public void edit(User user, Address address, Person person, SecurityQuestion sq) throws Exception {
         EntityManager em = null;
 
         try {
@@ -62,10 +68,21 @@ public class UserService implements Serializable {
                 }
             }
 
+            if (address != null) {
+                em.merge(address);
+            }
+
+            if (person != null) {
+                em.merge(person);
+            }
+
+            if (sq != null) {
+                em.merge(sq);
+            }
+
             em.merge(user);
             em.getTransaction().commit();
         } catch (Exception ex) {
-            ex.printStackTrace();
             if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
@@ -295,15 +312,15 @@ public class UserService implements Serializable {
                 throw new Exception("La cuenta está desactivada.");
             }
 
-            if (user.getQuestion1() == null && user.getAnswer1() == null
-                    && user.getQuestion2() == null && user.getAnswer2() == null
-                    && user.getQuestion3() == null && user.getAnswer3() == null) {
+            if (user.getSecurityQuestions().getQuestion1() == null && user.getSecurityQuestions().getAnswer1() == null
+                    && user.getSecurityQuestions().getQuestion2() == null && user.getSecurityQuestions().getAnswer2() == null
+                    && user.getSecurityQuestions().getQuestion3() == null && user.getSecurityQuestions().getAnswer3() == null) {
                 throw new Exception("Por favor, inicie sesión por primera vez para registrar las preguntas y respuestas en el sistema.");
             }
 
-            if ((!user.getQuestion1().equals(question1) || !user.getAnswer1().equals(answer1))
-                    || (!user.getQuestion2().equals(question2) || !user.getAnswer2().equals(answer2))
-                    || (!user.getQuestion3().equals(question3) || !user.getAnswer3().equals(answer3))) {
+            if ((!user.getSecurityQuestions().getQuestion1().equals(question1) || !user.getSecurityQuestions().getAnswer1().equals(answer1))
+                    || (!user.getSecurityQuestions().getQuestion2().equals(question2) || !user.getSecurityQuestions().getAnswer2().equals(answer2))
+                    || (!user.getSecurityQuestions().getQuestion3().equals(question3) || !user.getSecurityQuestions().getAnswer3().equals(answer3))) {
                 throw new Exception("Las preguntas o las respuestas son incorrectas.");
             }
 

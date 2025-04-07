@@ -19,7 +19,7 @@ public class ProductService implements Serializable {
 
     public void create(Product product) throws Exception {
         EntityManager em = null;
-        
+
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -40,7 +40,7 @@ public class ProductService implements Serializable {
 
     public void edit(Product product) throws Exception {
         EntityManager em = null;
-        
+
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -66,7 +66,7 @@ public class ProductService implements Serializable {
 
     public boolean destroy(Long id) throws Exception {
         EntityManager em = null;
-        
+
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -177,6 +177,32 @@ public class ProductService implements Serializable {
             Long count = (Long) q.getSingleResult();
             em.getTransaction().commit();
             return count;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al obtener el conteo de productos", ex);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public boolean findProductRelation(Long id) {
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
+            long count = (long) em.createQuery("SELECT COUNT(sp) FROM SellingProduct sp WHERE sp.product.id = :productId")
+                    .setParameter("productId", id)
+                    .getSingleResult();
+
+            em.getTransaction().commit();
+
+            return count == 0;
         } catch (Exception ex) {
             if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();

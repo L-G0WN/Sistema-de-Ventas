@@ -1,5 +1,8 @@
 package com.monagas.services;
 
+import com.monagas.entities.Address;
+import com.monagas.entities.Person;
+import com.monagas.entities.login.SecurityQuestion;
 import com.monagas.entities.login.User;
 import com.monagas.entities.sales.Currency;
 import jakarta.persistence.EntityManager;
@@ -24,15 +27,37 @@ public class DataInitializer {
             User existingAdmin = query.getResultStream().findFirst().orElse(null);
 
             if (existingAdmin == null) {
+                Address address = new Address();
+                address.setState("Anzoátegui");
+                address.setCity("El Tigre");
+                address.setTown("Simón Rodríguez");
+                address.setParish("Edmundo Barrios");
+                address.setAddressDetails("Ejemplo N°10 Calle");
+
+                Person person = new Person();
+                person.setFirstname("Administrador");
+                person.setLastname("General");
+                person.setAddress(address);
+
+                SecurityQuestion sq = new SecurityQuestion();
+                sq.setQuestion1(null);
+                sq.setAnswer1(null);
+                sq.setQuestion2(null);
+                sq.setAnswer2(null);
+                sq.setQuestion3(null);
+                sq.setAnswer3(null);
+
                 User admin = new User();
                 admin.setUsername("Ventas");
                 admin.setPassword("12345");
-                admin.setFirstname("Administrador");
-                admin.setLastname("General");
                 admin.setAccountType(1);
                 admin.setEnabled(true);
                 admin.setFirstime(true);
-
+                admin.setPerson(person);
+                admin.setSecurityQuestions(sq);
+                
+                em.persist(sq);
+                em.persist(person);
                 em.persist(admin);
                 em.getTransaction().commit();
             } else {

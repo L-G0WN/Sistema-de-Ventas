@@ -63,7 +63,7 @@ public class Sales extends JFrame {
     private void currentUser() {
         String type = (currentUser.getAccountType() == 1) ? "Administrador: " : "Empleado: ";
 
-        mAccount.setText(type + currentUser.getFirstname() + " " + currentUser.getLastname());
+        mAccount.setText(type + currentUser.getPerson().getFirstname() + " " + currentUser.getPerson().getLastname());
     }
 
     private void updateDateTime() {

@@ -174,9 +174,9 @@ public class SupplierController {
                 supplier.getEmail(),
                 supplier.getAddress(),
                 supplier.getCreatedAt(),
-                registeredBy.getFirstname() + " " + registeredBy.getLastname(),
+                registeredBy.getPerson().getFirstname() + " " + registeredBy.getPerson().getLastname(),
                 supplier.getUpdatedAt(),
-                (updatedBy != null) ? updatedBy.getFirstname() + " " + updatedBy.getLastname() : null
+                (updatedBy != null) ? updatedBy.getPerson().getFirstname() + " " + updatedBy.getPerson().getLastname() : null
             });
         }
 

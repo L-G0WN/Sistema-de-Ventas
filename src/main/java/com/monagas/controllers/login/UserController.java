@@ -2,6 +2,9 @@ package com.monagas.controllers.login;
 
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
+import com.monagas.entities.Address;
+import com.monagas.entities.Person;
+import com.monagas.entities.login.SecurityQuestion;
 import com.monagas.entities.login.User;
 import com.monagas.services.login.UserService;
 import com.monagas.view.login.Login;
@@ -11,6 +14,8 @@ import com.monagas.view.login.forms.FormVerify;
 import com.monagas.view.login.forms.button.ButtonCancel;
 import com.monagas.view.sales.Sales;
 import java.awt.Frame;
+import java.awt.HeadlessException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.swing.JButton;
@@ -80,9 +85,7 @@ public class UserController {
             int passwordStrength,
             JComboBox cbQuestions1, JPasswordField txtAnswer1,
             JComboBox cbQuestions2, JPasswordField txtAnswer2,
-            JComboBox cbQuestions3, JPasswordField txtAnswer3,
-            JComboBox cbCode, JTextField txtPhone,
-            JTextField txtAddress) {
+            JComboBox cbQuestions3, JPasswordField txtAnswer3) {
         String password = new String(txtPassword.getPassword());
         String confirmPassword = new String(txtConfirmPassword.getPassword());
         String question1 = cbQuestions1.getSelectedItem().toString();
@@ -91,30 +94,27 @@ public class UserController {
         String answer2 = new String(txtAnswer2.getPassword());
         String question3 = cbQuestions3.getSelectedItem().toString();
         String answer3 = new String(txtAnswer3.getPassword());
-        String code = cbCode.getSelectedItem().toString();
-        String phone = txtPhone.getText();
-        String address = txtAddress.getText().toUpperCase();
-        
+
         if (!password.isEmpty() && !confirmPassword.isEmpty()
-                && !answer1.isEmpty() && !answer2.isEmpty() && !answer3.isEmpty() && !phone.isEmpty() && !address.isEmpty()) {
+                && !answer1.isEmpty() && !answer2.isEmpty() && !answer3.isEmpty()) {
             if (password.equals(confirmPassword)) {
                 if ((passwordStrength == 2) || (passwordStrength == 3)) {
                     User user = userService.findUserById(id);
 
+                    SecurityQuestion sq = user.getSecurityQuestions();
+                    sq.setQuestion1(question1);
+                    sq.setAnswer1(answer1);
+                    sq.setQuestion2(question2);
+                    sq.setAnswer2(answer2);
+                    sq.setQuestion3(question3);
+                    sq.setAnswer3(answer3);
+
                     user.setPassword(password);
-                    user.setQuestion1(question1);
-                    user.setAnswer1(answer1);
-                    user.setQuestion2(question2);
-                    user.setAnswer2(answer2);
-                    user.setQuestion3(question3);
-                    user.setAnswer3(answer3);
-                    user.setCode(code);
-                    user.setPhone(phone);
-                    user.setAddress(address);
                     user.setFirstime(false);
+                    user.setSecurityQuestions(sq);
 
                     try {
-                        userService.edit(user);
+                        userService.edit(user, null, null, sq);
                         JOptionPane.showMessageDialog(
                                 parent,
                                 "Se han realizado los cambios correctamente.",
@@ -158,21 +158,41 @@ public class UserController {
         String password = new String(txtPassword.getPassword());
         boolean status = cbStatus.getSelectedIndex() == 0;
 
+        Address address = new Address();
+        Person person = new Person();
+        SecurityQuestion sq = new SecurityQuestion();
         User user = new User();
 
         if (!firstname.isEmpty()
                 && !lastname.isEmpty()
                 && !username.isEmpty()) {
-            user.setFirstname(firstname);
-            user.setLastname(lastname);
+            address.setState(null);
+            address.setCity(null);
+            address.setTown(null);
+            address.setParish(null);
+            address.setAddressDetails(null);
+
+            person.setFirstname(firstname);
+            person.setLastname(lastname);
+            person.setAddress(address);
+
+            sq.setQuestion1(null);
+            sq.setAnswer1(null);
+            sq.setQuestion2(null);
+            sq.setAnswer2(null);
+            sq.setQuestion3(null);
+            sq.setAnswer3(null);
+
             user.setUsername(username);
             user.setPassword(password);
             user.setAccountType(0);
             user.setEnabled(status);
             user.setFirstime(true);
-            
+            user.setPerson(person);
+            user.setSecurityQuestions(sq);
+
             try {
-                userService.create(user);
+                userService.create(user, address, person, sq);
                 loadUsers(table);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(
@@ -198,20 +218,21 @@ public class UserController {
         boolean status = cbStatus.getSelectedIndex() == 0;
 
         User user = userService.findUserById(id);
-
+        Person person = user.getPerson();
+        
         if (!firstname.isEmpty()
                 && !lastname.isEmpty()
                 && !username.isEmpty()
                 && !password.isEmpty()) {
-            user.setFirstname(firstname);
-            user.setLastname(lastname);
+            person.setFirstname(firstname);
+            person.setLastname(lastname);
             user.setUsername(username);
             user.setPassword(password);
             user.setEnabled(status);
             user.setFirstime(true);
-            
+
             try {
-                userService.edit(user);
+                userService.edit(user, null, person, null);
                 loadUsers(table);
 
                 JOptionPane.showMessageDialog(
@@ -245,7 +266,7 @@ public class UserController {
             JComboBox cbQuestions2, JPasswordField txtAnswer2,
             JComboBox cbQuestions3, JPasswordField txtAnswer3,
             JComboBox cbCode, JTextField txtPhone,
-            JTextField txtAddress,
+            JTextField txtState, JTextField txtCity, JTextField txtTown, JTextField txtParish, JTextField txtDetails,
             JMenu mAccount) {
         String firstname = txtFirstname.getText().toUpperCase();
         String lastname = txtLastname.getText().toUpperCase();
@@ -259,15 +280,22 @@ public class UserController {
         String answer3 = new String(txtAnswer3.getPassword());
         String code = cbCode.getSelectedItem().toString();
         String phone = txtPhone.getText();
-        String address = txtAddress.getText().toUpperCase();
-        
+        String state = txtState.getText().toUpperCase();
+        String city = txtCity.getText().toUpperCase();
+        String town = txtTown.getText().toUpperCase();
+        String parish = txtParish.getText().toUpperCase();
+        String details = txtDetails.getText().toUpperCase();
+
         User user = currentUser;
+        SecurityQuestion sq = currentUser.getSecurityQuestions();
+        Address address = currentUser.getPerson().getAddress();
+        Person person = currentUser.getPerson();
 
         if (!firstname.isEmpty() && !lastname.isEmpty()) {
             try {
                 if (userService.verifyPassword(currentUser.getUsername(), password)) {
-                    user.setFirstname(firstname);
-                    user.setLastname(lastname);
+                    person.setFirstname(firstname);
+                    person.setLastname(lastname);
 
                     if (currentUser.getUsername().equals("Ventas") && !username.isEmpty() && !username.equals(currentUser.getUsername())) {
                         throw new Exception("El usuario \"Ventas\" no se puede cambiar.");
@@ -276,30 +304,35 @@ public class UserController {
                     if (!username.isEmpty()) {
                         user.setUsername(username);
                     }
-                    
+
                     if (!phone.isEmpty()) {
-                        user.setCode(code);
-                        user.setPhone(phone);
+                        user.setPhone(code + "-" + phone);
                     }
-                    
-                    if (!address.isEmpty()) {
-                        user.setAddress(address);
-                    }
+
+                    user.setFirstime(false);
+                    user.setPassword(password);
+                    address.setState(state);
+                    address.setCity(city);
+                    address.setTown(town);
+                    address.setParish(parish);
+                    address.setAddressDetails(details);
 
                     if (!answer1.isEmpty()) {
-                        user.setQuestion1(question1);
-                        user.setAnswer1(answer1);
-                    }
-                    if (!answer2.isEmpty()) {
-                        user.setQuestion2(question2);
-                        user.setAnswer2(answer2);
-                    }
-                    if (!answer3.isEmpty()) {
-                        user.setQuestion3(question3);
-                        user.setAnswer3(answer3);
+                        sq.setQuestion1(question1);
+                        sq.setAnswer1(answer1);
                     }
 
-                    userService.edit(user);
+                    if (!answer2.isEmpty()) {
+                        sq.setQuestion2(question2);
+                        sq.setAnswer2(answer2);
+                    }
+
+                    if (!answer3.isEmpty()) {
+                        sq.setQuestion3(question3);
+                        sq.setAnswer3(answer3);
+                    }
+
+                    userService.edit(user, address, person, sq);
                     txtUsername.setText("");
                     txtPassword.setText("");
                     cbQuestions1.setSelectedIndex(0);
@@ -309,7 +342,7 @@ public class UserController {
                     cbQuestions3.setSelectedIndex(0);
                     txtAnswer3.setText("");
 
-                    mAccount.setText((user.getAccountType() == 1 ? " Administrador: " : "Empleado: ") + user.getFirstname() + " " + user.getLastname());
+                    mAccount.setText((user.getAccountType() == 1 ? " Administrador: " : "Empleado: ") + user.getPerson().getFirstname() + " " + user.getPerson().getLastname());
 
                     JOptionPane.showMessageDialog(
                             parent,
@@ -349,17 +382,24 @@ public class UserController {
         }
     }
 
-    public User loadUserById(Long id, JTextField txtFirstname, JTextField txtLastname, JTextField txtUsername, JPasswordField txtPassword, JComboBox cbStatus, JTextField txtPhone, JTextField txtAddress) {
+    public User loadUserById(Long id,
+            JTextField txtFirstname, JTextField txtLastname,
+            JTextField txtUsername, JPasswordField txtPassword,
+            JComboBox cbStatus, JTextField txtPhone,
+            JTextField txtState, JTextField txtCity, JTextField txtTown, JTextField txtParish, JTextField txtDetails) {
         User user = userService.findUserById(id);
 
-        txtFirstname.setText(user.getFirstname());
-        txtLastname.setText(user.getLastname());
+        txtFirstname.setText(user.getPerson().getFirstname());
+        txtLastname.setText(user.getPerson().getLastname());
         txtUsername.setText(user.getUsername());
         txtPassword.setText(user.getPassword());
-        txtPhone.setText((user.getPhone() != null) ? user.getCode() + "-" + user.getPhone() : "");
-        txtAddress.setText((user.getAddress() != null) ? user.getAddress() : "");
+        txtPhone.setText((user.getPhone() != null) ? user.getPhone() : "");
+        txtState.setText((user.getPerson().getAddress().getState() != null) ? user.getPerson().getAddress().getState() : "");
+        txtCity.setText((user.getPerson().getAddress().getCity() != null) ? user.getPerson().getAddress().getCity() : "");
+        txtTown.setText((user.getPerson().getAddress().getTown() != null) ? user.getPerson().getAddress().getTown() : "");
+        txtParish.setText((user.getPerson().getAddress().getParish() != null) ? user.getPerson().getAddress().getParish() : "");
+        txtDetails.setText((user.getPerson().getAddress().getAddressDetails() != null) ? user.getPerson().getAddress().getAddressDetails() : "");
         cbStatus.setSelectedItem(user.isEnabled() ? "Activado" : "Desactivado");
-
         return user;
     }
 
@@ -374,7 +414,7 @@ public class UserController {
                 model.addRow(new Object[]{
                     "U" + user.getUserId(),
                     user.getUsername(),
-                    user.getFirstname() + " " + user.getLastname(),
+                    user.getPerson().getFirstname() + " " + user.getPerson().getLastname(),
                     (user.isEnabled() ? "Activado" : "Desactivado")
                 });
             }
@@ -388,7 +428,7 @@ public class UserController {
 
         for (User user : users) {
             if (user.getAccountType() == 0) {
-                combo.addItem(user.getUserId() + " - " + user.getFirstname() + " " + user.getLastname());
+                combo.addItem(user.getUserId() + " - " + user.getPerson().getFirstname() + " " + user.getPerson().getLastname());
             }
         }
 

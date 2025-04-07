@@ -1,10 +1,13 @@
 package com.monagas.entities.login;
 
+import com.monagas.entities.Person;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.sql.Date;
@@ -29,44 +32,18 @@ public class User implements Serializable {
     @Column(name = "user_id")
     private Long userId;
 
+    @ManyToOne
+    @JoinColumn(name = "person_id", nullable = false)
+    private Person person;
+
     @Column(name = "username", length = 50, unique = true, nullable = false)
     private String username;
 
     @Column(name = "password", length = 255, nullable = false)
     private String password;
 
-    @Column(name = "firstname", length = 50, nullable = false)
-    private String firstname;
-
-    @Column(name = "lastname", length = 50, nullable = false)
-    private String lastname;
-
-    @Column(name = "code", length = 4, nullable = true)
-    private String code;
-
-    @Column(name = "phone", length = 7, nullable = true)
+    @Column(name = "phone", length = 12, nullable = true)
     private String phone;
-
-    @Column(name = "address", length = 255, nullable = true)
-    private String address;
-
-    @Column(name = "question1", length = 255, nullable = true)
-    private String question1;
-
-    @Column(name = "answer1", length = 255, nullable = true)
-    private String answer1;
-
-    @Column(name = "question2", length = 255, nullable = true)
-    private String question2;
-
-    @Column(name = "answer2", length = 255, nullable = true)
-    private String answer2;
-
-    @Column(name = "question3", length = 255, nullable = true)
-    private String question3;
-
-    @Column(name = "answer3", length = 255, nullable = true)
-    private String answer3;
 
     @Column(name = "account_type", nullable = false)
     private Integer accountType;
@@ -80,4 +57,8 @@ public class User implements Serializable {
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private Date createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "question_id", nullable = true)
+    private SecurityQuestion securityQuestions;
 }
