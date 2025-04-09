@@ -321,7 +321,7 @@ public class ClientService implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
 
-            long count = (long) em.createQuery("SELECT COUNT(p) FROM Product p WHERE p.client.id = :clientId")
+            long count = (long) em.createQuery("SELECT COUNT(s) FROM Selling s WHERE s.client.id = :clientId")
                     .setParameter("clientId", id)
                     .getSingleResult();
 
