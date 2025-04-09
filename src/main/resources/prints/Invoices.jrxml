@@ -30,7 +30,7 @@
     pr.product_id,
     pr.description,
     c.cedula,
-    c.phone,
+    dp.phone,
 	p.firstname AS uFirstname,
 	p.lastname AS uLastname,
 	pp.firstname AS cFirstname,
@@ -53,6 +53,8 @@ JOIN
     Persons pp ON pp.person_id = c.person_id
 JOIN 
     Address a ON a.address_id = pp.address_id
+JOIN
+	DetailsPersons dp ON dp.detaillperson_id = pp.detaillperson_id
 JOIN
 	Commerce cc ON cc.commerce_id = 1
 WHERE 
@@ -131,7 +133,7 @@ WHERE
 	<field name="phone" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="phone"/>
 		<property name="com.jaspersoft.studio.field.label" value="phone"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detailspersons"/>
 	</field>
 	<field name="uFirstname" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="firstname"/>

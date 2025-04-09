@@ -3,6 +3,7 @@ package com.monagas.controllers.login;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.monagas.entities.Address;
+import com.monagas.entities.DetailPerson;
 import com.monagas.entities.Person;
 import com.monagas.entities.login.SecurityQuestion;
 import com.monagas.entities.login.User;
@@ -14,8 +15,6 @@ import com.monagas.view.login.forms.FormVerify;
 import com.monagas.view.login.forms.button.ButtonCancel;
 import com.monagas.view.sales.Sales;
 import java.awt.Frame;
-import java.awt.HeadlessException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.swing.JButton;
@@ -114,7 +113,7 @@ public class UserController {
                     user.setSecurityQuestions(sq);
 
                     try {
-                        userService.edit(user, null, null, sq);
+                        userService.edit(user, null, null, null, sq);
                         JOptionPane.showMessageDialog(
                                 parent,
                                 "Se han realizado los cambios correctamente.",
@@ -159,6 +158,7 @@ public class UserController {
         boolean status = cbStatus.getSelectedIndex() == 0;
 
         Address address = new Address();
+        DetailPerson detailPerson = new DetailPerson();
         Person person = new Person();
         SecurityQuestion sq = new SecurityQuestion();
         User user = new User();
@@ -172,9 +172,12 @@ public class UserController {
             address.setParish(null);
             address.setAddressDetails(null);
 
+            detailPerson.setPhone(null);
+
             person.setFirstname(firstname);
             person.setLastname(lastname);
             person.setAddress(address);
+            person.setDetailPerson(detailPerson);
 
             sq.setQuestion1(null);
             sq.setAnswer1(null);
@@ -192,7 +195,7 @@ public class UserController {
             user.setSecurityQuestions(sq);
 
             try {
-                userService.create(user, address, person, sq);
+                userService.create(user, address, detailPerson, person, sq);
                 loadUsers(table);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(
@@ -219,7 +222,7 @@ public class UserController {
 
         User user = userService.findUserById(id);
         Person person = user.getPerson();
-        
+
         if (!firstname.isEmpty()
                 && !lastname.isEmpty()
                 && !username.isEmpty()
@@ -232,7 +235,7 @@ public class UserController {
             user.setFirstime(true);
 
             try {
-                userService.edit(user, null, person, null);
+                userService.edit(user, null, null, person, null);
                 loadUsers(table);
 
                 JOptionPane.showMessageDialog(
@@ -288,6 +291,7 @@ public class UserController {
 
         User user = currentUser;
         SecurityQuestion sq = currentUser.getSecurityQuestions();
+        DetailPerson detailPerson = currentUser.getPerson().getDetailPerson();
         Address address = currentUser.getPerson().getAddress();
         Person person = currentUser.getPerson();
 
@@ -306,7 +310,7 @@ public class UserController {
                     }
 
                     if (!phone.isEmpty()) {
-                        user.setPhone(code + "-" + phone);
+                        detailPerson.setPhone(code + "-" + phone);
                     }
 
                     user.setFirstime(false);
@@ -332,7 +336,7 @@ public class UserController {
                         sq.setAnswer3(answer3);
                     }
 
-                    userService.edit(user, address, person, sq);
+                    userService.edit(user, address, detailPerson, person, sq);
                     txtUsername.setText("");
                     txtPassword.setText("");
                     cbQuestions1.setSelectedIndex(0);
@@ -393,7 +397,7 @@ public class UserController {
         txtLastname.setText(user.getPerson().getLastname());
         txtUsername.setText(user.getUsername());
         txtPassword.setText(user.getPassword());
-        txtPhone.setText((user.getPhone() != null) ? user.getPhone() : "");
+        txtPhone.setText((user.getPerson().getDetailPerson().getPhone() != null) ? user.getPerson().getDetailPerson().getPhone() : "");
         txtState.setText((user.getPerson().getAddress().getState() != null) ? user.getPerson().getAddress().getState() : "");
         txtCity.setText((user.getPerson().getAddress().getCity() != null) ? user.getPerson().getAddress().getCity() : "");
         txtTown.setText((user.getPerson().getAddress().getTown() != null) ? user.getPerson().getAddress().getTown() : "");

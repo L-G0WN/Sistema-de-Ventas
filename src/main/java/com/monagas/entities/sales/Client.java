@@ -1,5 +1,6 @@
 package com.monagas.entities.sales;
 
+import com.monagas.entities.DetailPerson;
 import com.monagas.entities.Person;
 import com.monagas.entities.login.User;
 import jakarta.persistence.Column;
@@ -35,12 +36,9 @@ public class Client implements Serializable {
     @ManyToOne
     @JoinColumn(name = "person_id", nullable = false)
     private Person person;
-    
+
     @Column(name = "cedula", length = 10, nullable = false)
     private String cedula;
-
-    @Column(name = "phone", length = 12, nullable = false)
-    private String phone;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)

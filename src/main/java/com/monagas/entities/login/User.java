@@ -1,5 +1,6 @@
 package com.monagas.entities.login;
 
+import com.monagas.entities.DetailPerson;
 import com.monagas.entities.Person;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,9 +42,6 @@ public class User implements Serializable {
 
     @Column(name = "password", length = 255, nullable = false)
     private String password;
-
-    @Column(name = "phone", length = 12, nullable = true)
-    private String phone;
 
     @Column(name = "account_type", nullable = false)
     private Integer accountType;

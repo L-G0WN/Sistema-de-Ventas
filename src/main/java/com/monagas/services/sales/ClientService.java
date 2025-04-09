@@ -1,6 +1,7 @@
 package com.monagas.services.sales;
 
 import com.monagas.entities.Address;
+import com.monagas.entities.DetailPerson;
 import com.monagas.entities.Person;
 import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
@@ -22,7 +23,7 @@ public class ClientService implements Serializable {
         return EntityManagerFactoryProvider.getEntityManagerFactory().createEntityManager();
     }
 
-    public void create(Address address, Person person, Client client) throws Exception {
+    public void create(Address address, DetailPerson detailPerson, Person person, Client client) throws Exception {
         User currentUser = CurrentUser.getInstance().getUser();
         if (currentUser == null) {
             throw new Exception("Usuario no autenticado.");
@@ -40,6 +41,7 @@ public class ClientService implements Serializable {
             }
 
             em.persist(address);
+            em.persist(detailPerson);
             em.persist(person);
             em.persist(client);
             em.getTransaction().commit();
@@ -55,7 +57,7 @@ public class ClientService implements Serializable {
         }
     }
 
-    public void edit(Address address, Person person, Client client) throws Exception {
+    public void edit(Address address, DetailPerson detailPerson, Person person, Client client) throws Exception {
         User currentUser = CurrentUser.getInstance().getUser();
         if (currentUser == null) {
             throw new Exception("Usuario no autenticado.");
@@ -80,6 +82,7 @@ public class ClientService implements Serializable {
             }
 
             em.merge(address);
+            em.merge(detailPerson);
             em.merge(person);
             em.merge(client);
             em.getTransaction().commit();
@@ -183,7 +186,7 @@ public class ClientService implements Serializable {
         }
     }
 
-    public Long createIfNotExist(String cedula, Address address, Person person, Client client) throws Exception {
+    public Long createIfNotExist(String cedula, Address address, DetailPerson detailPerson, Person person, Client client) throws Exception {
         EntityManager em = null;
 
         try {
@@ -197,7 +200,7 @@ public class ClientService implements Serializable {
             em.getTransaction().commit();
             return existingClientId;
         } catch (NoResultException e) {
-            create(address, person, client);
+            create(address, detailPerson, person, client);
             return client.getClientId();
         } catch (Exception ex) {
             if (em != null && em.getTransaction().isActive()) {

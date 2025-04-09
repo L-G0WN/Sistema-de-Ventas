@@ -1,6 +1,7 @@
 package com.monagas.services;
 
 import com.monagas.entities.Address;
+import com.monagas.entities.DetailPerson;
 import com.monagas.entities.Person;
 import com.monagas.entities.login.SecurityQuestion;
 import com.monagas.entities.login.User;
@@ -34,10 +35,14 @@ public class DataInitializer {
                 address.setParish("Edmundo Barrios");
                 address.setAddressDetails("Ejemplo N°10 Calle");
 
+                DetailPerson detailPerson = new DetailPerson();
+                detailPerson.setPhone(null);
+                
                 Person person = new Person();
                 person.setFirstname("Administrador");
                 person.setLastname("General");
                 person.setAddress(address);
+                person.setDetailPerson(detailPerson);
 
                 SecurityQuestion sq = new SecurityQuestion();
                 sq.setQuestion1(null);
@@ -57,6 +62,7 @@ public class DataInitializer {
                 admin.setSecurityQuestions(sq);
                 
                 em.persist(sq);
+                em.persist(detailPerson);
                 em.persist(person);
                 em.persist(admin);
                 em.getTransaction().commit();

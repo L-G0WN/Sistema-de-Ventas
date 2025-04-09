@@ -2,6 +2,7 @@ package com.monagas.view.sales.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.monagas.controllers.login.UserController;
+import com.monagas.services.login.UserService;
 import com.monagas.view.sales.components.CustomJTable;
 import com.monagas.view.sales.components.CustomJTextField;
 import com.monagas.view.sales.style.FlatStyle;
@@ -12,7 +13,8 @@ import javax.swing.JPanel;
 public class Controls extends JPanel {
 
     private final UserController controller = new UserController();
-
+    private final UserService service = new UserService();
+    
     private final Frame parent;
 
     public Controls(Frame parent) {
@@ -393,6 +395,7 @@ public class Controls extends JPanel {
 
             if (row != -1) {
                 Long id = Long.valueOf(tblDelete.getValueAt(row, 0).toString().substring(1));
+                btnDelete.setEnabled(service.findUserRelation(id));
                 controller.loadUserById(id, txtFirstname, txtLastname, txtUsername, txtPassword, cbStatus, txtPhone, txtState, txtCity, txtTown, txtParish, txtDetails);
             }
         }

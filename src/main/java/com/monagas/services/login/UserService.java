@@ -1,6 +1,7 @@
 package com.monagas.services.login;
 
 import com.monagas.entities.Address;
+import com.monagas.entities.DetailPerson;
 import com.monagas.entities.Person;
 import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.SecurityQuestion;
@@ -22,7 +23,7 @@ public class UserService implements Serializable {
         return EntityManagerFactoryProvider.getEntityManagerFactory().createEntityManager();
     }
 
-    public void create(User user, Address address, Person person, SecurityQuestion sq) throws Exception {
+    public void create(User user, Address address, DetailPerson detailPerson, Person person, SecurityQuestion sq) throws Exception {
         EntityManager em = null;
 
         try {
@@ -34,6 +35,7 @@ public class UserService implements Serializable {
             }
 
             em.persist(address);
+            em.persist(detailPerson);
             em.persist(person);
             em.persist(sq);
             em.persist(user);
@@ -50,7 +52,7 @@ public class UserService implements Serializable {
         }
     }
 
-    public void edit(User user, Address address, Person person, SecurityQuestion sq) throws Exception {
+    public void edit(User user, Address address, DetailPerson detailPerson, Person person, SecurityQuestion sq) throws Exception {
         EntityManager em = null;
 
         try {
@@ -70,6 +72,10 @@ public class UserService implements Serializable {
 
             if (address != null) {
                 em.merge(address);
+            }
+
+            if (detailPerson != null) {
+                em.merge(detailPerson);
             }
 
             if (person != null) {
@@ -394,6 +400,47 @@ public class UserService implements Serializable {
                 em.getTransaction().rollback();
             }
             throw new Exception(ex.getMessage(), ex);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public boolean findUserRelation(Long id) {
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
+            long clientCount = (long) em.createQuery("SELECT COUNT(c) FROM Client c WHERE c.registeredBy.id = :userId")
+                    .setParameter("userId", id)
+                    .getSingleResult();
+
+            long productCount = (long) em.createQuery("SELECT COUNT(p) FROM Product p WHERE p.registeredBy.id = :userId")
+                    .setParameter("userId", id)
+                    .getSingleResult();
+
+            long supplierCount = (long) em.createQuery("SELECT COUNT(s) FROM Supplier s WHERE s.registeredBy.id = :userId")
+                    .setParameter("userId", id)
+                    .getSingleResult();
+
+            long sellingCount = (long) em.createQuery("SELECT COUNT(se) FROM Selling se WHERE se.registeredBy.id = :userId")
+                    .setParameter("userId", id)
+                    .getSingleResult();
+
+            long totalCount = clientCount + productCount + supplierCount + sellingCount;
+
+                System.out.println("TOTAL: " + totalCount);
+            em.getTransaction().commit();
+
+            return totalCount == 0;
+        } catch (Exception ex) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error al obtener el conteo de relaciones de usuario", ex);
         } finally {
             if (em != null) {
                 em.close();

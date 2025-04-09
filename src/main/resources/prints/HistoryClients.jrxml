@@ -6,7 +6,7 @@
 	<queryString language="SQL">
 		<![CDATA[SELECT DISTINCT
     c.cedula,
-    c.phone,
+    dp.phone,
 	p.firstname,
 	p.lastname,
 	a.address_details,
@@ -26,14 +26,15 @@ JOIN
 JOIN
 	Address a ON a.address_id = p.address_id
 JOIN
+	DetailsPersons dp ON dp.detaillperson_id = p.detaillperson_id
+JOIN
     Commerce cc ON cc.commerce_id = 1
 GROUP BY
     c.cedula,
     p.firstname,
     p.lastname,
 	a.address_details,
-    c.phone
-]]>
+    dp.phone]]>
 	</queryString>
 	<field name="cedula" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="cedula"/>
@@ -43,7 +44,7 @@ GROUP BY
 	<field name="phone" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="phone"/>
 		<property name="com.jaspersoft.studio.field.label" value="phone"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="clients"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detailspersons"/>
 	</field>
 	<field name="firstname" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="firstname"/>

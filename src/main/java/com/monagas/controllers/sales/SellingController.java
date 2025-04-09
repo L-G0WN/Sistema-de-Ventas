@@ -1,6 +1,7 @@
 package com.monagas.controllers.sales;
 
 import com.monagas.entities.Address;
+import com.monagas.entities.DetailPerson;
 import com.monagas.entities.Person;
 import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
@@ -62,6 +63,7 @@ public class SellingController {
         String details = txtDetails.getText().toUpperCase();
         
         Address address = new Address();
+        DetailPerson detailPerson = new DetailPerson();
         Person person = new Person();
         Client client = new Client();
 
@@ -74,17 +76,19 @@ public class SellingController {
             address.setParish(parish);
             address.setAddressDetails(details);
 
+            detailPerson.setPhone(code + "-" + phone);
+            
             person.setFirstname(firstname);
             person.setLastname(lastname);
             person.setAddress(address);
-
+            person.setDetailPerson(detailPerson);
+            
             client.setPerson(person);
             client.setCedula(type + cedula);
-            client.setPhone(code + "-" + phone);
             client.setRegisteredBy(currentUser);
 
             try {
-                clientService.createIfNotExist(type + cedula, address, person, client);
+                clientService.createIfNotExist(type + cedula, address, detailPerson, person, client);
                 client.setClientId(clientService.findIdByCedula(type + cedula));
 
                 List<Product> products = new ArrayList<>();
@@ -227,8 +231,8 @@ public class SellingController {
         txtCedula.setText(selling.getClient().getCedula());
         txtFirstname.setText(selling.getClient().getPerson().getFirstname());
         txtLastname.setText(selling.getClient().getPerson().getLastname());
-        cbCode.setSelectedItem(selling.getClient().getPhone().replaceAll(".*-", ""));
-        txtPhone.setText(selling.getClient().getPhone());
+        cbCode.setSelectedItem(selling.getClient().getPerson().getDetailPerson().getPhone().replaceAll(".*-", ""));
+        txtPhone.setText(selling.getClient().getPerson().getDetailPerson().getPhone());
         txtState.setText(selling.getClient().getPerson().getAddress().getState());
         txtCity.setText(selling.getClient().getPerson().getAddress().getCity());
         txtTown.setText(selling.getClient().getPerson().getAddress().getTown());

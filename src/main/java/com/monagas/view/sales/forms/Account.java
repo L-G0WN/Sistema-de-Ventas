@@ -41,8 +41,8 @@ public class Account extends JPanel {
 
         txtFirstname.setText(currentUser.getPerson().getFirstname());
         txtLastname.setText(currentUser.getPerson().getLastname());
-        cbCode.setSelectedItem((currentUser.getPhone() != null) ? currentUser.getPhone().replaceAll("-.*", "") : "0424");
-        txtPhone.setText((currentUser.getPhone() != null) ? currentUser.getPhone().replaceAll(".*-", "") : "");
+        cbCode.setSelectedItem((currentUser.getPerson().getDetailPerson().getPhone() != null) ? currentUser.getPerson().getDetailPerson().getPhone().replaceAll("-.*", "") : "0424");
+        txtPhone.setText((currentUser.getPerson().getDetailPerson().getPhone() != null) ? currentUser.getPerson().getDetailPerson().getPhone().replaceAll(".*-", "") : "");
         txtState.setText(currentUser.getPerson().getAddress().getState());
         txtCity.setText(currentUser.getPerson().getAddress().getCity());
         txtTown.setText(currentUser.getPerson().getAddress().getTown());

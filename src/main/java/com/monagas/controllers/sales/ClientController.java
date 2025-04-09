@@ -1,6 +1,7 @@
 package com.monagas.controllers.sales;
 
 import com.monagas.entities.Address;
+import com.monagas.entities.DetailPerson;
 import com.monagas.entities.Person;
 import com.monagas.entities.login.CurrentUser;
 import com.monagas.entities.login.User;
@@ -42,6 +43,7 @@ public class ClientController {
         String details = txtDetails.getText().toUpperCase();
 
         Address address = new Address();
+        DetailPerson detailPerson = new DetailPerson();
         Person person = new Person();
         Client client = new Client();
 
@@ -53,17 +55,19 @@ public class ClientController {
             address.setParish(parish);
             address.setAddressDetails(details);
 
+            detailPerson.setPhone(code + "-" + phone);
+            
             person.setFirstname(firstname);
             person.setLastname(lastname);
             person.setAddress(address);
+            person.setDetailPerson(detailPerson);
 
             client.setPerson(person);
             client.setCedula(type + cedula);
-            client.setPhone(code + "-" + phone);
             client.setRegisteredBy(currentUser);
 
             try {
-                clientService.create(address, person, client);
+                clientService.create(address, detailPerson, person, client);
                 if (dialog != null) {
                     dialog.dispose();
                 }
@@ -120,16 +124,18 @@ public class ClientController {
             address.setParish(parish);
             address.setAddressDetails(details);
 
+            DetailPerson detailPerson = client.getPerson().getDetailPerson();
+            detailPerson.setPhone(code + "-" + phone);
+            
             Person person = client.getPerson();
             person.setFirstname(firstname);
             person.setLastname(lastname);
 
             client.setCedula(type + cedula);
-            client.setPhone(code + "-" + phone);
             client.setUpdatedBy(currentUser);
 
             try {
-                clientService.edit(address, person, client);
+                clientService.edit(address, detailPerson, person, client);
                 if (dialog != null) {
                     dialog.dispose();
                 }
@@ -182,8 +188,8 @@ public class ClientController {
         txtCedula.setText(client.getCedula().replaceAll(".*-", ""));
         txtFirstname.setText(client.getPerson().getFirstname());
         txtLastname.setText(client.getPerson().getLastname());
-        cbCode.setSelectedItem(client.getPhone().replaceAll("-.*", ""));
-        txtPhone.setText(client.getPhone().replaceAll(".*-", ""));
+        cbCode.setSelectedItem(client.getPerson().getDetailPerson().getPhone().replaceAll("-.*", ""));
+        txtPhone.setText(client.getPerson().getDetailPerson().getPhone().replaceAll(".*-", ""));
         txtState.setText(client.getPerson().getAddress().getState());
         txtCity.setText(client.getPerson().getAddress().getCity());
         txtTown.setText(client.getPerson().getAddress().getTown());
@@ -209,8 +215,8 @@ public class ClientController {
 
                 txtFirstname.setText(client.getPerson().getFirstname());
                 txtLastname.setText(client.getPerson().getLastname());
-                cbCode.setSelectedItem(client.getPhone().replaceAll("-.*", ""));
-                txtPhone.setText(client.getPhone().replaceAll(".*-", ""));
+                cbCode.setSelectedItem(client.getPerson().getDetailPerson().getPhone().replaceAll("-.*", ""));
+                txtPhone.setText(client.getPerson().getDetailPerson().getPhone().replaceAll(".*-", ""));
                 txtState.setText(client.getPerson().getAddress().getState());
                 txtCity.setText(client.getPerson().getAddress().getCity());
                 txtTown.setText(client.getPerson().getAddress().getTown());
@@ -250,7 +256,7 @@ public class ClientController {
                 "C" + client.getClientId(),
                 client.getCedula(),
                 client.getPerson().getFirstname() + " " + client.getPerson().getLastname(),
-                client.getPhone(),
+                client.getPerson().getDetailPerson().getPhone(),
                 client.getPerson().getAddress().getState(),
                 client.getPerson().getAddress().getCity(),
                 client.getPerson().getAddress().getTown(),
