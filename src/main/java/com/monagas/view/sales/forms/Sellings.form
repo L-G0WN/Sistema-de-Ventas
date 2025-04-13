@@ -86,9 +86,9 @@
                     <Column editable="false" title="C&#xd3;D." type="java.lang.Long"/>
                     <Column editable="false" title="PRODUCTO" type="java.lang.String"/>
                     <Column editable="false" title="CANT." type="java.lang.String"/>
-                    <Column editable="false" title="P.V. $" type="java.lang.Double"/>
+                    <Column editable="false" title="PRECIO $" type="java.lang.Double"/>
                     <Column editable="false" title="SUBTOTAL $" type="java.lang.Double"/>
-                    <Column editable="false" title="P.V. BS" type="java.lang.Double"/>
+                    <Column editable="false" title="PRECIO BS" type="java.lang.Double"/>
                     <Column editable="false" title="SUBTOTAL BS" type="java.lang.Double"/>
                     <Column editable="true" title="" type="java.lang.Object"/>
                   </Table>

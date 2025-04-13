@@ -136,7 +136,7 @@ public class Sellings extends CustomJPanel {
 
             },
             new String [] {
-                "CÓD.", "PRODUCTO", "CANT.", "P.V. $", "SUBTOTAL $", "P.V. BS", "SUBTOTAL BS", ""
+                "CÓD.", "PRODUCTO", "CANT.", "PRECIO $", "SUBTOTAL $", "PRECIO BS", "SUBTOTAL BS", ""
             }
         ) {
             Class[] types = new Class [] {

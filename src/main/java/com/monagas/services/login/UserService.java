@@ -432,7 +432,6 @@ public class UserService implements Serializable {
 
             long totalCount = clientCount + productCount + supplierCount + sellingCount;
 
-                System.out.println("TOTAL: " + totalCount);
             em.getTransaction().commit();
 
             return totalCount == 0;
